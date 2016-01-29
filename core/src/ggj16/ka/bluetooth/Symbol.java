@@ -13,7 +13,7 @@ public class Symbol extends Sprite {
     public float scale, timeUntilSpawn;
     public boolean scaleDirection;
 
-    public Symbol(TextureRegion region, Color color) {
+    public Symbol(TextureRegion region, Color color, int id) {
         super(region);
         setColor(color);
     }
