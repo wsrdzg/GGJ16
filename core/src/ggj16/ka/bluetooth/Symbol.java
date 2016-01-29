@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Symbol extends Sprite {
 
     public int id;
-    public float scale;
-    public boolean scaleDirection, grow;
+    public float scale, timeUntilSpawn;
+    public boolean scaleDirection;
 
     public Symbol(TextureRegion region, Color color) {
         super(region);
@@ -19,7 +19,7 @@ public class Symbol extends Sprite {
     }
 
     public boolean isTouched(float x, float y) {
-        return Math.hypot(getX() - x, getY() - y) < getWidth() / 2f;
+        return Math.hypot(getX() + getOriginX() - x, getY() + getOriginY() - y) < getWidth() / 2f;
     }
 
     public boolean equals(Symbol symbol) {
