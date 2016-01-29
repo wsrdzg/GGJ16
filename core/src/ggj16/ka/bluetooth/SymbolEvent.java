@@ -1,4 +1,4 @@
-package ggj16.ka.bluetooth.data;
+package ggj16.ka.bluetooth;
 
 /**
  * Created by sebastian on 29.01.16.

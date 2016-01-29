@@ -1,4 +1,4 @@
-package ggj16.ka.bluetooth.data;
+package ggj16.ka.bluetooth;
 
 import com.badlogic.gdx.utils.Array;
 
