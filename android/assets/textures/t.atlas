@@ -1,20 +1,65 @@
 
 t.png
-size: 1024,256
+size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 shape
   rotate: false
   xy: 0, 0
-  size: 256, 256
-  orig: 256, 256
+  size: 700, 700
+  orig: 700, 700
   offset: 0, 0
   index: 0
+
+t2.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
 shape
   rotate: false
-  xy: 258, 0
-  size: 256, 256
-  orig: 256, 256
+  xy: 0, 0
+  size: 700, 700
+  orig: 700, 700
   offset: 0, 0
   index: 1
+
+t3.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shape
+  rotate: false
+  xy: 0, 0
+  size: 700, 700
+  orig: 700, 700
+  offset: 0, 0
+  index: 2
+
+t4.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shape
+  rotate: false
+  xy: 0, 0
+  size: 700, 700
+  orig: 700, 700
+  offset: 0, 0
+  index: 3
+
+t5.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shape
+  rotate: false
+  xy: 0, 0
+  size: 700, 700
+  orig: 700, 700
+  offset: 0, 0
+  index: 4
