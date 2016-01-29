@@ -1,4 +1,4 @@
-package ggj16.ka.bluetooth.data;
+package ggj16.ka.bluetooth;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;

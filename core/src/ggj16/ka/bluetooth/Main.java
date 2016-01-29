@@ -11,9 +11,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import ggj16.ka.bluetooth.data.Quest;
-import ggj16.ka.bluetooth.data.Symbol;
-
 public class Main extends ApplicationAdapter implements GestureDetector.GestureListener {
 
     static final Color[] COLORS = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW};
