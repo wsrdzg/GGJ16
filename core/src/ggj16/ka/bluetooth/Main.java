@@ -1,6 +1,41 @@
 package ggj16.ka.bluetooth;
 
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.Array;
+
+import ggj16.ka.bluetooth.net.NetworkConnection;
+
+public class Main extends Game {
+
+    public static final Color[] COLORS = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW};
+
+    public  static final int GAME_SCREEN = 0;
+
+    private Array<Screen> screens = new Array<>();
+
+
+    private NetworkConnection network;
+
+    public Main(NetworkConnection network) {
+        this.network = network;
+    }
+    @Override
+    public void create() {
+        screens.add(new GameScreen());
+        setScreen(GAME_SCREEN);
+    }
+
+    public void setScreen(int screen) {
+        setScreen(screens.get(screen));
+    }
+}
+
+
+/*<<<<<<< HEAD
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -70,3 +105,5 @@ public class Main extends ApplicationAdapter {
         }
 	}
 }
+=======
+*/
