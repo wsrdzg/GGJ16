@@ -48,9 +48,10 @@ class ClientConnection implements Runnable {
 
     }
 
-    public void start() {
-        new Thread(this).start();
-
+    public Thread start() {
+        Thread t = new Thread(this);
+        t.start();
+        return t;
     }
 
     public void run() {

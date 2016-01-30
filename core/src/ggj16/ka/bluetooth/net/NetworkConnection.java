@@ -21,4 +21,6 @@ public interface NetworkConnection {
     void startClient(ClientInterface client, String serverAddr);
 
     String getMyAddress();
+
+    void teardown();
 }
