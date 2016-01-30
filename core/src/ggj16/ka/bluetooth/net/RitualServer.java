@@ -44,6 +44,9 @@ public class RitualServer extends ServerInterface {
                 }
 
                 break;
+            case CONTINUE:
+                sendToAllClients(new Message(Message.Type.CONTINUE));
+                break;
             case STEP:
                 clientSteps.put(client, message.i);
 
