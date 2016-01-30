@@ -27,7 +27,7 @@ public class IntroScreen extends MyScreen {
         mStage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mMain.setScreen(Main.LEARN_SCREEN); // TODO: mMain.setScreen(Storage.loadFirst() ? Main.LEARN_SCREEN : Main.MAIN_SCREEN);
+                mMain.setScreen(Storage.loadFirst() ? Main.LEARN_SCREEN : Main.MAIN_SCREEN);
             }
         });
     }
