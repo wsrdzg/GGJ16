@@ -51,7 +51,35 @@ public class BluetoothNetworkConnection implements NetworkConnection {
 
 
     @Override
-    public void startServer(final ServerInterface server) {
+    public void startServer(final ServerInterface server, final ClientInterface client) {
+        // Server has himself as a client
+        final Client myselfAsAClient = new Client() {
+            @Override
+            public void sendMessage(Message message) {
+                client.messageReceived(message);
+            }
+
+            @Override
+            public String getAddress() {
+                return adapter.getAddress();
+            }
+
+            @Override
+            public String getName() {
+                return adapter.getName();
+            }
+        };
+
+        client.setServer(new Server() {
+            @Override
+            public void sendMessage(Message message) {
+                server.messageReceived(myselfAsAClient, message);
+            }
+        });
+        server.clientConnected(myselfAsAClient);
+        client.connected();
+
+
         // start a server for every bounded device
         for (final BluetoothDevice device : adapter.getBondedDevices()) {
             new Thread(new Runnable() {

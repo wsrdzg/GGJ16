@@ -51,6 +51,8 @@ public class Main extends Game {
         this.network = network;
     }
 
+
+
     @Override
     public void create() {
         assetManager.load("textures/t.atlas", TextureAtlas.class);
@@ -101,7 +103,7 @@ public class Main extends Game {
 
 
     public void openServer() {
-        network.startServer(ritualServer);
+        network.startServer(ritualServer, ritualClient);
     }
 
     public void getPlayers(Array<String> players) {
@@ -125,7 +127,7 @@ public class Main extends Game {
 
     public void joinServer(Device device) {
         network.startClient(ritualClient, device.address);
-        ritualClient.sendMessage(new Message(Message.Type.I_KNOW_RITUALS, QuestFactory.myRituals));
+
     }
 }
 
