@@ -1,5 +1,6 @@
 package ggj16.ka.bluetooth;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,9 +18,9 @@ public class IntroScreen extends MyScreen {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
 
-        Label label = new Label("You are the hero!\nKill everything!\n\n\n\n\n\n\n\n", labelStyle);
+        Label label = new Label("You are the hero!\nKill everything!", labelStyle);
         label.setAlignment(Align.center);
-        label.setFillParent(true);
+        label.setBounds(0, Gdx.graphics.getHeight() / 2f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 2f);
         mStage.addActor(label);
 
         mStage.addListener(new ClickListener() {

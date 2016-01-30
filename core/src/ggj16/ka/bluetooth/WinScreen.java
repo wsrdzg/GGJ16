@@ -1,17 +1,24 @@
 package ggj16.ka.bluetooth;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
 public class WinScreen extends MyScreen {
+
+    private final Label god, ritual;
+    private final Table symboleTable;
 
     public WinScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, Color.GREEN, assetManager.get("textures/success.png", Texture.class));
@@ -19,10 +26,20 @@ public class WinScreen extends MyScreen {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
 
-        Label label = new Label("ENEMY DEFEATED\n\n", labelStyle);
-        label.setAlignment(Align.center);
-        label.setFillParent(true);
-        mStage.addActor(label);
+        god = new Label("", labelStyle);
+        god.setAlignment(Align.center);
+        god.setBounds(0, Gdx.graphics.getHeight() / 4 * 3f, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
+        mStage.addActor(god);
+
+        ritual = new Label(QuestFactory.god.spell, labelStyle);
+        ritual.setFontScale(0.5f);
+        ritual.setAlignment(Align.center);
+        ritual.setBounds(0, Gdx.graphics.getHeight() / 4 * 2.5f, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
+        mStage.addActor(ritual);
+
+        symboleTable = new Table();
+        symboleTable.setBounds(0, Gdx.graphics.getHeight() / 4 * 2f, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
+        mStage.addActor(symboleTable);
 
         mStage.addListener(new ClickListener() {
             @Override
@@ -38,5 +55,20 @@ public class WinScreen extends MyScreen {
                 }
             }
         });
+    }
+
+    public void show() {
+        god.setText(QuestFactory.god.name + " defeated!");
+        ritual.setText(QuestFactory.god.spell);
+
+        symboleTable.clearChildren();
+        int i = 1;
+        for (Symbol symbol : QuestFactory.symbols) {
+            Image image = new Image(symbol.getDrawable());
+            image.setColor(symbol.getColor());
+            image.getColor().a = 0;
+            image.addAction(Actions.delay(i++ * 0.5f, Actions.fadeIn(0.1f)));
+            symboleTable.add(image).size(Gdx.graphics.getWidth() / 7f);
+        }
     }
 }

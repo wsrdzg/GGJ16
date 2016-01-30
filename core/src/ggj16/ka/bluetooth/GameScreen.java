@@ -51,30 +51,21 @@ public class GameScreen extends MyScreen {
                         Symbol symbol = (Symbol) event.getListenerActor();
                         symbol.reset();
                         if (QuestFactory.learMode) {
-                        if (!QuestFactory.next(symbol)) {
-                            mMain.setScreen(Main.LOST_SCREEN);
-                        } else if (QuestFactory.solved) {
-                            mMain.setScreen(Main.WIN_SCREEN);
-                        } else {
-                            symbol.addAction(Actions.delay(0.5f, new Action() {
-                                @Override
-                                public boolean act(float delta) {
-                                    ((Symbol) getActor()).spawn(QuestFactory.symbols);
-                                    return true;
-                                }
-                            }));
+                            if (!QuestFactory.next(symbol)) {
+                                mMain.setScreen(Main.LOST_SCREEN);
+                            } else if (QuestFactory.solved) {
+                                mMain.setScreen(Main.WIN_SCREEN);
+                            } else {
+                                symbol.addAction(Actions.delay(0.5f, new Action() {
+                                    @Override
+                                    public boolean act(float delta) {
+                                        ((Symbol) getActor()).spawn(QuestFactory.symbols);
+                                        return true;
+                                    }
+                                }));
                             }
-
                         } else {
-                            // ASK THE SERVER
-
-
                             mMain.ritualClient.sendMessage(new Message(Message.Type.STEP, QuestFactory.position, QuestFactory.next(symbol)));
-                       /* if (!QuestFactory.next(symbol)) {
-                            mMain.setScreen(Main.LOST_SCREEN);
-                        } else if (QuestFactory.solved) {
-                            mMain.setScreen(Main.WIN_SCREEN);
-                        } else {*/
                             symbol.addAction(Actions.delay(0.5f, new Action() {
                                 @Override
                                 public boolean act(float delta) {
@@ -82,7 +73,6 @@ public class GameScreen extends MyScreen {
                                     return true;
                                 }
                             }));
-                            //}
                         }
                     }
                 });

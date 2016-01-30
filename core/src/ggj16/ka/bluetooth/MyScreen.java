@@ -25,12 +25,12 @@ public class MyScreen implements Screen {
         Image image = new Image(backgroud);
         image.setFillParent(true);
         mStage.addActor(image);
+
+        mStage.setDebugAll(true); // TODO: remove
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() {}
 
     @Override
     public void render(float delta) {
@@ -41,24 +41,16 @@ public class MyScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) {}
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     public Stage getStage() {
         return mStage;

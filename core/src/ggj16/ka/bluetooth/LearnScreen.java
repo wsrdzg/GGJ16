@@ -1,5 +1,6 @@
 package ggj16.ka.bluetooth;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,15 +23,15 @@ public class LearnScreen extends MyScreen {
 
         QuestFactory.createQuest(MathUtils.random(QuestFactory.GODS.size - 1), true);
 
-
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
 
         label = new Label("", labelStyle);
         label.setAlignment(Align.center);
-        label.setFillParent(true);
-        label.setText(text[step] + "\n\n\n\n\n\n\n");
+        label.setText(text[step]);
         label.setWrap(true);
+        label.setFontScale(0.8f);
+        label.setBounds(Gdx.graphics.getWidth() / 20f, Gdx.graphics.getHeight() / 2f, Gdx.graphics.getWidth() / 20f * 18f, Gdx.graphics.getHeight() / 2f);
         mStage.addActor(label);
 
         mStage.addListener(new ClickListener() {
@@ -38,11 +39,11 @@ public class LearnScreen extends MyScreen {
             public void clicked(InputEvent event, float x, float y) {
                 step++;
                 if (step == text.length) {
-                    label.setText("Your first ritual is\n" + QuestFactory.god.spell + "\n\n" + QuestFactory.god.spellDescription + "\n\n\n\n\n\n");
+                    label.setText("Your first ritual is\n\n" + QuestFactory.god.spell + "\n\nHelps against " + QuestFactory.god.name);
                 } else if (step == text.length + 1) {
                     mMain.setScreen(Main.GAME_SCREEN);
                 } else {
-                    label.setText(text[step] + "\n\n\n\n\n\n\n");
+                    label.setText(text[step]);
                 }
             }
         });
