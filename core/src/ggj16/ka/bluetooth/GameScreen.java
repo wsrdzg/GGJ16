@@ -58,6 +58,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         quest.symbols.add(symbols.get(1));
         questSolver =new QuestSolver();
         questSolver.quest=quest;
+        questSolver.setLearMode(true);
 
         setSymbols();
 
@@ -79,7 +80,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
                 if (symbol.scale < 0)
                     symbol.scaleDirection = true;
             }
-            symbol.setScale(symbol.scale * 0.1f + 0.9f);
+            symbol.setScale(symbol.scale * 0.1f + 0.9f * symbol.scaleFactor);
             if (symbol.getX() < 0) {
                 symbol.timeUntilSpawn += delta;
                 if (symbol.timeUntilSpawn > 2) {
