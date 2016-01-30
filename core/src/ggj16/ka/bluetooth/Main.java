@@ -14,8 +14,16 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
+
+import ggj16.ka.bluetooth.net.Client;
+import ggj16.ka.bluetooth.net.Device;
+import ggj16.ka.bluetooth.net.Message;
 import ggj16.ka.bluetooth.net.NetworkConnection;
+import ggj16.ka.bluetooth.net.RitualClient;
+import ggj16.ka.bluetooth.net.RitualServer;
 
 public class Main extends Game {
 
@@ -28,13 +36,16 @@ public class Main extends Game {
     public  static final int INTRO_SCREEN = 4;
     public static final int LEARN_SCREEN = 5;
     public static final int MAIN_SCREEN = 6;
-    public static final int BLUETOOTH_TEST_SCREEN = 6;
+    public static final int CONNECTION_SCREEN = 7;
 
     private final Array<MyScreen> screens = new Array<>();
 
     private final AssetManager assetManager = new AssetManager();
 
     public NetworkConnection network;
+    public boolean isHost;
+    public RitualServer ritualServer = new RitualServer();
+    public RitualClient ritualClient = new RitualClient();
 
     public Main(NetworkConnection network) {
         this.network = network;
@@ -67,7 +78,7 @@ public class Main extends Game {
         screens.add(new IntroScreen(this, assetManager));
         screens.add(new LearnScreen(this, assetManager));
         screens.add(new MainScreen(this, assetManager));
-        screens.add(new BluetoothTestScreen(this, assetManager));
+        screens.add(new ConnectionScreen(this, assetManager));
         setScreen(INTRO_SCREEN);
     }
 
@@ -85,6 +96,36 @@ public class Main extends Game {
     @Override
     public void dispose() {
         assetManager.dispose();
+    }
+
+
+
+    public void openServer() {
+        network.startServer(ritualServer);
+    }
+
+    public void getPlayers(Array<String> players) {
+        players.clear();
+        for (Client client : ritualServer.getClients()) {
+            players.add(client.getName());
+        }
+    }
+
+    /**
+     * called by server
+     */
+    public void startGame(int god) {
+        QuestFactory.createQuest(god, false);
+        setScreen(GAME_SCREEN);
+    }
+
+    public Array<Device> getPossibleServers() {
+        return network.getPossibleServers();
+    }
+
+    public void joinServer(Device device) {
+        network.startClient(ritualClient, device.address);
+        ritualClient.sendMessage(new Message(Message.Type.I_KNOW_RITUALS, QuestFactory.myRituals));
     }
 }
 
