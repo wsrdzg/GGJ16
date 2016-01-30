@@ -31,7 +31,7 @@ public class RitualServer extends ServerInterface {
             case I_KNOW_RITUALS:
                 // the client knows these rituals
 
-                for (int ritual : message.ia) {
+                for (int ritual : message.ia.items) {
                     if (knownRituals.containsKey(ritual)) {
                         knownRituals.put(ritual, knownRituals.get(ritual) + 1);
                     } else {

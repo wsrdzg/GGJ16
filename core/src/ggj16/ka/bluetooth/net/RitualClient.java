@@ -11,7 +11,7 @@ public class RitualClient extends ClientInterface {
             case START_GAME:
                 // server started the game
                 int quest = message.i;
-                ((Main)Gdx.app.getApplicationListener()).setScreen(Main.GAME_SCREEN);
+                ((Main)Gdx.app.getApplicationListener()).startGame(quest);
                 break;
             case LOST:
                 // we lost the game

@@ -14,6 +14,7 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
         BluetoothNetworkConnection network = new BluetoothNetworkConnection(this);
+		network.init();
 		initialize(new Main(network), config);
 
 	}

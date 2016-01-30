@@ -1,5 +1,8 @@
 package ggj16.ka.bluetooth.net;
 
+
+import com.badlogic.gdx.utils.IntArray;
+
 public class Message {
     public enum Type {
         I_KNOW_RITUALS,
@@ -13,7 +16,7 @@ public class Message {
     public Type t;
     public int i;
     public boolean b;
-    public int[] ia;
+    public IntArray ia;
 
     // For initialization
     public Message() {
@@ -31,7 +34,7 @@ public class Message {
         t = type;
         b = bool;
     }
-    public Message(Type type, int[] array) {
+    public Message(Type type, IntArray array) {
         t = type;
         ia = array;
     }
