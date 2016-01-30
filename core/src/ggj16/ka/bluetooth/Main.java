@@ -42,7 +42,7 @@ public class Main extends Game {
 
     private final AssetManager assetManager = new AssetManager();
 
-    public NetworkConnection network;
+    public static NetworkConnection network;
     public boolean isHost;
     public RitualServer ritualServer = new RitualServer();
     public RitualClient ritualClient = new RitualClient();
@@ -92,6 +92,9 @@ public class Main extends Game {
     public void pause() {
         super.pause();
         Storage.saveRituals(QuestFactory.myRituals);
+        // kill the network
+        network.teardown();
+        ritualClient.ping.interrupt();
     }
 
     @Override

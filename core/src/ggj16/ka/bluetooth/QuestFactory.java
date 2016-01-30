@@ -59,18 +59,20 @@ public class QuestFactory {
 */
         if (learMode)
             QuestFactory.symbols.get(position).setHighlight(true);
+
+        for (Symbol symbol : QuestFactory.symbols)
+            symbol.spawn(symbols);
     }
 
     public static boolean next(Symbol clickedSymbol) {
-        if(position==symbols.size){
-            return false;
-        }
+        //if (position == symbols.size)
+        //    return false;
         if (symbols.get(position).equals(clickedSymbol)) {
             if (learMode)
                 symbols.get(position).setHighlight(false);
             solved = symbols.size == position + 1;
-            position = (position + 1) ;
-            if (learMode && position<symbols.size)
+            position++;
+            if (learMode && position < symbols.size)
                 symbols.get(position).setHighlight(true);
 
             // TODO bluetooth here result should be returned

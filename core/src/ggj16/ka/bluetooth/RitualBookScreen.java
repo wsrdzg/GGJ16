@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 public class RitualBookScreen extends MyScreen {
@@ -72,8 +74,8 @@ public class RitualBookScreen extends MyScreen {
 
             Table symboleTable = new Table();
             for (Symbol symbol : QuestFactory.symbols) {
-                Image image = new Image(symbol.getDrawable());
-                image.setColor(symbol.getColor());
+                Image image = new Image(new TextureRegionDrawable((TextureRegionDrawable) symbol.getDrawable()));
+                image.setColor(new Color(symbol.getColor()));
                 symboleTable.add(image).size(Gdx.graphics.getWidth() / 7f);
             }
             table.add(symboleTable).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7).row();

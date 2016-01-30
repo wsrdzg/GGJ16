@@ -22,6 +22,7 @@ public class Symbol extends Image {
         setColor(color);
         this.id = id;
         scale = MathUtils.random();
+
         addAction(new Action() {
             @Override
             public boolean act(float delta) {
