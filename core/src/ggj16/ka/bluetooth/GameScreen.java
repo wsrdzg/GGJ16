@@ -1,55 +1,76 @@
 package ggj16.ka.bluetooth;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 
-public class GameScreen implements Screen, GestureDetector.GestureListener {
+public class GameScreen extends MyScreen {
 
-    ParticleEffect particleEffect;
-    TextureAtlas atlas;
-    SpriteBatch batch;
+    //ParticleEffect particleEffect;
+
     Array<Symbol> symbols = new Array<>();
 
     Quest quest;
     QuestSolver questSolver;
-    Main main;
 
-    public GameScreen(Main main) {
-        this.main = main;
+    public GameScreen(Main main, AssetManager assetManager) {
+        super(main, assetManager, new Color(0.3f, 0.3f, 0.6f, 1));
+
+        for (Color COLOR : Main.COLORS) {
+            for (int j = 0; j < 2; j++) {
+                Symbol symbol = new Symbol(assetManager.get("textures/t.atlas", TextureAtlas.class).findRegion("shape", j), COLOR, symbols.size);
+                symbol.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getWidth() / 5f);
+                symbol.setOrigin(Gdx.graphics.getWidth() / 10f, Gdx.graphics.getWidth() / 10f);
+                symbol.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Symbol symbol = (Symbol) event.getListenerActor();
+                        //particleEffect.setPosition(x, y);
+                        //particleEffect.start();
+                        symbol.timeUntilSpawn = 0;
+                        symbol.setPosition(-100, -100);
+                        // TODO: do stuff
+                        if (!questSolver.next(symbol)) {
+                            mMain.setScreen(Main.LOST_SCREEN);
+                        } else if (questSolver.solved) {
+                            mMain.setScreen(Main.WIN_SCREEN);
+                        } else {
+                            symbol.addAction(new Action() {
+                                @Override
+                                public boolean act(float delta) {
+                                    Symbol symbol = (Symbol) getActor();
+                                    symbol.spawn(mStage, quest.symbols);
+                                    return true;
+                                }
+                            });
+                        }
+                    }
+                });
+                symbols.add(symbol);
+            }
+        }
     }
 
     @Override
     public void show() {
-        atlas = new TextureAtlas(Gdx.files.internal("textures/t.atlas"));
+        //particleEffect = new ParticleEffect();
+        //particleEffect.load(Gdx.files.internal("particle"), Gdx.files.internal(""));
 
-        particleEffect = new ParticleEffect();
-        particleEffect.load(Gdx.files.internal("particle"), Gdx.files.internal(""));
-
-        batch = new SpriteBatch();
-
-        for (Color COLOR : Main.COLORS) {
-            for (int j = 0; j < 2; j++) {
-                Symbol symbol = new Symbol(atlas.findRegion("shape", j), COLOR, symbols.size);
-                symbol.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getWidth() / 5f);
-                symbol.setOrigin(Gdx.graphics.getWidth() / 10f, Gdx.graphics.getWidth() / 10f);
-                symbols.add(symbol);
-            }
-        }
-
-        Gdx.input.setInputProcessor(new GestureDetector(this));
+        Gdx.input.setInputProcessor(mStage);
 
         startQuest();
     }
 
-    @Override
+    /*@Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.3f, 0.3f, 0.6f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -68,7 +89,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
             if (symbol.getX() < 0) {
                 symbol.timeUntilSpawn += delta;
                 if (symbol.timeUntilSpawn > 2)
-                    symbol.spawn(quest.symbols);
+                    symbol.spawn(mStage, quest.symbols);
             } else {
                 symbol.draw(batch);
             }
@@ -76,35 +97,11 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         particleEffect.update(delta);
         particleEffect.draw(batch);
         // TODO: render quest name
+        GlyphLayout glyphLayout = new GlyphLayout();
+        glyphLayout.setText(font, quest.id);
+        font.draw(batch, quest.id, (Gdx.graphics.getWidth() - glyphLayout.width) / 2f, Gdx.graphics.getHeight() - font.getCapHeight());
         batch.end();
-    }
-
-    @Override
-    public void dispose() {
-        particleEffect.dispose();
-        batch.dispose();
-        atlas.dispose();
-    }
-
-    @Override
-    public boolean tap(float x, float y, int count, int button) {
-        y = Gdx.graphics.getHeight() - y;
-        for (Symbol symbol : quest.symbols) {
-            if (symbol.isTouched(x, y)) {
-                particleEffect.setPosition(x, y);
-                particleEffect.start();
-                symbol.timeUntilSpawn = 0;
-                symbol.setPosition(-100, -100);
-                // TODO: do stuff
-                if (!questSolver.next(symbol)) {
-                    main.setScreen(main.screens.get(main.LOST_SCREEN));
-                } else if (questSolver.solved) {
-                    main.setScreen(main.screens.get(main.WIN_SCREEN));
-                }
-            }
-        }
-        return true;
-    }
+    }*/
 
     public void startQuest() {
         // TODO: load quest
@@ -119,68 +116,10 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         questSolver = new QuestSolver();
         questSolver.quest = quest;
 
+
+        mStage.clear();
+
         for (Symbol symbol : quest.symbols)
-            symbol.spawn(symbols);
-    }
-
-
-
-
-
-
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public boolean touchDown(float x, float y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean longPress(float x, float y) {
-        return false;
-    }
-
-    @Override
-    public boolean fling(float velocityX, float velocityY, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean pan(float x, float y, float deltaX, float deltaY) {
-        return false;
-    }
-
-    @Override
-    public boolean panStop(float x, float y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean zoom(float initialDistance, float distance) {
-        return false;
-    }
-
-    @Override
-    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-        return false;
+            symbol.spawn(mStage, symbols);
     }
 }
