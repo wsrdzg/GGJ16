@@ -29,7 +29,7 @@ public class GameScreen extends MyScreen {
         super(main, assetManager, new Color(0.3f, 0.3f, 0.6f, 1), assetManager.get("textures/background.png", Texture.class));
 
         Label.LabelStyle style = new Label.LabelStyle();
-        style.font = mAssetManager.get("title.ttf", BitmapFont.class);
+        style.font = mAssetManager.get("font.ttf", BitmapFont.class);
 
         questName = new Label("", style);
         questName.setAlignment(Align.center);

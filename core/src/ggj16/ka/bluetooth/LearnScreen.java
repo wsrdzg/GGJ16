@@ -24,7 +24,7 @@ public class LearnScreen extends MyScreen {
 
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = assetManager.get("normal.ttf", BitmapFont.class);
+        labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
 
         label = new Label("", labelStyle);
         label.setAlignment(Align.center);

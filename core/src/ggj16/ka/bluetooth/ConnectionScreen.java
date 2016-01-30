@@ -30,7 +30,7 @@ public class ConnectionScreen extends MyScreen {
         super(main, assetManager, Color.GREEN, assetManager.get("textures/success.png", Texture.class));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = assetManager.get("title.ttf", BitmapFont.class);
+        labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
 
         Label label = new Label("Users", labelStyle);
         label.setAlignment(Align.center);
@@ -64,7 +64,7 @@ public class ConnectionScreen extends MyScreen {
 
 
         final Label.LabelStyle style = new Label.LabelStyle();
-        style.font = mAssetManager.get("normal.ttf", BitmapFont.class);
+        style.font = mAssetManager.get("font.ttf", BitmapFont.class);
 
         if (mMain.isHost) {
             mMain.openServer();
