@@ -63,6 +63,7 @@ public class RitualServer extends ServerInterface {
 
         for (Integer rit : knownRituals.keySet()) {
             rituals.add(rit);
+            Gdx.app.log("RitualServer", "add "  +rit);
         }
 
         int rnd = (int) (Math.random() * rituals.size);

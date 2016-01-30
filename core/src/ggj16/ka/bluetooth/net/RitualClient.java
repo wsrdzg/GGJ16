@@ -8,6 +8,7 @@ import ggj16.ka.bluetooth.QuestFactory;
 public class RitualClient extends ClientInterface {
     @Override
     public void connected() {
+        Gdx.app.log("RitualClient", "rituals: " + QuestFactory.myRituals + " ("+QuestFactory.myRituals.size);
         sendMessage(new Message(Message.Type.I_KNOW_RITUALS, QuestFactory.myRituals));
     }
 

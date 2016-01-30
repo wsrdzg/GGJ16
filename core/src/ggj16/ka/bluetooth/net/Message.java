@@ -46,9 +46,9 @@ public class Message {
     @Override
     public String toString() {
         if (ia == null) {
-            return t + "\n" + i + " / " + b + "/0";
+            return t.name() + "\n" + i + " / " + b + " / -";
         } else {
-            return t + "\n" + i + " / " + b + "/" + ia.size;
+            return t.name() + "\n" + i + " / " + b + " / " + ia.size;
         }
     }
 }
