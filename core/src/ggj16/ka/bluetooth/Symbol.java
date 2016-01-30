@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 public class Symbol extends Sprite {
 
     public int id;
-    public float scale, timeUntilSpawn;
+    public float scale,scaleFactor=1, timeUntilSpawn;
     public boolean scaleDirection;
 
     public Symbol(TextureRegion region, Color color, int id) {
