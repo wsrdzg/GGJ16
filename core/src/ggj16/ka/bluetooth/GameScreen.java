@@ -72,13 +72,6 @@ public class GameScreen extends MyScreen {
                             }
                         } else {
                             mMain.ritualClient.sendMessage(new Message(Message.Type.STEP, QuestFactory.position, QuestFactory.next(symbol)));
-                            symbol.addAction(Actions.delay(0.5f, new Action() {
-                                @Override
-                                public boolean act(float delta) {
-                                    ((Symbol) getActor()).spawn(QuestFactory.symbols);
-                                    return true;
-                                }
-                            }));
                         }
                         symbol.addAction(Actions.delay(0.5f, new Action() {
                             @Override
@@ -118,8 +111,5 @@ public class GameScreen extends MyScreen {
         god.setScale(1);
         god.setColor(Color.WHITE);
         god.clearActions();
-
-        for (Symbol symbol : QuestFactory.symbols)
-            symbol.spawn(symbols);
     }
 }

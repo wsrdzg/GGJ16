@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
@@ -64,8 +66,8 @@ public class WinScreen extends MyScreen {
         symboleTable.clearChildren();
         int i = 1;
         for (Symbol symbol : QuestFactory.symbols) {
-            Image image = new Image(symbol.getDrawable());
-            image.setColor(symbol.getColor());
+            Image image = new Image(new TextureRegionDrawable((TextureRegionDrawable) symbol.getDrawable()));
+            image.setColor(new Color(symbol.getColor()));
             image.getColor().a = 0;
             image.addAction(Actions.delay(i++ * 0.5f, Actions.fadeIn(0.1f)));
             symboleTable.add(image).size(Gdx.graphics.getWidth() / 7f);
