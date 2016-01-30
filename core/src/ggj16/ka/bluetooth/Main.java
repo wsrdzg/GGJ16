@@ -59,6 +59,7 @@ public class Main extends Game {
         assetManager.load("textures/background.png", Texture.class);
         assetManager.load("textures/fail.png", Texture.class);
         assetManager.load("textures/success.png", Texture.class);
+        assetManager.load("textures/background_empty.png", Texture.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));

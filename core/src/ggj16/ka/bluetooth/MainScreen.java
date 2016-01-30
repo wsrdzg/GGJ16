@@ -16,7 +16,7 @@ import ggj16.ka.bluetooth.net.RitualServer;
 public class MainScreen extends MyScreen {
 
     public MainScreen(Main main, AssetManager assetManager) {
-        super(main, assetManager, Color.BLUE, assetManager.get("textures/background.png", Texture.class));
+        super(main, assetManager, Color.BLUE, assetManager.get("textures/background_empty.png", Texture.class));
 
         Table table = new Table();
         table.setFillParent(true);

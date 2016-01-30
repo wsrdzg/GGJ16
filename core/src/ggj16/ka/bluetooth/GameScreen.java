@@ -32,8 +32,9 @@ public class GameScreen extends MyScreen {
         style.font = mAssetManager.get("font.ttf", BitmapFont.class);
 
         questName = new Label("", style);
-        questName.setAlignment(Align.center);
+        questName.setAlignment(Align.top, Align.center);
         questName.setBounds(0, Gdx.graphics.getHeight() - style.font.getCapHeight() * 1.5f, Gdx.graphics.getWidth(), style.font.getCapHeight());
+        questName.setWrap(true);
         mStage.addActor(questName);
 
         for (Color COLOR : Main.COLORS) {
