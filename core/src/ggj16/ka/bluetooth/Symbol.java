@@ -19,6 +19,7 @@ public class Symbol extends Sprite {
     public Symbol(TextureRegion region, Color color, int id) {
         super(region);
         setColor(color);
+        this.id = id;
     }
 
     public boolean isTouched(float x, float y) {
@@ -29,7 +30,7 @@ public class Symbol extends Sprite {
         boolean toNear;
         do {
             setPosition(MathUtils.random(getWidth(), Gdx.graphics.getWidth() - getWidth()),
-                    MathUtils.random(getHeight(), Gdx.graphics.getHeight() - getHeight()));
+                        MathUtils.random(getHeight(), Gdx.graphics.getHeight() - getHeight()));
             toNear = false;
             for (int i = 0; i < symbols.size; i++) {
                 if (!symbols.get(i).equals(this) && Math.hypot(getX() - symbols.get(i).getX(), getY() - symbols.get(i).getY()) < getWidth() * 2) {
