@@ -25,12 +25,13 @@ public class Main extends Game {
     public  static final int MENU_SCREEN = 1;
     public  static final int LOST_SCREEN = 2;
     public  static final int WIN_SCREEN = 3;
+    public static final int BLUETOOTH_TEST_SCREEN = 4;
 
     private final Array<Screen> screens = new Array<>();
 
     private final AssetManager assetManager = new AssetManager();
 
-    private NetworkConnection network;
+    public NetworkConnection network;
 
     public Main(NetworkConnection network) {
         this.network = network;
@@ -55,6 +56,7 @@ public class Main extends Game {
         screens.add(new MenuScreen(this, assetManager));
         screens.add(new LostScreen(this, assetManager));
         screens.add(new WinScreen(this, assetManager));
+        screens.add(new BluetoothTestScreen(this));
         setScreen(GAME_SCREEN);
     }
 

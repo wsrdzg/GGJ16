@@ -24,12 +24,9 @@ public class BluetoothNetworkConnection implements NetworkConnection {
 
     private Activity activity;
     private BluetoothAdapter adapter;
-    private UUID uuid;
-
 
     public BluetoothNetworkConnection(Activity activity) {
         this.activity = activity;
-        uuid = UUID.fromString("b6461a60-c6c6-11e5-a837-0800200c9a66");
     }
 
     @Override
@@ -39,6 +36,7 @@ public class BluetoothNetworkConnection implements NetworkConnection {
         // enable bluetooth
         Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         activity.startActivityForResult(turnOn, 0);
+
 
         Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
 
@@ -56,34 +54,64 @@ public class BluetoothNetworkConnection implements NetworkConnection {
     }
 
     @Override
-    public void startServer(ServerInterface server) {
-        try {
-            BluetoothServerSocket serverSocket = adapter.listenUsingRfcommWithServiceRecord("ggj16", uuid);
-            Log.i("Bluetooth", "server ready");
-            // wait for client
-            BluetoothSocket socket = serverSocket.accept();
-            Log.i("Bluetooth", "client connected");
+    public void startServer(final ServerInterface server) {
+        // start a server for every bounded device
+        for (final BluetoothDevice device : adapter.getBondedDevices()) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
 
-            BluetoothDevice remote = socket.getRemoteDevice();
-            Log.i("Bluetooth", "name: " + remote.getName());
-            Log.i("Bluetooth", "address: " + remote.getAddress());
+                    try {
+                        Log.i("Bluetooth", "try to create " + device.getName());
+                        BluetoothServerSocket serverSocket = adapter.listenUsingRfcommWithServiceRecord("ggj16", genUUID(device.getAddress()));
+                        Log.i("Bluetooth", "server for " + device.getName()+" ready");
+                        // wait for client
+                        BluetoothSocket socket = serverSocket.accept();
+                        Log.i("Bluetooth", "client connected");
 
-            new ServerConnection(socket, server).start();
+                        BluetoothDevice remote = socket.getRemoteDevice();
+                        Log.i("Bluetooth", "name: " + remote.getName());
+                        Log.i("Bluetooth", "address: " + remote.getAddress());
 
-        } catch (IOException e) {
-            e.printStackTrace();
+                        serverSocket.close();
+
+                        // we are already in our own server
+                        new ServerConnection(socket, server).run();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e("Bluetooth", "Server for " + device.getName() + " crashed");
+                    }
+                }
+            }).start();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
+
 
     }
 
     @Override
-    public void startClient(ClientInterface client) {
-        Iterator<BluetoothDevice> iterator = adapter.getBondedDevices().iterator();
-        iterator.next();
-        BluetoothDevice server = iterator.next();
+    public void startClient(ClientInterface client, String serverAddr) {
+        BluetoothDevice server = null;
+        for (BluetoothDevice device : adapter.getBondedDevices()) {
+            if ( device.getAddress().equals(serverAddr)) {
+                server = device;
+                break;
+            }
+        }
+
+        if (server == null) {
+            throw new RuntimeException("NO FITTING SERVER FOUND"); // TODO: handle
+        }
+
         Log.i("Bluetooth", "start client ");
         try {
-            BluetoothSocket socket = server.createRfcommSocketToServiceRecord(uuid);
+            BluetoothSocket socket = server.createRfcommSocketToServiceRecord(genUUID(adapter.getAddress()));
             Log.i("Bluetooth", "Waiting for server " + server.getName());
             socket.connect();
             Log.i("Bluetooth", "client connected");
@@ -110,24 +138,6 @@ public class BluetoothNetworkConnection implements NetworkConnection {
         }
     }
 
-    // if we established a connection to a client
-    private void handleServer(BluetoothSocket socket, ServerInterface server) {
-        Log.i("Bluetooth", "handle Server");
-
-        BufferedReader reader;
-        BufferedWriter writer;
-
-        Client client = new Client() {
-            @Override
-            public void sendMessage(Message message) {
-
-            }
-        };
-
-
-
-    }
-
     class ServerConnection implements Runnable {
         BufferedReader reader;
         BufferedWriter writer;
@@ -135,8 +145,10 @@ public class BluetoothNetworkConnection implements NetworkConnection {
         Json json;
         Client client;
 
-        public ServerConnection (BluetoothSocket socket, ServerInterface server) {
+        public ServerConnection (final BluetoothSocket socket, ServerInterface server) {
             Log.i("BT", "Create ServerConnection");
+            final String address = socket.getRemoteDevice().getAddress();
+
             this.server = server;
             json = new Json();
             try {
@@ -145,6 +157,7 @@ public class BluetoothNetworkConnection implements NetworkConnection {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
 
             client = new Client() {
                 @Override
@@ -156,6 +169,11 @@ public class BluetoothNetworkConnection implements NetworkConnection {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                }
+
+                @Override
+                public String getAddress() {
+                    return address;
                 }
             };
             Log.i("BT", "send Client connected");
@@ -174,7 +192,10 @@ public class BluetoothNetworkConnection implements NetworkConnection {
                     server.messageReceived(client, message);
                 }
             } catch (IOException e) {
+
                 e.printStackTrace(); // connection stopped
+
+                Log.e("Bluetooth", "connection of " + getMyAddress() + " CLOSED");
             }
         }
 
@@ -228,5 +249,20 @@ public class BluetoothNetworkConnection implements NetworkConnection {
             }
         }
 
+    }
+
+
+    /**
+     * Generates the acurate UUID for a mac address.
+     * @param addr
+     * @return
+     */
+    public UUID genUUID(String addr) {
+        return UUID.fromString("b6461a60-c6c6-11e5-a837-" + addr.replace(":", ""));
+    }
+
+    @Override
+    public String getMyAddress() {
+        return adapter.getAddress();
     }
 }
