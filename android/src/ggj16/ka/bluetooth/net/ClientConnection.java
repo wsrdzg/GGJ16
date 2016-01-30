@@ -42,6 +42,9 @@ class ClientConnection implements Runnable {
                 }
             }
         });
+
+        client.connected();
+
     }
 
     public void start() {

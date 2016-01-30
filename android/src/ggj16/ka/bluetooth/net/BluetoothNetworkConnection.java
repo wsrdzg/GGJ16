@@ -77,6 +77,7 @@ public class BluetoothNetworkConnection implements NetworkConnection {
             }
         });
         server.clientConnected(myselfAsAClient);
+        client.connected();
 
 
         // start a server for every bounded device

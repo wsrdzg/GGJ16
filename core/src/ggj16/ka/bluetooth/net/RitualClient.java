@@ -3,8 +3,14 @@ package ggj16.ka.bluetooth.net;
 import com.badlogic.gdx.Gdx;
 
 import ggj16.ka.bluetooth.Main;
+import ggj16.ka.bluetooth.QuestFactory;
 
 public class RitualClient extends ClientInterface {
+    @Override
+    public void connected() {
+        sendMessage(new Message(Message.Type.I_KNOW_RITUALS, QuestFactory.myRituals));
+    }
+
     @Override
     public void messageReceived(Message message) {
         switch (message.t) {
