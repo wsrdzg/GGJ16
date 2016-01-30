@@ -108,6 +108,9 @@ public class ConnectionScreen extends MyScreen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         mMain.joinServer(device);
+                        users.clear();
+                        Label l = new Label("Connecting...", style);
+                        users.add(l).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f).row();
                     }
                 });
 

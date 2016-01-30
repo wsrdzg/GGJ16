@@ -49,8 +49,9 @@ public class WinScreen extends MyScreen {
                     QuestFactory.myRituals.add(QuestFactory.god.id);
                     mMain.setScreen(Main.MAIN_SCREEN);
                 } else {
-                    QuestFactory.createQuest(MathUtils.random(QuestFactory.GODS.size - 1), true); // TODO: server must decide level
-                    mMain.setScreen(Main.GAME_SCREEN);
+                    if (mMain.isHost) {
+                        mMain.ritualServer.startGame();
+                    }
                 }
             }
         });
