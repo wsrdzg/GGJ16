@@ -4,9 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.IntArray;
 
-/**
- * Created by sebastian on 30.01.16.
- */
 public class Storage {
 
     private final static String NAME = "ggj";

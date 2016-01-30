@@ -16,7 +16,7 @@ import ggj16.ka.bluetooth.net.RitualServer;
 public class MainScreen extends MyScreen {
 
     public MainScreen(Main main, AssetManager assetManager) {
-        super(main, assetManager, Color.BLUE, assetManager.get("textures/background.png", Texture.class));
+        super(main, assetManager, Color.BLUE, assetManager.get("textures/background_empty.png", Texture.class));
 
         Table table = new Table();
         table.setFillParent(true);
@@ -30,6 +30,12 @@ public class MainScreen extends MyScreen {
 
         label = new Label("Ritual Book", labelStyle);
         label.setAlignment(Align.center);
+        label.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mMain.setScreen(Main.RITUAL_BOOK_SCREEN);
+            }
+        });
         table.add(label).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7).row();
 
         label = new Label("Host Game", labelStyle);

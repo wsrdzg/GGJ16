@@ -24,7 +24,6 @@ import ggj16.ka.bluetooth.net.RitualServer;
 public class ConnectionScreen extends MyScreen {
 
     Table users = new Table();
-    Array<Client> clients = new Array<>();
 
     public ConnectionScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, Color.GREEN, assetManager.get("textures/success.png", Texture.class));
