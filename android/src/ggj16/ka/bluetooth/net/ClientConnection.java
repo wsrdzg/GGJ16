@@ -64,6 +64,7 @@ class ClientConnection implements Runnable {
         } catch (IOException e) {
             Log.e("ClientConnection", "disconnected from server");
             e.printStackTrace();
+            client.disconnected();
         }
     }
 
