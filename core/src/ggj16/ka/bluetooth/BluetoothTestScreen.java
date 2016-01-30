@@ -14,6 +14,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ggj16.ka.bluetooth.net.Client;
 import ggj16.ka.bluetooth.net.ClientInterface;
 import ggj16.ka.bluetooth.net.Message;
+import ggj16.ka.bluetooth.net.RitualClient;
+import ggj16.ka.bluetooth.net.RitualServer;
 import ggj16.ka.bluetooth.net.ServerInterface;
 
 public class BluetoothTestScreen extends MyScreen {
@@ -65,9 +67,9 @@ public class BluetoothTestScreen extends MyScreen {
 
             if ( Gdx.input.getY() <Gdx.graphics.getHeight()/2)        {
                 if (server != null) {
-                    server.sendToAllClients(new Message(321, "SERVER HIER"));
+                    server.sendToAllClients(new Message(Message.Type.START_GAME, 4));
                 } else if (client != null) {
-                    client.sendMessage(new Message(123, "HALLO HIER SPRICHT EIN CLIENT"));
+                    client.sendMessage(new Message(Message.Type.I_KNOW_RITUALS, 4));
                 } else {
                     log ("please connect first");
                 }
@@ -76,36 +78,12 @@ public class BluetoothTestScreen extends MyScreen {
                 started = true;
                 if (Gdx.input.getX() < Gdx.graphics.getWidth() / 2) {
                     log("start server");
-                    server = new ServerInterface() {
-
-                        @Override
-                        public void clientConnected(Client client) {
-                            log("client connected");
-                            Gdx.app.log("Main", "client connected");
-                            super.clientConnected(client);
-                            client.sendMessage(new Message(0, "INITIAL"));
-                        }
-
-                        @Override
-                        public void messageReceived(Client client, Message message) {
-                            log("received message: " + message.message + ", " + message.number + " from " + client.getAddress());
-                            Gdx.app.log("Main", "received message: " + message.message + ", " + message.number);
-                            // client.sendMessage(new Message(message.number + 1, "from server"));
-                        }
-                    };
+                    server = new RitualServer();
                     mMain.network.startServer(server);
                 } else {
                     log("start client");
 
-                    client = new ClientInterface() {
-                        @Override
-                        public void messageReceived(Message message) {
-                            log("message received: " + message.message + "," + message.number);
-                            Gdx.app.log("Main", "received message: " + message.message + ", " + message.number);
-
-                            sendMessage(new Message(message.number + 1, "from client"));
-                        }
-                    };
+                    client = new RitualClient();
 
                     mMain.network.startClient(client, "60:D9:A0:56:45:ED");
                 }

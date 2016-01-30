@@ -38,7 +38,7 @@ class ServerConnection implements Runnable {
             @Override
             public void sendMessage(Message message) {
                 try {
-                    Gdx.app.log("Bluetooth", "send Message to Client: " + message.message);
+                    Gdx.app.log("Bluetooth", "send Message to Client: " + message);
                     writer.write(json.toJson(message) + "\n");
                     writer.flush();
                 } catch (IOException e) {
