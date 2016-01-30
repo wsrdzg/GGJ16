@@ -1,6 +1,5 @@
 package ggj16.ka.bluetooth;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -20,13 +18,12 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     SpriteBatch batch;
     Array<Symbol> symbols = new Array<>();
 
-
     Quest quest;
     QuestSolver questSolver;
-    Main game;
-    public GameScreen(Main game){
-        super();
-        this.game=game;
+    Main main;
+
+    public GameScreen(Main main) {
+        this.main = main;
     }
 
     @Override
@@ -47,22 +44,9 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
             }
         }
 
-
-        // TODO: load quest
-        quest = new Quest();
-        quest.id = "Kill Xardas";
-        quest.maxTime = 5000;
-        quest.symbols = new Array<>();
-        quest.symbols.add(symbols.get(2));
-        quest.symbols.add(symbols.get(0));
-        quest.symbols.add(symbols.get(1));
-        quest.resetScale();
-        questSolver =new QuestSolver();
-        questSolver.quest=quest;
-
-        setSymbols();
-
         Gdx.input.setInputProcessor(new GestureDetector(this));
+
+        startQuest();
     }
 
     @Override
@@ -83,15 +67,15 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
             symbol.setScale(symbol.scale * 0.1f + 0.9f);
             if (symbol.getX() < 0) {
                 symbol.timeUntilSpawn += delta;
-                if (symbol.timeUntilSpawn > 2) {
-                    spawn(symbol);
-                }
+                if (symbol.timeUntilSpawn > 2)
+                    symbol.spawn(quest.symbols);
             } else {
                 symbol.draw(batch);
             }
         }
         particleEffect.update(delta);
         particleEffect.draw(batch);
+        // TODO: render quest name
         batch.end();
     }
 
@@ -100,45 +84,6 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         particleEffect.dispose();
         batch.dispose();
         atlas.dispose();
-    }
-
-
-
-    public void setSymbols() {
-        for (int i = 0; i < quest.symbols.size; i++) {
-            Symbol symbol = quest.symbols.get(i);
-            boolean toNear;
-            do {
-                symbol.setPosition(MathUtils.random(symbol.getWidth(), Gdx.graphics.getWidth() - symbol.getWidth()),
-                        MathUtils.random(symbol.getWidth(), Gdx.graphics.getHeight() - symbol.getHeight()));
-                toNear = false;
-                for (int j = 0; j < i; j++) {
-                    if (Math.hypot(quest.symbols.get(i).getX() - quest.symbols.get(j).getX(), quest.symbols.get(i).getY() - quest.symbols.get(j).getY()) < symbol.getWidth() * 2) {
-                        toNear = true;
-                        break;
-                    }
-                }
-            } while (toNear);
-            symbol.setRotation(MathUtils.random(-10, 10));
-            symbol.scale = MathUtils.random();
-        }
-    }
-
-    public void spawn(Symbol symbol) {
-        boolean toNear;
-        do {
-            symbol.setPosition(MathUtils.random(symbol.getWidth(), Gdx.graphics.getWidth() - symbol.getWidth()),
-                               MathUtils.random(symbol.getHeight(), Gdx.graphics.getHeight() - symbol.getHeight()));
-            toNear = false;
-            for (int i = 0; i < quest.symbols.size; i++) {
-                if (!quest.symbols.get(i).equals(symbol) && Math.hypot(symbol.getX() - quest.symbols.get(i).getX(), symbol.getY() - quest.symbols.get(i).getY()) < symbol.getWidth() * 2) {
-                    toNear = true;
-                    break;
-                }
-            }
-        } while (toNear);
-        symbol.setRotation(MathUtils.random(-10, 10));
-        symbol.scale = MathUtils.random();
     }
 
     @Override
@@ -151,18 +96,32 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
                 symbol.timeUntilSpawn = 0;
                 symbol.setPosition(-100, -100);
                 // TODO: do stuff
-                if(!questSolver.next(symbol)){
-                    game.setScreen(game.screens.get(game.LOST_SCREEN));
-                }
-                if(questSolver.solved){
-                    game.setScreen(game.screens.get(game.WIN_SCREEN));
+                if (!questSolver.next(symbol)) {
+                    main.setScreen(main.screens.get(main.LOST_SCREEN));
+                } else if (questSolver.solved) {
+                    main.setScreen(main.screens.get(main.WIN_SCREEN));
                 }
             }
         }
         return true;
     }
 
+    public void startQuest() {
+        // TODO: load quest
+        quest = new Quest();
+        quest.id = "Kill Xardas";
+        quest.maxTime = 5000;
+        quest.symbols = new Array<>();
+        quest.symbols.add(symbols.get(2));
+        quest.symbols.add(symbols.get(0));
+        quest.symbols.add(symbols.get(1));
+        quest.resetScale();
+        questSolver = new QuestSolver();
+        questSolver.quest = quest;
 
+        for (Symbol symbol : quest.symbols)
+            symbol.spawn(symbols);
+    }
 
 
 
