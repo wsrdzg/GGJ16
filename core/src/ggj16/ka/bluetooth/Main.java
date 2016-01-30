@@ -94,7 +94,9 @@ public class Main extends Game {
         Storage.saveRituals(QuestFactory.myRituals);
         // kill the network
         network.teardown();
-        ritualClient.ping.interrupt();
+        if(ritualClient.ping!=null) {
+            ritualClient.ping.interrupt();
+        }
     }
 
     @Override
