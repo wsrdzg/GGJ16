@@ -13,8 +13,11 @@ public class Main extends Game {
     public static final Color[] COLORS = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW};
 
     public  static final int GAME_SCREEN = 0;
+    public  static final int MENU_SCREEN = 1;
+    public  static final int LOST_SCREEN = 2;
+    public  static final int WIN_SCREEN = 3;
 
-    private Array<Screen> screens = new Array<>();
+    public Array<Screen> screens = new Array<>();
 
 
     private NetworkConnection network;
@@ -24,7 +27,10 @@ public class Main extends Game {
     }
     @Override
     public void create() {
-        screens.add(new GameScreen());
+        screens.add(new GameScreen(this));
+        screens.add(new MenuScreen());
+        screens.add(new LostScreen(this));
+        screens.add(new WinScreen());
         setScreen(GAME_SCREEN);
     }
 

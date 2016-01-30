@@ -1,5 +1,6 @@
 package ggj16.ka.bluetooth;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -19,7 +20,14 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     SpriteBatch batch;
     Array<Symbol> symbols = new Array<>();
 
+
     Quest quest;
+    QuestSolver questSolver =new QuestSolver();
+    Main game;
+    public GameScreen(Main game){
+        super();
+        this.game=game;
+    }
 
     @Override
     public void show() {
@@ -48,6 +56,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         quest.symbols.add(symbols.get(2));
         quest.symbols.add(symbols.get(0));
         quest.symbols.add(symbols.get(1));
+        questSolver.quest=quest;
 
         setSymbols();
 
@@ -140,6 +149,12 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
                 symbol.timeUntilSpawn = 0;
                 symbol.setPosition(-100, -100);
                 // TODO: do stuff
+                if(!questSolver.next(symbol)){
+                    game.setScreen(game.screens.get(game.LOST_SCREEN));
+                }
+                if(questSolver.solved){
+                    game.setScreen(game.screens.get(game.WIN_SCREEN));
+                }
             }
         }
         return true;

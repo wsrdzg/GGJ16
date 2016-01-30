@@ -33,7 +33,7 @@ public class DesktopLauncher {
 			config.width = 500;
 			config.height = 700;
 			config.useHDPI = true;
-			new LwjglApplication(new Main(), config);
+			new LwjglApplication(new Main(null), config);
 		}
 	}
 }
