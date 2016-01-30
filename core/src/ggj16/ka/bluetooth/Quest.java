@@ -14,7 +14,7 @@ public class Quest {
     public void resetScale(){
         for (Symbol symbol:symbols
              ) {
-            symbol.scaleFactor=1;
+            //symbol.scaleFactor=1;
         }
     }
 }

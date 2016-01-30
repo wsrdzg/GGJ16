@@ -39,7 +39,7 @@ public class GameScreen extends MyScreen {
         mStage.addActor(questName);
 
         for (Color COLOR : Main.COLORS) {
-            for (int j = 0; j < 2; j++) {
+            for (int j = 0; j < 7; j++) {
                 Symbol symbol = new Symbol(assetManager.get("textures/t.atlas", TextureAtlas.class).findRegion("shape", j), COLOR, symbols.size);
                 symbol.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getWidth() / 5f);
                 symbol.setOrigin(Gdx.graphics.getWidth() / 10f, Gdx.graphics.getWidth() / 10f);
