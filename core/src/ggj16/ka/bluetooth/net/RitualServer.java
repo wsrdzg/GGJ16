@@ -9,9 +9,11 @@ public class RitualServer extends ServerInterface {
 
     // ritual -> frequency
     HashMap<Integer, Integer> knownRituals;
+    HashMap<Client,Integer> clientSteps;
 
     public RitualServer() {
         knownRituals = new HashMap<>();
+        clientSteps= new HashMap<>();
     }
 
     @Override
@@ -39,6 +41,11 @@ public class RitualServer extends ServerInterface {
 
                 break;
             case STEP:
+                clientSteps.put(client, message.i);
+                if(sycron()){
+                    sendToAllClients(new Message(Message.Type.LOST));
+                    clientSteps= new HashMap<>();
+                }
                 // step is in message.i
                 // successful in message.b
                 // TODO: check if all clients submitted their steps in the right order.
@@ -62,5 +69,16 @@ public class RitualServer extends ServerInterface {
 
         // tell all clients that we want to start this ritual
         sendToAllClients(new Message(Message.Type.START_GAME, selectedRitual));
+    }
+
+    private boolean sycron(){
+        for (int step:clientSteps.values()) {
+            for (int other:clientSteps.values()){
+                if(Math.abs(step-other)>1){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
