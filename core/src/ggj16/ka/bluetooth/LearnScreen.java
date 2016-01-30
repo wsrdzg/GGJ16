@@ -20,9 +20,7 @@ public class LearnScreen extends MyScreen {
     public LearnScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, Color.BLUE, assetManager.get("textures/background.png", Texture.class));
 
-        int ritual = MathUtils.random(QuestFactory.GODS.size - 1);
-        QuestFactory.myRituals.add(ritual);
-        QuestFactory.createQuest(ritual, true);
+        QuestFactory.createQuest(MathUtils.random(QuestFactory.GODS.size - 1), true);
 
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
