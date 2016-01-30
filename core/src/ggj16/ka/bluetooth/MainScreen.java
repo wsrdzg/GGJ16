@@ -22,7 +22,7 @@ public class MainScreen extends MyScreen {
         table.setFillParent(true);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = assetManager.get("title.ttf", BitmapFont.class);
+        labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
 
         Label label = new Label("ANGRY ACTEC", labelStyle); // TODO: change name
         label.setAlignment(Align.center);
