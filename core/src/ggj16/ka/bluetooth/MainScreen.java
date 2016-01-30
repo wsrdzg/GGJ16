@@ -4,16 +4,17 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
-public class IntroScreen extends MyScreen {
+/**
+ * Created by sebastian on 30.01.16.
+ */
+public class MainScreen extends MyScreen {
 
-    public IntroScreen(Main main, AssetManager assetManager) {
+    public MainScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, Color.BLUE, assetManager.get("textures/background.png", Texture.class));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();

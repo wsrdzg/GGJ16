@@ -26,7 +26,9 @@ public class Main extends Game {
     public  static final int LOST_SCREEN = 2;
     public  static final int WIN_SCREEN = 3;
     public  static final int INTRO_SCREEN = 4;
-    public static final int BLUETOOTH_TEST_SCREEN = 5;
+    public static final int LEARN_SCREEN = 5;
+    public static final int MAIN_SCREEN = 6;
+    public static final int BLUETOOTH_TEST_SCREEN = 6;
 
     private final Array<MyScreen> screens = new Array<>();
 
@@ -56,11 +58,15 @@ public class Main extends Game {
 
         assetManager.finishLoading();
 
+        Storage.loadRituals(QuestFactory.myRituals);
+
         screens.add(new GameScreen(this, assetManager));
         screens.add(new IntroScreen(this, assetManager));
         screens.add(new LostScreen(this, assetManager));
         screens.add(new WinScreen(this, assetManager));
         screens.add(new IntroScreen(this, assetManager));
+        screens.add(new LearnScreen(this, assetManager));
+        screens.add(new MainScreen(this, assetManager));
         screens.add(new BluetoothTestScreen(this, assetManager));
         setScreen(INTRO_SCREEN);
     }
@@ -68,6 +74,12 @@ public class Main extends Game {
     public void setScreen(int screen) {
         super.setScreen(screens.get(screen));
         Gdx.input.setInputProcessor(screens.get(screen).getStage());
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+        Storage.saveRituals(QuestFactory.myRituals);
     }
 
     @Override
