@@ -8,6 +8,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import ggj16.ka.bluetooth.net.BluetoothNetworkConnection;
 
 public class AndroidLauncher extends AndroidApplication {
+
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

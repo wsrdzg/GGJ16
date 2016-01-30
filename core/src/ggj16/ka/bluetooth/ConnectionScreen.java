@@ -24,6 +24,7 @@ import ggj16.ka.bluetooth.net.RitualServer;
 public class ConnectionScreen extends MyScreen {
 
     Table users = new Table();
+    Label button;
 
     public ConnectionScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, Color.GREEN, assetManager.get("textures/success.png", Texture.class));
@@ -43,29 +44,31 @@ public class ConnectionScreen extends MyScreen {
         scrollPane.setBounds(0, Gdx.graphics.getWidth() / 7f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 7f * 2f);
         mStage.addActor(scrollPane);
 
-        label = new Label("Start", labelStyle);
-        label.setAlignment(Align.center);
-        label.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
-        label.addListener(new ClickListener() {
+        button = new Label("Start", labelStyle);
+        button.setAlignment(Align.center);
+        button.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
+        button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // TODO: start game (only server)
                 if (mMain.isHost) {
                     mMain.startClientGames();
+                } else {
+                    mMain.setScreen(Main.MAIN_SCREEN);
                 }
             }
         });
-        mStage.addActor(label);
+        mStage.addActor(button);
     }
 
     @Override
     public void show() {
-
-
         final Label.LabelStyle style = new Label.LabelStyle();
         style.font = mAssetManager.get("font.ttf", BitmapFont.class);
 
         if (mMain.isHost) {
+            button.setText("Start Game");
+
             mMain.openServer();
 
             users.addAction(new Action() {
@@ -89,6 +92,8 @@ public class ConnectionScreen extends MyScreen {
                 }
             });
         } else {
+            button.setText("Back");
+
             users.clearChildren();
             for (Device d : mMain.getPossibleServers()) {
                 final Device device = d;

@@ -30,6 +30,7 @@ public class MainScreen extends MyScreen {
 
         label = new Label("Ritual Book", labelStyle);
         label.setAlignment(Align.center);
+        label.setFontScale(0.7f);
         label.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -40,10 +41,10 @@ public class MainScreen extends MyScreen {
 
         label = new Label("Host Game", labelStyle);
         label.setAlignment(Align.center);
+        label.setFontScale(0.7f);
         label.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: start server and show connection screen
                 mMain.isHost = true;
                 mMain.setScreen(Main.CONNECTION_SCREEN);
             }
@@ -52,15 +53,15 @@ public class MainScreen extends MyScreen {
 
         label = new Label("Join Game", labelStyle);
         label.setAlignment(Align.center);
+        label.setFontScale(0.7f);
         label.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: show connection screen
                 mMain.isHost = false;
                 mMain.setScreen(Main.CONNECTION_SCREEN);
             }
         });
-        table.add(label);
+        table.add(label).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7).row();
 
         mStage.addActor(table);
     }
