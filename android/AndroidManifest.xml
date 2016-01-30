@@ -4,11 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-<<<<<<< HEAD
+
     <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="23" />
-=======
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="23" />
->>>>>>> 1fbb4b3f39c7a65ca0521d18651a13f8329f8aa1
+
 
     <application
         android:allowBackup="true"
