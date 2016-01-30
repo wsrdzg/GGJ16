@@ -90,9 +90,9 @@ public class ConnectionScreen extends MyScreen {
                 }
             });
         } else {
+            users.clearChildren();
             for (Device d : mMain.getPossibleServers()) {
                 final Device device = d;
-                users.clearChildren();
                 Label label = new Label(device.name, style);
                 label.addListener(new ClickListener() {
                     @Override
@@ -100,7 +100,6 @@ public class ConnectionScreen extends MyScreen {
                         mMain.joinServer(device);
                     }
                 });
-
 
                 users.add(label).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f).row();
             }
