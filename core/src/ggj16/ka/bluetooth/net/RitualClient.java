@@ -6,6 +6,7 @@ import ggj16.ka.bluetooth.Main;
 import ggj16.ka.bluetooth.QuestFactory;
 
 public class RitualClient extends ClientInterface {
+    public Thread ping;
     @Override
     public void connected() {
         Gdx.app.log("RitualClient", "rituals: " + QuestFactory.myRituals + " ("+QuestFactory.myRituals.size);
@@ -13,7 +14,7 @@ public class RitualClient extends ClientInterface {
 
 
         // keep the connection alive
-        new Thread(new Runnable() {
+        ping = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
@@ -21,11 +22,13 @@ public class RitualClient extends ClientInterface {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        return;
                     }
                     sendMessage(new Message(Message.Type.PING));
                 }
             }
-        }).start();
+        });
+        ping.start();
     }
 
     @Override
@@ -47,6 +50,14 @@ public class RitualClient extends ClientInterface {
             case PONG:
                 Gdx.app.log("RitualClient", "PONG from server");
                 break;
+            case CONTINUE:
+                ((Main)Gdx.app.getApplicationListener()).setScreen(Main.GAME_SCREEN);
+                break;
         }
+    }
+
+    @Override
+    public void disconnected() {
+        ((Main)Gdx.app.getApplicationListener()).disconnected();
     }
 }

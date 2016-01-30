@@ -25,9 +25,13 @@ public class BluetoothNetworkConnection implements NetworkConnection {
 
     private Activity activity;
     private BluetoothAdapter adapter;
+    private Array<Thread> threads;
+    private Array<BluetoothSocket> sockets;
 
     public BluetoothNetworkConnection(Activity activity) {
         this.activity = activity;
+        threads = new Array<>();
+        sockets = new Array<>();
     }
 
     @Override
@@ -82,7 +86,7 @@ public class BluetoothNetworkConnection implements NetworkConnection {
 
         // start a server for every bounded device
         for (final BluetoothDevice device : adapter.getBondedDevices()) {
-            new Thread(new Runnable() {
+            Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
 
@@ -92,6 +96,7 @@ public class BluetoothNetworkConnection implements NetworkConnection {
                         Log.i("Bluetooth", "server for " + device.getName()+" ready");
                         // wait for client
                         BluetoothSocket socket = serverSocket.accept();
+                        sockets.add(socket);
                         Log.i("Bluetooth", "client connected");
 
                         BluetoothDevice remote = socket.getRemoteDevice();
@@ -108,7 +113,9 @@ public class BluetoothNetworkConnection implements NetworkConnection {
                         Log.e("Bluetooth", "Server for " + device.getName() + " crashed");
                     }
                 }
-            }).start();
+            });
+            threads.add(t);
+            t.start();
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -141,7 +148,9 @@ public class BluetoothNetworkConnection implements NetworkConnection {
             socket.connect();
             Log.i("Bluetooth", "client connected");
 
-            new ClientConnection(socket, client).start();
+            sockets.add(socket);
+
+            threads.add(new ClientConnection(socket, client).start());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -185,5 +194,20 @@ public class BluetoothNetworkConnection implements NetworkConnection {
             devices.add(new Device(device.getName(), device.getAddress()));
         }
         return devices;
+    }
+
+    @Override
+    public void teardown() {
+        for (Thread t: threads) {
+            t.interrupt();
+        }
+        threads.clear();
+        for (BluetoothSocket socket: sockets) {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
     }
 }

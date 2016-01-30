@@ -45,7 +45,7 @@ public class Main extends Game implements InputProcessor {
 
     private final AssetManager assetManager = new AssetManager();
 
-    public NetworkConnection network;
+    public static NetworkConnection network;
     public boolean isHost;
     public RitualServer ritualServer = new RitualServer();
     public RitualClient ritualClient = new RitualClient();
@@ -98,6 +98,11 @@ public class Main extends Game implements InputProcessor {
     public void pause() {
         super.pause();
         Storage.saveRituals(QuestFactory.myRituals);
+        // kill the network
+        network.teardown();
+        if(ritualClient.ping!=null) {
+            ritualClient.ping.interrupt();
+        }
     }
 
     @Override
@@ -130,6 +135,7 @@ public class Main extends Game implements InputProcessor {
     public void startClientGames() {
         ritualServer.startGame();
     }
+
 
 
     /**
@@ -186,6 +192,11 @@ public class Main extends Game implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
+    public void disconnected() {
+
+    }
+
 }
 
 
