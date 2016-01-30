@@ -9,7 +9,6 @@ public class Message {
         START_GAME,
         STEP,
         LOST,
-        NEXT,
         WIN
     }
 
@@ -44,4 +43,12 @@ public class Message {
         b = bool;
     }
 
+    @Override
+    public String toString() {
+        if (ia == null) {
+            return t.name() + "\n" + i + " / " + b + " / -";
+        } else {
+            return t.name() + "\n" + i + " / " + b + " / " + ia;
+        }
+    }
 }

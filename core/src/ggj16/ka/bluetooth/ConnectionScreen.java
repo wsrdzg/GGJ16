@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -23,7 +24,6 @@ import ggj16.ka.bluetooth.net.RitualServer;
 public class ConnectionScreen extends MyScreen {
 
     Table users = new Table();
-    Array<Client> clients = new Array<>();
 
     public ConnectionScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, Color.GREEN, assetManager.get("textures/success.png", Texture.class));
@@ -50,6 +50,9 @@ public class ConnectionScreen extends MyScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // TODO: start game (only server)
+                if (mMain.isHost) {
+                    mMain.startClientGames();
+                }
             }
         });
         mStage.addActor(label);
@@ -57,23 +60,38 @@ public class ConnectionScreen extends MyScreen {
 
     @Override
     public void show() {
-        Label.LabelStyle style = new Label.LabelStyle();
+
+
+        final Label.LabelStyle style = new Label.LabelStyle();
         style.font = mAssetManager.get("font.ttf", BitmapFont.class);
 
         if (mMain.isHost) {
             mMain.openServer();
 
-            users.clearChildren();
-            Array<String> players = new Array<>();
-            mMain.getPlayers(players);
-            for (String player : players) {
-                Label label = new Label(player, style);
-                users.add(label).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f).row();
-            }
+            users.addAction(new Action() {
+
+                float time;
+
+                @Override
+                public boolean act(float delta) {
+                    time += delta;
+                    if (time >= 1) {
+                        time = 0;
+                        users.clearChildren();
+                        Array<String> players = new Array<>();
+                        mMain.getPlayers(players);
+                        for (String player : players) {
+                            Label label = new Label(player, style);
+                            users.add(label).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f).row();
+                        }
+                    }
+                    return false;
+                }
+            });
         } else {
+            users.clearChildren();
             for (Device d : mMain.getPossibleServers()) {
                 final Device device = d;
-                users.clearChildren();
                 Label label = new Label(device.name, style);
                 label.addListener(new ClickListener() {
                     @Override
@@ -81,8 +99,13 @@ public class ConnectionScreen extends MyScreen {
                         mMain.joinServer(device);
                     }
                 });
+
                 users.add(label).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f).row();
             }
         }
+    }
+
+    public void hide() {
+        users.clearActions();
     }
 }

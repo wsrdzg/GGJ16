@@ -18,11 +18,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
+import ggj16.ka.bluetooth.net.Message;
+
 public class GameScreen extends MyScreen {
 
     //ParticleEffect particleEffect;
 
-    private final Array<Symbol> symbols = new Array<>();
+    public static final Array<Symbol> symbols = new Array<>();
     private Label questName;
 
     public GameScreen(Main main, AssetManager assetManager) {
@@ -32,8 +34,9 @@ public class GameScreen extends MyScreen {
         style.font = mAssetManager.get("font.ttf", BitmapFont.class);
 
         questName = new Label("", style);
-        questName.setAlignment(Align.center);
+        questName.setAlignment(Align.top, Align.center);
         questName.setBounds(0, Gdx.graphics.getHeight() - style.font.getCapHeight() * 1.5f, Gdx.graphics.getWidth(), style.font.getCapHeight());
+        questName.setWrap(true);
         mStage.addActor(questName);
 
         for (Color COLOR : Main.COLORS) {
@@ -46,6 +49,7 @@ public class GameScreen extends MyScreen {
                         //particleEffect.start();
                         Symbol symbol = (Symbol) event.getListenerActor();
                         symbol.reset();
+                        if (QuestFactory.learMode) {
                         if (!QuestFactory.next(symbol)) {
                             mMain.setScreen(Main.LOST_SCREEN);
                         } else if (QuestFactory.solved) {
@@ -58,6 +62,26 @@ public class GameScreen extends MyScreen {
                                     return true;
                                 }
                             }));
+                            }
+
+                        } else {
+                            // ASK THE SERVER
+
+
+                            mMain.ritualClient.sendMessage(new Message(Message.Type.STEP, QuestFactory.position, QuestFactory.next(symbol)));
+                       /* if (!QuestFactory.next(symbol)) {
+                            mMain.setScreen(Main.LOST_SCREEN);
+                        } else if (QuestFactory.solved) {
+                            mMain.setScreen(Main.WIN_SCREEN);
+                        } else {*/
+                            symbol.addAction(Actions.delay(0.5f, new Action() {
+                                @Override
+                                public boolean act(float delta) {
+                                    ((Symbol) getActor()).spawn(QuestFactory.symbols);
+                                    return true;
+                                }
+                            }));
+                            //}
                         }
                     }
                 });
@@ -79,7 +103,7 @@ public class GameScreen extends MyScreen {
         for (Symbol symbol : symbols)
             symbol.reset();
 
-        QuestFactory.setSymbols(symbols);
+        QuestFactory.startQuest(symbols);
 
         questName.setText(QuestFactory.learMode ? QuestFactory.god.spell : QuestFactory.god.name);
 

@@ -41,33 +41,36 @@ public class QuestFactory {
     public static void createQuest(int questNumber, boolean learMode) {
         god = GODS.get(questNumber);
         maxTime = 5000;
-
-        position = 0;
         solved = false;
         QuestFactory.learMode = learMode;
     }
 
-    public static void setSymbols(Array<Symbol> symbols) {
+    public static void startQuest(Array<Symbol> symbols) {
+        position = 0;
+
         QuestFactory.symbols.clear();
         QuestFactory.symbols.add(symbols.get((187*(god.id+9))%symbols.size));
         QuestFactory.symbols.add(symbols.get((1127*(god.id+19))%symbols.size));
         QuestFactory.symbols.add(symbols.get((1843*(god.id+999))%symbols.size));
-        QuestFactory.symbols.add(symbols.get((1874*(god.id+90))%symbols.size));
+       /* QuestFactory.symbols.add(symbols.get((1874*(god.id+90))%symbols.size));
         QuestFactory.symbols.add(symbols.get((1311*(god.id+29))%symbols.size));
         QuestFactory.symbols.add(symbols.get((122*(god.id+29))%symbols.size));
         QuestFactory.symbols.add(symbols.get((181 * (god.id + 39)) % symbols.size));
-
+*/
         if (learMode)
             QuestFactory.symbols.get(position).setHighlight(true);
     }
 
     public static boolean next(Symbol clickedSymbol) {
+        if(position==symbols.size){
+            return false;
+        }
         if (symbols.get(position).equals(clickedSymbol)) {
             if (learMode)
                 symbols.get(position).setHighlight(false);
             solved = symbols.size == position + 1;
-            position = (position + 1) % symbols.size;
-            if (learMode)
+            position = (position + 1) ;
+            if (learMode && position<symbols.size)
                 symbols.get(position).setHighlight(true);
 
             // TODO bluetooth here result should be returned

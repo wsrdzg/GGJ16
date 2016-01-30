@@ -29,13 +29,13 @@ public class Main extends Game {
 
     public static final Color[] COLORS = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW};
 
-    public  static final int GAME_SCREEN = 0;
-    public  static final int MENU_SCREEN = 1;
-    public  static final int LOST_SCREEN = 2;
-    public  static final int WIN_SCREEN = 3;
-    public  static final int INTRO_SCREEN = 4;
-    public static final int LEARN_SCREEN = 5;
-    public static final int MAIN_SCREEN = 6;
+    public static final int INTRO_SCREEN = 0;
+    public static final int LEARN_SCREEN = 1;
+    public static final int GAME_SCREEN = 2;
+    public static final int LOST_SCREEN = 3;
+    public static final int WIN_SCREEN = 4;
+    public static final int MAIN_SCREEN = 5;
+    public static final int RITUAL_BOOK_SCREEN = 6;
     public static final int CONNECTION_SCREEN = 7;
 
     private final Array<MyScreen> screens = new Array<>();
@@ -51,14 +51,13 @@ public class Main extends Game {
         this.network = network;
     }
 
-
-
     @Override
     public void create() {
         assetManager.load("textures/t.atlas", TextureAtlas.class);
         assetManager.load("textures/background.png", Texture.class);
         assetManager.load("textures/fail.png", Texture.class);
         assetManager.load("textures/success.png", Texture.class);
+        assetManager.load("textures/background_empty.png", Texture.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -73,13 +72,13 @@ public class Main extends Game {
 
         Storage.loadRituals(QuestFactory.myRituals);
 
-        screens.add(new GameScreen(this, assetManager));
-        screens.add(new IntroScreen(this, assetManager));
-        screens.add(new LostScreen(this, assetManager));
-        screens.add(new WinScreen(this, assetManager));
         screens.add(new IntroScreen(this, assetManager));
         screens.add(new LearnScreen(this, assetManager));
+        screens.add(new GameScreen(this, assetManager));
+        screens.add(new LostScreen(this, assetManager));
+        screens.add(new WinScreen(this, assetManager));
         screens.add(new MainScreen(this, assetManager));
+        screens.add(new RitualBookScreen(this, assetManager));
         screens.add(new ConnectionScreen(this, assetManager));
         setScreen(INTRO_SCREEN);
     }
@@ -112,6 +111,11 @@ public class Main extends Game {
             players.add(client.getName());
         }
     }
+
+    public void startClientGames() {
+        ritualServer.startGame();
+    }
+
 
     /**
      * called by server

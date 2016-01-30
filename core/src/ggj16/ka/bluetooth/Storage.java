@@ -4,9 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.IntArray;
 
-/**
- * Created by sebastian on 30.01.16.
- */
 public class Storage {
 
     private final static String NAME = "ggj";
@@ -30,8 +27,9 @@ public class Storage {
 
     public static void loadRituals(IntArray rituals) {
         Preferences prefs = Gdx.app.getPreferences(NAME);
-        for (int i = 0; i < rituals.size; i++) {
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
             int result = prefs.getInteger("ritual_" + i, -1);
+            Gdx.app.log("Storage", "ritual_" + i +" = " + result);
             if (result == -1)
                 return;
             rituals.add(result);
