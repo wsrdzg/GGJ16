@@ -27,8 +27,11 @@ public class WinScreen extends MyScreen {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
-
-        god = new Label("", labelStyle);
+        if (mMain.isHost) {
+            god = new Label("start a new game", labelStyle);
+        }else{
+            god = new Label("wait for host restart the game", labelStyle);
+        }
         god.setAlignment(Align.center);
         god.setBounds(0, Gdx.graphics.getHeight() / 4 * 3f, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
         mStage.addActor(god);
