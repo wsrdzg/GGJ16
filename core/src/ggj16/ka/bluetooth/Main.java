@@ -113,6 +113,11 @@ public class Main extends Game {
         }
     }
 
+    public void startClientGames() {
+        ritualServer.startGame();
+    }
+
+
     /**
      * called by server
      */

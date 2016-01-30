@@ -51,6 +51,9 @@ public class ConnectionScreen extends MyScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // TODO: start game (only server)
+                if (mMain.isHost) {
+                    mMain.startClientGames();
+                }
             }
         });
         mStage.addActor(label);
