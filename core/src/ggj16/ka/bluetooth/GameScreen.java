@@ -24,6 +24,7 @@ public class GameScreen extends MyScreen {
     Array<Symbol> symbols = new Array<>();
     Label questName;
 
+
     Quest quest;
     QuestSolver questSolver;
 
