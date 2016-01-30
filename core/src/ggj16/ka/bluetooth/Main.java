@@ -122,6 +122,7 @@ public class Main extends Game {
     }
 
 
+
     /**
      * called by server
      */
@@ -138,6 +139,11 @@ public class Main extends Game {
         network.startClient(ritualClient, device.address);
 
     }
+
+    public void disconnected() {
+
+    }
+
 }
 
 

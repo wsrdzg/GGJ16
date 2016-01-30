@@ -11,4 +11,5 @@ public abstract class ClientInterface {
     public abstract void messageReceived(Message message);
     // when the client is connected to the server
     public abstract void connected();
+    public abstract void disconnected();
 }

@@ -55,4 +55,9 @@ public class RitualClient extends ClientInterface {
                 break;
         }
     }
+
+    @Override
+    public void disconnected() {
+        ((Main)Gdx.app.getApplicationListener()).disconnected();
+    }
 }
