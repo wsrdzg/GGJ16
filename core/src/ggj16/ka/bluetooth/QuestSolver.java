@@ -29,10 +29,11 @@ public class QuestSolver {
     }
 
     public void heighlightNext(){
-        quest.symbols.get(position).scaleFactor*=2f;
+        quest.symbols.get(position).setHighlight(true);
     }
+
     public void unheighlightNext(){
-        quest.symbols.get(position).scaleFactor/=2f;
+        quest.symbols.get(position).setHighlight(false);
     }
 
     public boolean isLearMode() {

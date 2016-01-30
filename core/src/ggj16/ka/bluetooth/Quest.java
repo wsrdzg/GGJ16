@@ -10,11 +10,4 @@ public class Quest {
     public String id;
     public Array<Symbol> symbols;
     public long maxTime;
-
-    public void resetScale(){
-        for (Symbol symbol:symbols
-             ) {
-            //symbol.scaleFactor=1;
-        }
-    }
 }

@@ -15,7 +15,7 @@ public class Symbol extends Image {
 
     public int id;
     public float scale;
-    public boolean scaleDirection;
+    public boolean scaleDirection, highlight;
 
     private final Vector2 position = new Vector2();
 
@@ -26,11 +26,11 @@ public class Symbol extends Image {
         setVisible(false);
     }
 
-    public void spawn(Stage stage, Array<Symbol> symbols) {
+    public void spawn(Array<Symbol> symbols) {
         boolean toNear;
         do {
             position.set(MathUtils.random(getWidth(), Gdx.graphics.getWidth() - getWidth()),
-                    MathUtils.random(getHeight(), Gdx.graphics.getHeight() - getHeight()));
+                         MathUtils.random(getHeight(), Gdx.graphics.getHeight() - getHeight()));
             toNear = false;
             for (int i = 0; i < symbols.size; i++) {
                 if (!symbols.get(i).equals(this) && position.dst(symbols.get(i).position) < getWidth() * 2) {
@@ -41,12 +41,20 @@ public class Symbol extends Image {
         } while (toNear);
         setPosition(position.x, position.y);
         setRotation(MathUtils.random(-10, 10));
+        setHighlight(false);
         scale = MathUtils.random();
         setVisible(true);
     }
 
-    public void setHighlighted() {
-
+    public void setHighlight(boolean highlight) {
+        this.highlight = highlight;
+        if (highlight) {
+            setSize(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getWidth() / 3f);
+            setOrigin(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getWidth() / 6f);
+        } else {
+            setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getWidth() / 5f);
+            setOrigin(Gdx.graphics.getWidth() / 10f, Gdx.graphics.getWidth() / 10f);
+        }
     }
 
     public boolean equals(Symbol symbol) {

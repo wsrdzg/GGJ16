@@ -58,7 +58,7 @@ public class GameScreen extends MyScreen {
                             symbol.addAction(Actions.delay(1, new Action() {
                                 @Override
                                 public boolean act(float delta) {
-                                    ((Symbol) getActor()).spawn(mStage, quest.symbols);
+                                    ((Symbol) getActor()).spawn(quest.symbols);
                                     return true;
                                 }
                             }));
@@ -66,7 +66,6 @@ public class GameScreen extends MyScreen {
                     }
                 });
                 symbol.addAction(new Action() {
-
                     @Override
                     public boolean act(float delta) {
                         Symbol symbol = (Symbol) getActor();
@@ -96,7 +95,7 @@ public class GameScreen extends MyScreen {
 
         Gdx.input.setInputProcessor(mStage);
 
-        startQuest();
+        startQuest(true);
     }
 
     /*@Override
@@ -132,7 +131,7 @@ public class GameScreen extends MyScreen {
         batch.end();
     }*/
 
-    public void startQuest() {
+    public void startQuest(boolean learnMode) {
         // TODO: load quest
         quest = new Quest();
         quest.id = "Kill Xardas";
@@ -141,13 +140,13 @@ public class GameScreen extends MyScreen {
         quest.symbols.add(symbols.get(2));
         quest.symbols.add(symbols.get(0));
         quest.symbols.add(symbols.get(1));
-        quest.resetScale();
         questSolver = new QuestSolver();
         questSolver.quest = quest;
+        questSolver.setLearMode(learnMode);
 
         questName.setText(quest.id);
 
         for (Symbol symbol : quest.symbols)
-            symbol.spawn(mStage, symbols);
+            symbol.spawn(symbols);
     }
 }
