@@ -65,9 +65,9 @@ public class BluetoothTestScreen extends MyScreen {
 
             if ( Gdx.input.getY() <Gdx.graphics.getHeight()/2)        {
                 if (server != null) {
-                    server.sendToAllClients(new Message(321, "SERVER HIER"));
+                    server.sendToAllClients(new Message(Message.Type.START_GAME, 4));
                 } else if (client != null) {
-                    client.sendMessage(new Message(123, "HALLO HIER SPRICHT EIN CLIENT"));
+                    client.sendMessage(new Message(Message.Type.I_KNOW_RITUALS, 4));
                 } else {
                     log ("please connect first");
                 }
@@ -83,14 +83,22 @@ public class BluetoothTestScreen extends MyScreen {
                             log("client connected");
                             Gdx.app.log("Main", "client connected");
                             super.clientConnected(client);
-                            client.sendMessage(new Message(0, "INITIAL"));
                         }
 
                         @Override
                         public void messageReceived(Client client, Message message) {
-                            log("received message: " + message.message + ", " + message.number + " from " + client.getAddress());
-                            Gdx.app.log("Main", "received message: " + message.message + ", " + message.number);
-                            // client.sendMessage(new Message(message.number + 1, "from server"));
+                            switch (message.t) {
+                                case START_GAME:
+                                    // server started the game
+                                    int quest = message.i; // quest is here
+                                    break;
+                                case LOST:
+                                    // we lost the game
+                                    break;
+                                case WIN:
+                                    // we won the game
+                                    break;
+                            }
                         }
                     };
                     mMain.network.startServer(server);
@@ -100,10 +108,18 @@ public class BluetoothTestScreen extends MyScreen {
                     client = new ClientInterface() {
                         @Override
                         public void messageReceived(Message message) {
-                            log("message received: " + message.message + "," + message.number);
-                            Gdx.app.log("Main", "received message: " + message.message + ", " + message.number);
-
-                            sendMessage(new Message(message.number + 1, "from client"));
+                            switch (message.t) {
+                                case I_KNOW_RITUALS:
+                                    // the client knows these rituals
+                                    // TODO: test if rituals from all clients are here
+                                    // ritual is in message.ia
+                                    break;
+                                case STEP:
+                                    // step is in message.i
+                                    // successful in message.b
+                                    // TODO: check if all clients submitted their steps in the right order.
+                                    break;
+                            }
                         }
                     };
 
