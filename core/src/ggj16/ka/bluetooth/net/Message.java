@@ -9,7 +9,9 @@ public class Message {
         START_GAME,
         STEP,
         LOST,
-        WIN
+        WIN,
+        PING,
+        PONG
     }
 
     public Type t;
