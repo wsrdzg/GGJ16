@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
 public class LostScreen extends MyScreen {
@@ -15,6 +16,11 @@ public class LostScreen extends MyScreen {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
+
+        Label label = new Label("YOU DIED", labelStyle);
+        label.setAlignment(Align.center);
+        label.setFillParent(true);
+        mStage.addActor(label);
     }
 
     @Override

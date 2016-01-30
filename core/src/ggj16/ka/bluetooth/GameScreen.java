@@ -98,49 +98,30 @@ public class GameScreen extends MyScreen {
         startQuest(true);
     }
 
-    /*@Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0.3f, 0.3f, 0.6f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        for (Symbol symbol : quest.symbols) {
-            if (symbol.scaleDirection) {
-                symbol.scale += delta;
-                if (symbol.scale > 1)
-                    symbol.scaleDirection = false;
-            } else {
-                symbol.scale -= delta;
-                if (symbol.scale < 0)
-                    symbol.scaleDirection = true;
-            }
-            symbol.setScale(symbol.scale * 0.1f + 0.9f);
-            if (symbol.getX() < 0) {
-                symbol.timeUntilSpawn += delta;
-                if (symbol.timeUntilSpawn > 2)
-                    symbol.spawn(mStage, quest.symbols);
-            } else {
-                symbol.draw(batch);
-            }
-        }
-        particleEffect.update(delta);
-        particleEffect.draw(batch);
-        // TODO: render quest name
-        GlyphLayout glyphLayout = new GlyphLayout();
-        glyphLayout.setText(font, quest.id);
-        font.draw(batch, quest.id, (Gdx.graphics.getWidth() - glyphLayout.width) / 2f, Gdx.graphics.getHeight() - font.getCapHeight());
-        batch.end();
-    }*/
-
     public void startQuest(boolean learnMode) {
+        for (Symbol symbol : symbols)
+            symbol.reset();
+
         // TODO: load quest
-        quest = QuestFactory.getQuest(0,symbols);
-        questSolver = new QuestSolver();
-        questSolver.quest = quest;
-        questSolver.setLearMode(learnMode);
+        quest = QuestFactory.getQuest(0, symbols);
+
+        Gdx.app.error("s", "a1");
+
+
+
+        Gdx.app.error("s", "a2");
 
         questName.setText(quest.id);
 
+        Gdx.app.error("s", "a3");
+
         for (Symbol symbol : quest.symbols)
             symbol.spawn(symbols);
+
+        Gdx.app.error("s", "a4");
+
+        questSolver = new QuestSolver();
+        questSolver.quest = quest;
+        questSolver.setLearMode(learnMode);
     }
 }

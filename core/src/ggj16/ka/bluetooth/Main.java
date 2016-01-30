@@ -26,10 +26,9 @@ public class Main extends Game {
     public  static final int LOST_SCREEN = 2;
     public  static final int WIN_SCREEN = 3;
 
-    public Array<Screen> screens = new Array<>();
+    private final Array<Screen> screens = new Array<>();
 
     private final AssetManager assetManager = new AssetManager();
-
 
     private NetworkConnection network;
 
@@ -51,7 +50,6 @@ public class Main extends Game {
         assetManager.load("font.ttf", BitmapFont.class, size1Params);
 
         assetManager.finishLoading();
-
 
         screens.add(new GameScreen(this, assetManager));
         screens.add(new MenuScreen(this, assetManager));

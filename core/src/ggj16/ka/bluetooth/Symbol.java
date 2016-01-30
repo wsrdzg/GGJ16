@@ -32,16 +32,15 @@ public class Symbol extends Image {
             position.set(MathUtils.random(getWidth(), Gdx.graphics.getWidth() - getWidth()),
                          MathUtils.random(getHeight(), Gdx.graphics.getHeight() - getHeight()));
             toNear = false;
-            for (int i = 0; i < symbols.size; i++) {
+            /*for (int i = 0; i < symbols.size; i++) {
                 if (!symbols.get(i).equals(this) && position.dst(symbols.get(i).position) < getWidth() * 2) {
                     toNear = true;
                     break;
                 }
-            }
+            }*/
         } while (toNear);
         setPosition(position.x, position.y);
         setRotation(MathUtils.random(-10, 10));
-        setHighlight(false);
         scale = MathUtils.random();
         setVisible(true);
     }
@@ -55,6 +54,13 @@ public class Symbol extends Image {
             setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getWidth() / 5f);
             setOrigin(Gdx.graphics.getWidth() / 10f, Gdx.graphics.getWidth() / 10f);
         }
+    }
+
+    public void reset() {
+        setVisible(false);
+        setPosition(-1000, -1000);
+        setHighlight(false);
+        position.set(-1000, -1000);
     }
 
     public boolean equals(Symbol symbol) {
