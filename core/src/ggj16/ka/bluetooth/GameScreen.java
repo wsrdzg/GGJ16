@@ -102,7 +102,7 @@ public class GameScreen extends MyScreen {
         for (Symbol symbol : symbols)
             symbol.reset();
 
-        QuestFactory.setSymbols(symbols);
+        QuestFactory.startQuest(symbols);
 
         questName.setText(QuestFactory.learMode ? QuestFactory.god.spell : QuestFactory.god.name);
 
