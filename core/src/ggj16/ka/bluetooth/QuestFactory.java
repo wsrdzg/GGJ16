@@ -41,13 +41,13 @@ public class QuestFactory {
     public static void createQuest(int questNumber, boolean learMode) {
         god = GODS.get(questNumber);
         maxTime = 5000;
-
-        position = 0;
         solved = false;
         QuestFactory.learMode = learMode;
     }
 
-    public static void setSymbols(Array<Symbol> symbols) {
+    public static void startQuest(Array<Symbol> symbols) {
+        position = 0;
+
         QuestFactory.symbols.clear();
         QuestFactory.symbols.add(symbols.get((187*(god.id+9))%symbols.size));
         QuestFactory.symbols.add(symbols.get((1127*(god.id+19))%symbols.size));
