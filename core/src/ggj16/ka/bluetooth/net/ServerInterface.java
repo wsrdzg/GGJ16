@@ -20,4 +20,8 @@ public abstract class ServerInterface {
             client.sendMessage(message);
         }
     }
+
+    public Array<Client> getClients() {
+        return clients;
+    }
 }
