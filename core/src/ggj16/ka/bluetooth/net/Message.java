@@ -11,7 +11,8 @@ public class Message {
         LOST,
         WIN,
         PING,
-        PONG
+        PONG,
+        CONTINUE
     }
 
     public Type t;

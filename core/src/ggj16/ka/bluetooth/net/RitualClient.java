@@ -50,6 +50,9 @@ public class RitualClient extends ClientInterface {
             case PONG:
                 Gdx.app.log("RitualClient", "PONG from server");
                 break;
+            case CONTINUE:
+                ((Main)Gdx.app.getApplicationListener()).setScreen(Main.GAME_SCREEN);
+                break;
         }
     }
 }
