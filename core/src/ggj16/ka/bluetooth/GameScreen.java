@@ -56,6 +56,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         quest.symbols.add(symbols.get(2));
         quest.symbols.add(symbols.get(0));
         quest.symbols.add(symbols.get(1));
+        quest.resetScale();
         questSolver =new QuestSolver();
         questSolver.quest=quest;
 
