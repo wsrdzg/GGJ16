@@ -54,6 +54,10 @@ public class MyScreen implements Screen {
 
     }
 
+    public Stage getStage() {
+        return mStage;
+    }
+
     @Override
     public void dispose() {
         mStage.dispose();

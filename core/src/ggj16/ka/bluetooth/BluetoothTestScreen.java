@@ -4,6 +4,7 @@ package ggj16.ka.bluetooth;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,9 +15,7 @@ import ggj16.ka.bluetooth.net.ClientInterface;
 import ggj16.ka.bluetooth.net.Message;
 import ggj16.ka.bluetooth.net.ServerInterface;
 
-public class BluetoothTestScreen implements Screen {
-
-    private Main main;
+public class BluetoothTestScreen extends MyScreen {
 
     SpriteBatch batch;
     BitmapFont font;
@@ -30,15 +29,15 @@ public class BluetoothTestScreen implements Screen {
     ServerInterface server;
 
 
-    public BluetoothTestScreen(Main main) {
-        this.main = main;
+    public BluetoothTestScreen(Main main, AssetManager assetManager) {
+        super(main, assetManager, Color.BLUE);
         batch = new SpriteBatch();
         font = new BitmapFont();
     }
 
     @Override
     public void show() {
-        main.network.init();
+        mMain.network.init();
     }
 
     @Override
@@ -48,7 +47,7 @@ public class BluetoothTestScreen implements Screen {
         batch.begin();
 
         font.setColor(Color.WHITE);
-        font.draw(batch, main.network.getMyAddress(), 10, 100);
+        font.draw(batch, mMain.network.getMyAddress(), 10, 100);
         font.draw(batch, "SERVER", Gdx.graphics.getWidth()/5*1, 50);
         font.draw(batch, "CLIENT", Gdx.graphics.getWidth()/5*4, 50);
         font.draw(batch, Gdx.graphics.getFramesPerSecond()+ "fps", 0,20);
@@ -93,7 +92,7 @@ public class BluetoothTestScreen implements Screen {
                             // client.sendMessage(new Message(message.number + 1, "from server"));
                         }
                     };
-                    main.network.startServer(server);
+                    mMain.network.startServer(server);
                 } else {
                     log("start client");
 
@@ -107,7 +106,7 @@ public class BluetoothTestScreen implements Screen {
                         }
                     };
 
-                    main.network.startClient(client, "60:D9:A0:56:45:ED");
+                    mMain.network.startClient(client, "60:D9:A0:56:45:ED");
                 }
             }
         }
