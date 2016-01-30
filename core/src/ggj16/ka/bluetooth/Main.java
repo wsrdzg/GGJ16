@@ -2,6 +2,7 @@ package ggj16.ka.bluetooth;
 
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -46,7 +47,7 @@ public class Main extends Game {
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter size1Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         size1Params.fontFileName = "font.ttf";
-        size1Params.fontParameters.size = 10;
+        size1Params.fontParameters.size = Gdx.graphics.getWidth() / 10;
         assetManager.load("font.ttf", BitmapFont.class, size1Params);
 
         assetManager.finishLoading();

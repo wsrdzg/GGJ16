@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Array;
 public class Symbol extends Image {
 
     public int id;
-    public float scale, scaleFactor = 1, timeUntilSpawn;
+    public float scale;
     public boolean scaleDirection;
 
     private final Vector2 position = new Vector2();
@@ -23,10 +23,7 @@ public class Symbol extends Image {
         super(region);
         setColor(color);
         this.id = id;
-    }
-
-    public boolean isTouched(float x, float y) {
-        return Math.hypot(getX() + getOriginX() - x, getY() + getOriginY() - y) < getWidth() / 2f;
+        setVisible(false);
     }
 
     public void spawn(Stage stage, Array<Symbol> symbols) {
@@ -45,7 +42,11 @@ public class Symbol extends Image {
         setPosition(position.x, position.y);
         setRotation(MathUtils.random(-10, 10));
         scale = MathUtils.random();
-        stage.addActor(this);
+        setVisible(true);
+    }
+
+    public void setHighlighted() {
+
     }
 
     public boolean equals(Symbol symbol) {
