@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -30,7 +31,7 @@ public class BluetoothTestScreen extends MyScreen {
 
 
     public BluetoothTestScreen(Main main, AssetManager assetManager) {
-        super(main, assetManager, Color.BLUE);
+        super(main, assetManager, Color.BLUE, assetManager.get("textures/background.png", Texture.class));
         batch = new SpriteBatch();
         font = new BitmapFont();
     }

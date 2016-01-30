@@ -5,7 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class MyScreen implements Screen {
 
@@ -14,11 +16,15 @@ public class MyScreen implements Screen {
     protected Stage mStage;
     protected Color mBackgroundColor;
 
-    public MyScreen(Main main, AssetManager assetManager, Color backgroundColor) {
+    public MyScreen(Main main, AssetManager assetManager, Color backgroundColor, Texture backgroud) {
         this.mMain = main;
         this.mAssetManager = assetManager;
         this.mStage = new Stage();
         this.mBackgroundColor = backgroundColor;
+
+        Image image = new Image(backgroud);
+        image.setFillParent(true);
+        mStage.addActor(image);
     }
 
     @Override

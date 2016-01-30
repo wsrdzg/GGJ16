@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -40,15 +41,18 @@ public class Main extends Game {
     @Override
     public void create() {
         assetManager.load("textures/t.atlas", TextureAtlas.class);
+        assetManager.load("textures/background.png", Texture.class);
+        assetManager.load("textures/fail.png", Texture.class);
+        assetManager.load("textures/success.png", Texture.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
-        FreetypeFontLoader.FreeTypeFontLoaderParameter size1Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        size1Params.fontFileName = "font.ttf";
-        size1Params.fontParameters.size = Gdx.graphics.getWidth() / 10;
-        assetManager.load("font.ttf", BitmapFont.class, size1Params);
+        FreetypeFontLoader.FreeTypeFontLoaderParameter fontParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        fontParams.fontFileName = "font.ttf";
+        fontParams.fontParameters.size = Gdx.graphics.getWidth() / 10;
+        assetManager.load("font.ttf", BitmapFont.class, fontParams);
 
         assetManager.finishLoading();
 

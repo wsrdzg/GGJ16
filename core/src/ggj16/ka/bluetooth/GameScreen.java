@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -29,7 +30,7 @@ public class GameScreen extends MyScreen {
     QuestSolver questSolver;
 
     public GameScreen(Main main, AssetManager assetManager) {
-        super(main, assetManager, new Color(0.3f, 0.3f, 0.6f, 1));
+        super(main, assetManager, new Color(0.3f, 0.3f, 0.6f, 1), assetManager.get("textures/background.png", Texture.class));
 
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = mAssetManager.get("font.ttf", BitmapFont.class);
@@ -74,8 +75,6 @@ public class GameScreen extends MyScreen {
     public void show() {
         //particleEffect = new ParticleEffect();
         //particleEffect.load(Gdx.files.internal("particle"), Gdx.files.internal(""));
-
-
 
         startQuest(true);
     }
