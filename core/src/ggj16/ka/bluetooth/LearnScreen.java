@@ -20,9 +20,7 @@ public class LearnScreen extends MyScreen {
     public LearnScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, Color.BLUE, assetManager.get("textures/background.png", Texture.class));
 
-        int ritual = MathUtils.random(QuestFactory.gods.size);
-        QuestFactory.myRituals.add(ritual);
-        QuestFactory.createQuest(ritual);
+        QuestFactory.createQuest(MathUtils.random(QuestFactory.GODS.size - 1), true);
 
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
@@ -39,9 +37,10 @@ public class LearnScreen extends MyScreen {
             public void clicked(InputEvent event, float x, float y) {
                 step++;
                 if (step == text.length) {
-                    mMain.setScreen(Main.GAME_SCREEN);
+                    label.setFontScale(0.7f);
+                    label.setText("Your first spell is\n" + QuestFactory.god.spell + "\n" + QuestFactory.god.spellDescription + "\n\n\n\n\n\n");
                 } else if (step == text.length + 1) {
-                    label.setText(QuestFactory.quest.god.name + "\n\n\n\n\n\n\n");
+                    mMain.setScreen(Main.GAME_SCREEN);
                 } else {
                     label.setText(text[step] + "\n\n\n\n\n\n\n");
                 }

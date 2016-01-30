@@ -11,14 +11,14 @@ public class Storage {
 
     private final static String NAME = "ggj";
 
-    public static boolean loadFirst() {
+    public static void saveFirst() {
         Preferences prefs = Gdx.app.getPreferences(NAME);
-        if (prefs.getBoolean("first", true)) {
-            prefs.putBoolean("first", false);
-            prefs.flush();
-            return true;
-        }
-        return false;
+        prefs.putBoolean("first", false);
+        prefs.flush();
+    }
+
+    public static boolean loadFirst() {
+        return Gdx.app.getPreferences(NAME).getBoolean("first", true);
     }
 
     public static void saveRituals(IntArray rituals) {

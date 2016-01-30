@@ -1,5 +1,9 @@
 package ggj16.ka.bluetooth.net;
 
+import com.badlogic.gdx.Gdx;
+
+import ggj16.ka.bluetooth.Main;
+
 public class RitualClient extends ClientInterface {
     @Override
     public void messageReceived(Message message) {
@@ -7,15 +11,15 @@ public class RitualClient extends ClientInterface {
             case START_GAME:
                 // server started the game
                 int quest = message.i;
-                // TODO: Main.setScreen(GAME_SCREEN)
+                ((Main)Gdx.app.getApplicationListener()).startGame(quest);
                 break;
             case LOST:
                 // we lost the game
-                // TODO: Main.setScreen(LOST_SCREEN)
+                ((Main)Gdx.app.getApplicationListener()).setScreen(Main.LOST_SCREEN);
                 break;
             case WIN:
                 // we won the game
-                // TODO: Main.setScreen(WIN_SCREEN)
+                ((Main)Gdx.app.getApplicationListener()).setScreen(Main.WIN_SCREEN);
                 break;
         }
     }
