@@ -25,6 +25,7 @@ public class Main extends Game {
     public Main(NetworkConnection network) {
         this.network = network;
     }
+
     @Override
     public void create() {
         screens.add(new GameScreen(this));

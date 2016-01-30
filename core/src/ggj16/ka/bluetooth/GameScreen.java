@@ -22,7 +22,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
 
 
     Quest quest;
-    QuestSolver questSolver;
+    QuestSolver questSolver =new QuestSolver();
     Main game;
     public GameScreen(Main game){
         super();
@@ -56,7 +56,6 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         quest.symbols.add(symbols.get(2));
         quest.symbols.add(symbols.get(0));
         quest.symbols.add(symbols.get(1));
-        questSolver =new QuestSolver();
         questSolver.quest=quest;
 
         setSymbols();
