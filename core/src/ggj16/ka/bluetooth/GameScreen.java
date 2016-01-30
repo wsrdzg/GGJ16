@@ -18,6 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
+import ggj16.ka.bluetooth.net.Message;
+
 public class GameScreen extends MyScreen {
 
     //ParticleEffect particleEffect;
@@ -46,11 +48,12 @@ public class GameScreen extends MyScreen {
                         //particleEffect.start();
                         Symbol symbol = (Symbol) event.getListenerActor();
                         symbol.reset();
-                        if (!QuestFactory.next(symbol)) {
+                        mMain.ritualClient.sendMessage(new Message(Message.Type.NEXT, symbol.id, QuestFactory.next(symbol));
+                       /* if (!QuestFactory.next(symbol)) {
                             mMain.setScreen(Main.LOST_SCREEN);
                         } else if (QuestFactory.solved) {
                             mMain.setScreen(Main.WIN_SCREEN);
-                        } else {
+                        } else {*/
                             symbol.addAction(Actions.delay(0.5f, new Action() {
                                 @Override
                                 public boolean act(float delta) {
@@ -58,7 +61,7 @@ public class GameScreen extends MyScreen {
                                     return true;
                                 }
                             }));
-                        }
+                        //}
                     }
                 });
                 symbols.add(symbol);
