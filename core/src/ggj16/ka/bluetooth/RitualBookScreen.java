@@ -6,13 +6,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -34,19 +31,8 @@ public class RitualBookScreen extends MyScreen {
         rituals.setFillParent(true);
 
         ScrollPane scrollPane = new ScrollPane(rituals);
-        scrollPane.setBounds(0, Gdx.graphics.getWidth() / 7f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 7f * 2f);
+        scrollPane.setBounds(0, Gdx.graphics.getWidth() / 7f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 7f);
         mStage.addActor(scrollPane);
-
-        label = new Label("Back", labelStyle);
-        label.setAlignment(Align.center);
-        label.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
-        label.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                mMain.setScreen(Main.MAIN_SCREEN);
-            }
-        });
-        mStage.addActor(label);
     }
 
     @Override
@@ -87,5 +73,9 @@ public class RitualBookScreen extends MyScreen {
 
             rituals.add(table);
         }
+    }
+
+    public void backPressed() {
+        mMain.setScreen(Main.MAIN_SCREEN);
     }
 }

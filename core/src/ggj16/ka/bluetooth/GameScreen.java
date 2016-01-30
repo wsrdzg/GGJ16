@@ -101,9 +101,6 @@ public class GameScreen extends MyScreen {
     }
 
     public void startQuest() {
-        for (Symbol symbol : symbols)
-            symbol.reset();
-
         QuestFactory.startQuest(symbols);
 
         questName.setText(QuestFactory.learMode ? QuestFactory.god.spell : QuestFactory.god.name);
@@ -111,5 +108,6 @@ public class GameScreen extends MyScreen {
         god.setScale(1);
         god.setColor(Color.WHITE);
         god.clearActions();
+        god.setVisible(!QuestFactory.learMode);
     }
 }

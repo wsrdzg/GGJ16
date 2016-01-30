@@ -60,4 +60,6 @@ public class MyScreen implements Screen {
     public void dispose() {
         mStage.dispose();
     }
+
+    public void backPressed() {}
 }

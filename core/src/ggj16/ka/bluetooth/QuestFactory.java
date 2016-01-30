@@ -6,18 +6,6 @@ import com.badlogic.gdx.utils.IntArray;
 public class QuestFactory {
 
     public final static Array<God> GODS = new Array<>();
-
-    public final static IntArray myRituals = new IntArray();
-
-    public static God god;
-    public static Array<Symbol> symbols = new Array<>();
-
-    public static int position;
-    public static boolean solved;
-    public static boolean learMode;
-
-    public static long maxTime;
-
     static {
         GODS.add(new God(0, "Apu", "God or spirit of mountains.", true, "Spirit of the mountains", "This ritual will help for mountain gods"));
         GODS.add(new God(1, "Cavillace", "Virgin Goddess", false, "Venus chant", "You will need it once you meet a virgin goddess"));
@@ -38,6 +26,18 @@ public class QuestFactory {
         //GODS.add(new God(16,"Viracocha","God of everything.",true,"",""));
     }
 
+
+    public final static IntArray myRituals = new IntArray();
+
+    public static God god;
+
+    public static boolean solved, learMode;
+    public static long maxTime;
+
+    public static Array<Symbol> symbols = new Array<>();
+    public static int position;
+
+
     public static void createQuest(int questNumber, boolean learMode) {
         god = GODS.get(questNumber);
         maxTime = 5000;
@@ -52,16 +52,19 @@ public class QuestFactory {
         QuestFactory.symbols.add(symbols.get((187*(god.id+9))%symbols.size));
         QuestFactory.symbols.add(symbols.get((1127*(god.id+19))%symbols.size));
         QuestFactory.symbols.add(symbols.get((1843*(god.id+999))%symbols.size));
-       /* QuestFactory.symbols.add(symbols.get((1874*(god.id+90))%symbols.size));
+        /*QuestFactory.symbols.add(symbols.get((1874*(god.id+90))%symbols.size));
         QuestFactory.symbols.add(symbols.get((1311*(god.id+29))%symbols.size));
         QuestFactory.symbols.add(symbols.get((122*(god.id+29))%symbols.size));
-        QuestFactory.symbols.add(symbols.get((181 * (god.id + 39)) % symbols.size));
-*/
+        QuestFactory.symbols.add(symbols.get((181 * (god.id + 39)) % symbols.size));*/
+
+        for (Symbol symbol : symbols)
+            symbol.reset();
+
         if (learMode)
-            QuestFactory.symbols.get(position).setHighlight(true);
+            QuestFactory.symbols.first().setHighlight(true);
 
         for (Symbol symbol : QuestFactory.symbols)
-            symbol.spawn(symbols);
+            symbol.spawn(QuestFactory.symbols);
     }
 
     public static boolean next(Symbol clickedSymbol) {
