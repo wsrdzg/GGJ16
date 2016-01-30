@@ -30,7 +30,7 @@ public class Main extends Game {
         screens.add(new GameScreen(this));
         screens.add(new MenuScreen());
         screens.add(new LostScreen(this));
-        screens.add(new WinScreen());
+        screens.add(new WinScreen(this));
         setScreen(GAME_SCREEN);
     }
 
