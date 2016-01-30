@@ -9,7 +9,6 @@ public class Message {
         START_GAME,
         STEP,
         LOST,
-        NEXT,
         WIN
     }
 

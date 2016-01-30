@@ -42,7 +42,8 @@ public class RitualServer extends ServerInterface {
                 break;
             case STEP:
                 clientSteps.put(client, message.i);
-                if(sycron()){
+
+                if(!sycron() || !message.b){
                     sendToAllClients(new Message(Message.Type.LOST));
                     clientSteps= new HashMap<>();
                 }
