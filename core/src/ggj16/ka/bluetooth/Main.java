@@ -25,9 +25,10 @@ public class Main extends Game {
     public  static final int MENU_SCREEN = 1;
     public  static final int LOST_SCREEN = 2;
     public  static final int WIN_SCREEN = 3;
-    public static final int BLUETOOTH_TEST_SCREEN = 4;
+    public  static final int INTRO_SCREEN = 4;
+    public static final int BLUETOOTH_TEST_SCREEN = 5;
 
-    private final Array<Screen> screens = new Array<>();
+    private final Array<MyScreen> screens = new Array<>();
 
     private final AssetManager assetManager = new AssetManager();
 
@@ -40,28 +41,38 @@ public class Main extends Game {
     @Override
     public void create() {
         assetManager.load("textures/t.atlas", TextureAtlas.class);
+        assetManager.load("textures/background.png", Texture.class);
+        assetManager.load("textures/fail.png", Texture.class);
+        assetManager.load("textures/success.png", Texture.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
-        FreetypeFontLoader.FreeTypeFontLoaderParameter size1Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        size1Params.fontFileName = "font.ttf";
-        size1Params.fontParameters.size = Gdx.graphics.getWidth() / 10;
-        assetManager.load("font.ttf", BitmapFont.class, size1Params);
+        FreetypeFontLoader.FreeTypeFontLoaderParameter fontParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        fontParams.fontFileName = "font.ttf";
+        fontParams.fontParameters.size = Gdx.graphics.getWidth() / 10;
+        assetManager.load("font.ttf", BitmapFont.class, fontParams);
 
         assetManager.finishLoading();
 
         screens.add(new GameScreen(this, assetManager));
-        screens.add(new MenuScreen(this, assetManager));
+        screens.add(new IntroScreen(this, assetManager));
         screens.add(new LostScreen(this, assetManager));
         screens.add(new WinScreen(this, assetManager));
-        screens.add(new BluetoothTestScreen(this));
-        setScreen(GAME_SCREEN);
+        screens.add(new IntroScreen(this, assetManager));
+        screens.add(new BluetoothTestScreen(this, assetManager));
+        setScreen(INTRO_SCREEN);
     }
 
     public void setScreen(int screen) {
-        setScreen(screens.get(screen));
+        super.setScreen(screens.get(screen));
+        Gdx.input.setInputProcessor(screens.get(screen).getStage());
+    }
+
+    @Override
+    public void dispose() {
+        assetManager.dispose();
     }
 }
 
