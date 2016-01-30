@@ -25,8 +25,6 @@ public class GameScreen extends MyScreen {
     private final Array<Symbol> symbols = new Array<>();
     private Label questName;
 
-    private QuestSolver questSolver;
-
     public GameScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, new Color(0.3f, 0.3f, 0.6f, 1), assetManager.get("textures/background.png", Texture.class));
 
@@ -48,15 +46,15 @@ public class GameScreen extends MyScreen {
                         //particleEffect.start();
                         Symbol symbol = (Symbol) event.getListenerActor();
                         symbol.reset();
-                        if (!questSolver.next(symbol)) {
+                        if (!QuestFactory.next(symbol)) {
                             mMain.setScreen(Main.LOST_SCREEN);
-                        } else if (questSolver.solved) {
+                        } else if (QuestFactory.solved) {
                             mMain.setScreen(Main.WIN_SCREEN);
                         } else {
                             symbol.addAction(Actions.delay(0.5f, new Action() {
                                 @Override
                                 public boolean act(float delta) {
-                                    ((Symbol) getActor()).spawn(QuestFactory.quest.symbols);
+                                    ((Symbol) getActor()).spawn(QuestFactory.symbols);
                                     return true;
                                 }
                             }));
@@ -74,22 +72,18 @@ public class GameScreen extends MyScreen {
         //particleEffect = new ParticleEffect();
         //particleEffect.load(Gdx.files.internal("particle"), Gdx.files.internal(""));
 
-        startQuest(true);
+        startQuest();
     }
 
-    public void startQuest(boolean learnMode) {
+    public void startQuest() {
         for (Symbol symbol : symbols)
             symbol.reset();
 
         QuestFactory.setSymbols(symbols);
 
-        questName.setText(QuestFactory.quest.id);
+        questName.setText(QuestFactory.learMode ? QuestFactory.god.spell : QuestFactory.god.name);
 
-        for (Symbol symbol : QuestFactory.quest.symbols)
+        for (Symbol symbol : QuestFactory.symbols)
             symbol.spawn(symbols);
-
-        questSolver = new QuestSolver();
-        questSolver.quest = QuestFactory.quest;
-        questSolver.setLearMode(learnMode);
     }
 }
