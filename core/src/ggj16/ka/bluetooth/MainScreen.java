@@ -10,11 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
-import javafx.scene.control.Tab;
 
-/**
- * Created by sebastian on 30.01.16.
- */
 public class MainScreen extends MyScreen {
 
     public MainScreen(Main main, AssetManager assetManager) {
