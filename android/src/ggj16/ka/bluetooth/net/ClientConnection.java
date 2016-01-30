@@ -2,6 +2,7 @@ package ggj16.ka.bluetooth.net;
 
 
 import android.bluetooth.BluetoothSocket;
+import android.util.Log;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
@@ -49,6 +50,7 @@ class ClientConnection implements Runnable {
 
     public void start() {
         new Thread(this).start();
+
     }
 
     public void run() {
@@ -59,6 +61,7 @@ class ClientConnection implements Runnable {
                 client.messageReceived(message);
             }
         } catch (IOException e) {
+            Log.e("ClientConnection", "disconnected from server");
             e.printStackTrace();
         }
     }

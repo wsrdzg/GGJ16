@@ -74,6 +74,10 @@ public class RitualServer extends ServerInterface {
                 // successful in message.b
                 // TODO: check if all clients submitted their steps in the right order.
                 break;
+            case PING:
+                Gdx.app.log("RitualServer", "PING from " + client.getName());
+                client.sendMessage(new Message(Message.Type.PONG));
+                break;
         }
     }
 
