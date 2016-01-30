@@ -6,18 +6,25 @@ filter: Linear,Linear
 repeat: none
 particle
   rotate: false
-  xy: 0, 0
+  xy: 702, 970
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 shape
   rotate: false
-  xy: 0, 34
+  xy: 0, 302
   size: 700, 700
   orig: 700, 700
   offset: 0, 0
   index: 0
+start
+  rotate: false
+  xy: 0, 0
+  size: 1000, 300
+  orig: 1000, 300
+  offset: 0, 0
+  index: -1
 
 t2.png
 size: 1024,1024
