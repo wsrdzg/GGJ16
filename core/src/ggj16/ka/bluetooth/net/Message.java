@@ -48,7 +48,7 @@ public class Message {
         if (ia == null) {
             return t.name() + "\n" + i + " / " + b + " / -";
         } else {
-            return t.name() + "\n" + i + " / " + b + " / " + ia.size;
+            return t.name() + "\n" + i + " / " + b + " / " + ia;
         }
     }
 }

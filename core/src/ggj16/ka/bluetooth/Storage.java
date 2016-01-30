@@ -32,6 +32,7 @@ public class Storage {
         Preferences prefs = Gdx.app.getPreferences(NAME);
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
             int result = prefs.getInteger("ritual_" + i, -1);
+            Gdx.app.log("Storage", "ritual_" + i +" = " + result);
             if (result == -1)
                 return;
             rituals.add(result);

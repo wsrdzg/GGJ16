@@ -67,7 +67,7 @@ public class GameScreen extends MyScreen {
                             // ASK THE SERVER
 
 
-                            mMain.ritualClient.sendMessage(new Message(Message.Type.STEP, symbol.id, QuestFactory.next(symbol)));
+                            mMain.ritualClient.sendMessage(new Message(Message.Type.STEP, QuestFactory.position, QuestFactory.next(symbol)));
                        /* if (!QuestFactory.next(symbol)) {
                             mMain.setScreen(Main.LOST_SCREEN);
                         } else if (QuestFactory.solved) {
