@@ -17,24 +17,24 @@ public class QuestFactory {
     private static int questNumber;
 
     static {
-        gods = new Array<>();
-        gods.add(new God("Apu","God or spirit of mountains.","God"));
-        gods.add(new God("Cavillace","Virgin Goddess","Goddess"));
-        gods.add(new God("Chasca","Goddess of dawn and twilight and Venus.","Goddess"));
-        gods.add(new God("Coniraya","Moon God.","God"));
-        gods.add(new God("Ekkeko","God of the hearth and wealth.","God"));
-        gods.add(new God("Illapa","Weather God","God"));
-        gods.add(new God("Inti","Sun God","God"));
-        gods.add(new God("Kon","God of rain.","God"));
-        gods.add(new God("Kuka Mama","Goddess of health and joy.","Goddess"));
-        gods.add(new God("Mama Cocha","Sea and fish goddess, protectress of sailors and fishermen.","Goddess"));
-        gods.add(new God("Mama Quilla","Goodess of marriage, festival and the moon.","Goddess"));
+        gods = new Array<God>();
+        gods.add(new God("Apu","God or spirit of mountains.","God","Spirit of the mountains","This ritual will help for mountain gods"));
+        gods.add(new God("Cavillace","Virgin Goddess","Goddess","Venus chant","You will need it once you mit a vergin goddess"));
+        gods.add(new God("Chasca","Goddess of dawn and twilight.","Goddess","Vanish of the sun","brake the spirit of the dawn"));
+        gods.add(new God("Coniraya","Moon God.","God","low tide dance","Helps you against the force of the moon"));
+        gods.add(new God("Ekkeko","God of the hearth and wealth.","God","clapping of the heavy rain","helps you to turn out the fire"));
+        gods.add(new God("Illapa","Weather God","God","Shield of Protect","Protects you of storm and lightning"));
+        gods.add(new God("Inti","Sun God","God","Force of reflection","Helps to reflect light"));
+        gods.add(new God("Kon","God of rain.","God","whistle of storm","Helps you to fight rain"));
+        gods.add(new God("Kuka Mama","Goddess of health and joy.","Goddess","plague of illness","This ritual will kill eaven a goddess of health"));
+        gods.add(new God("Mama Cocha","Sea and fish goddess","Goddess","Ritual of the sea monster","This will bring the horror of the sea to live."));
+       /* gods.add(new God("Mama Quilla","Goodess of marriage and festival","Goddess",""));
         gods.add(new God("Mama Zara","Goddess of grain.","Goddess"));
         gods.add(new God("Pacha Camac","Chthonic creator god.","God"));
         gods.add(new God("Pariacaca","God of water and rainstorms.","God"));
         gods.add(new God("Supay","God of death.","God"));
         gods.add(new God("Urcuchillay","God that watched over animals.","God"));
-        gods.add(new God("Viracocha","God of everything.","God"));
+        gods.add(new God("Viracocha","God of everything.","God"));*/
     }
 
     public static void createQuest(int questNumber) {

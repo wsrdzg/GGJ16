@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
 import java.io.BufferedReader;
@@ -48,10 +49,6 @@ public class BluetoothNetworkConnection implements NetworkConnection {
 
     }
 
-    @Override
-    public void getData() {
-
-    }
 
     @Override
     public void startServer(final ServerInterface server) {
@@ -75,7 +72,7 @@ public class BluetoothNetworkConnection implements NetworkConnection {
 
                         serverSocket.close();
 
-                        // we are already in our own server
+                        // we are already in our own thread
                         new ServerConnection(socket, server).run();
 
                     } catch (IOException e) {
@@ -138,119 +135,6 @@ public class BluetoothNetworkConnection implements NetworkConnection {
         }
     }
 
-    class ServerConnection implements Runnable {
-        BufferedReader reader;
-        BufferedWriter writer;
-        ServerInterface server;
-        Json json;
-        Client client;
-
-        public ServerConnection (final BluetoothSocket socket, ServerInterface server) {
-            Log.i("BT", "Create ServerConnection");
-            final String address = socket.getRemoteDevice().getAddress();
-
-            this.server = server;
-            json = new Json();
-            try {
-                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            client = new Client() {
-                @Override
-                public void sendMessage(Message message) {
-                    try {
-                        Gdx.app.log("Bluetooth", "send Message to Client: " + message.message);
-                        writer.write(json.toJson(message) + "\n");
-                        writer.flush();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public String getAddress() {
-                    return address;
-                }
-            };
-            Log.i("BT", "send Client connected");
-            server.clientConnected(client);
-        }
-
-        public void start() {
-            new Thread(this).start();
-        }
-
-        public void run() {
-            String line;
-            try {
-                while((line = reader.readLine()) != null) {
-                    Message message = json.fromJson(Message.class, line);
-                    server.messageReceived(client, message);
-                }
-            } catch (IOException e) {
-
-                e.printStackTrace(); // connection stopped
-
-                Log.e("Bluetooth", "connection of " + getMyAddress() + " CLOSED");
-            }
-        }
-
-    }
-
-    class ClientConnection implements Runnable {
-        BufferedReader reader;
-        BufferedWriter writer;
-        ServerInterface server;
-        Json json;
-        ClientInterface client;
-
-        public ClientConnection (BluetoothSocket socket, ClientInterface client) {
-            this.client = client;
-
-            json = new Json();
-            try {
-                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            client.setServer(new Server() {
-                @Override
-                public void sendMessage(Message message) {
-                    try {
-                        Gdx.app.log("Bluetooth", "send Message to server: " + message.message);
-                        writer.write(json.toJson(message) + "\n");
-                        writer.flush();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-
-        public void start() {
-            new Thread(this).start();
-        }
-
-        public void run() {
-            String line;
-            try {
-                while((line = reader.readLine()) != null) {
-                    Message message = json.fromJson(Message.class, line);
-                    client.messageReceived(message);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
 
     /**
      * Generates the acurate UUID for a mac address.
@@ -264,5 +148,14 @@ public class BluetoothNetworkConnection implements NetworkConnection {
     @Override
     public String getMyAddress() {
         return adapter.getAddress();
+    }
+
+    @Override
+    public Array<Device> getPossibleServers() {
+        Array<Device> devices = new Array<>();
+        for (final BluetoothDevice device : adapter.getBondedDevices()) {
+            devices.add(new Device(device.getName(), device.getAddress()));
+        }
+        return devices;
     }
 }
