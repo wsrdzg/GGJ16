@@ -10,6 +10,22 @@ public class RitualClient extends ClientInterface {
     public void connected() {
         Gdx.app.log("RitualClient", "rituals: " + QuestFactory.myRituals + " ("+QuestFactory.myRituals.size);
         sendMessage(new Message(Message.Type.I_KNOW_RITUALS, QuestFactory.myRituals));
+
+
+        // keep the connection alive
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    sendMessage(new Message(Message.Type.PING));
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -27,6 +43,9 @@ public class RitualClient extends ClientInterface {
             case WIN:
                 // we won the game
                 ((Main)Gdx.app.getApplicationListener()).setScreen(Main.WIN_SCREEN);
+                break;
+            case PONG:
+                Gdx.app.log("RitualClient", "PONG from server");
                 break;
         }
     }
