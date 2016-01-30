@@ -9,5 +9,6 @@ public class God {
         this.name=name;
         this.description=description;
         this.type=type;
+
     }
 }
