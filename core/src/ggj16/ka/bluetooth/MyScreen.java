@@ -26,7 +26,7 @@ public class MyScreen implements Screen {
         image.setFillParent(true);
         mStage.addActor(image);
 
-        mStage.setDebugAll(true); // TODO: remove
+        //mStage.setDebugAll(true); // TODO: remove
     }
 
     @Override
