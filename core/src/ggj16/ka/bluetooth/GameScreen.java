@@ -133,13 +133,7 @@ public class GameScreen extends MyScreen {
 
     public void startQuest(boolean learnMode) {
         // TODO: load quest
-        quest = new Quest();
-        quest.id = "Kill Xardas";
-        quest.maxTime = 5000;
-        quest.symbols = new Array<>();
-        quest.symbols.add(symbols.get(2));
-        quest.symbols.add(symbols.get(0));
-        quest.symbols.add(symbols.get(1));
+        quest = QuestFactory.getQuest(0,symbols);
         questSolver = new QuestSolver();
         questSolver.quest = quest;
         questSolver.setLearMode(learnMode);
