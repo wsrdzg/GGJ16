@@ -18,7 +18,6 @@ public class QuestFactory {
         quest.symbols.add(symbols.get((187*questNumer-9)%symbols.size));
         quest.symbols.add(symbols.get((187*questNumer-9)%symbols.size));
         quest.symbols.add(symbols.get((187*questNumer-9)%symbols.size));
-        quest.resetScale();
         return quest;
     }
 }

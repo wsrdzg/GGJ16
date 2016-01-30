@@ -70,3 +70,29 @@ shape
   orig: 700, 700
   offset: 0, 0
   index: 4
+
+t6.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shape
+  rotate: false
+  xy: 0, 0
+  size: 700, 700
+  orig: 700, 700
+  offset: 0, 0
+  index: 5
+
+t7.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shape
+  rotate: false
+  xy: 0, 0
+  size: 700, 700
+  orig: 700, 700
+  offset: 0, 0
+  index: 6
