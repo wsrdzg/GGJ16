@@ -15,4 +15,9 @@ public abstract class ServerInterface {
         clients.add(client);
     }
     public abstract void messageReceived(Client client, Message message);
+    public void sendToAllClients(Message message) {
+        for (Client client: clients) {
+            client.sendMessage(message);
+        }
+    }
 }

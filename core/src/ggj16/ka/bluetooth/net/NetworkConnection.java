@@ -5,5 +5,7 @@ public interface NetworkConnection {
     void getData();
 
     void startServer(ServerInterface server);
-    void startClient(ClientInterface client);
+    void startClient(ClientInterface client, String serverAddr);
+
+    String getMyAddress();
 }
