@@ -44,4 +44,12 @@ public class Message {
         b = bool;
     }
 
+    @Override
+    public String toString() {
+        if (ia == null) {
+            return t + "\n" + i + " / " + b + "/0";
+        } else {
+            return t + "\n" + i + " / " + b + "/" + ia.size;
+        }
+    }
 }
