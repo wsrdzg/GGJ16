@@ -1,186 +1,127 @@
 package ggj16.ka.bluetooth;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
-public class GameScreen implements Screen, GestureDetector.GestureListener {
+public class GameScreen extends MyScreen {
 
-    ParticleEffect particleEffect;
-    TextureAtlas atlas;
-    SpriteBatch batch;
+    //ParticleEffect particleEffect;
+
     Array<Symbol> symbols = new Array<>();
+    Label questName;
 
     Quest quest;
     QuestSolver questSolver;
-    Main main;
 
-    public GameScreen(Main main) {
-        this.main = main;
+    public GameScreen(Main main, AssetManager assetManager) {
+        super(main, assetManager, new Color(0.3f, 0.3f, 0.6f, 1));
+
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = mAssetManager.get("font.ttf", BitmapFont.class);
+
+        questName = new Label("", style);
+        questName.setAlignment(Align.center);
+        questName.setBounds(0, Gdx.graphics.getHeight() - style.font.getCapHeight() * 1.5f, Gdx.graphics.getWidth(), style.font.getCapHeight());
+        mStage.addActor(questName);
+
+        for (Color COLOR : Main.COLORS) {
+            for (int j = 0; j < 7; j++) {
+                Symbol symbol = new Symbol(assetManager.get("textures/t.atlas", TextureAtlas.class).findRegion("shape", j), COLOR, symbols.size);
+                symbol.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getWidth() / 5f);
+                symbol.setOrigin(Gdx.graphics.getWidth() / 10f, Gdx.graphics.getWidth() / 10f);
+                symbol.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        //particleEffect.setPosition(x, y);
+                        //particleEffect.start();
+                        Symbol symbol = (Symbol) event.getListenerActor();
+                        symbol.setVisible(false);
+                        if (!questSolver.next(symbol)) {
+                            mMain.setScreen(Main.LOST_SCREEN);
+                        } else if (questSolver.solved) {
+                            mMain.setScreen(Main.WIN_SCREEN);
+                        } else {
+                            symbol.addAction(Actions.delay(1, new Action() {
+                                @Override
+                                public boolean act(float delta) {
+                                    ((Symbol) getActor()).spawn(quest.symbols);
+                                    return true;
+                                }
+                            }));
+                        }
+                    }
+                });
+                symbol.addAction(new Action() {
+                    @Override
+                    public boolean act(float delta) {
+                        Symbol symbol = (Symbol) getActor();
+                        if (symbol.scaleDirection) {
+                            symbol.scale += delta;
+                            if (symbol.scale > 1)
+                                symbol.scaleDirection = false;
+                        } else {
+                            symbol.scale -= delta;
+                            if (symbol.scale < 0)
+                                symbol.scaleDirection = true;
+                        }
+                        symbol.setScale(symbol.scale * 0.1f + 0.9f);
+                        return false;
+                    }
+                });
+                symbols.add(symbol);
+                mStage.addActor(symbol);
+            }
+        }
     }
 
     @Override
     public void show() {
-        atlas = new TextureAtlas(Gdx.files.internal("textures/t.atlas"));
+        //particleEffect = new ParticleEffect();
+        //particleEffect.load(Gdx.files.internal("particle"), Gdx.files.internal(""));
 
-        particleEffect = new ParticleEffect();
-        particleEffect.load(Gdx.files.internal("particle"), Gdx.files.internal(""));
+        Gdx.input.setInputProcessor(mStage);
 
-        batch = new SpriteBatch();
-
-        for (Color COLOR : Main.COLORS) {
-            for (int j = 0; j < 2; j++) {
-                Symbol symbol = new Symbol(atlas.findRegion("shape", j), COLOR, symbols.size);
-                symbol.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getWidth() / 5f);
-                symbol.setOrigin(Gdx.graphics.getWidth() / 10f, Gdx.graphics.getWidth() / 10f);
-                symbols.add(symbol);
-            }
-        }
-
-        Gdx.input.setInputProcessor(new GestureDetector(this));
-
-        startQuest();
+        startQuest(true);
     }
 
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0.3f, 0.3f, 0.6f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        for (Symbol symbol : quest.symbols) {
-            if (symbol.scaleDirection) {
-                symbol.scale += delta;
-                if (symbol.scale > 1)
-                    symbol.scaleDirection = false;
-            } else {
-                symbol.scale -= delta;
-                if (symbol.scale < 0)
-                    symbol.scaleDirection = true;
-            }
-            symbol.setScale(symbol.scale * 0.1f + 0.9f);
-            if (symbol.getX() < 0) {
-                symbol.timeUntilSpawn += delta;
-                if (symbol.timeUntilSpawn > 2)
-                    symbol.spawn(quest.symbols);
-            } else {
-                symbol.draw(batch);
-            }
-        }
-        particleEffect.update(delta);
-        particleEffect.draw(batch);
-        // TODO: render quest name
-        batch.end();
-    }
+    public void startQuest(boolean learnMode) {
+        for (Symbol symbol : symbols)
+            symbol.reset();
 
-    @Override
-    public void dispose() {
-        particleEffect.dispose();
-        batch.dispose();
-        atlas.dispose();
-    }
-
-    @Override
-    public boolean tap(float x, float y, int count, int button) {
-        y = Gdx.graphics.getHeight() - y;
-        for (Symbol symbol : quest.symbols) {
-            if (symbol.isTouched(x, y)) {
-                particleEffect.setPosition(x, y);
-                particleEffect.start();
-                symbol.timeUntilSpawn = 0;
-                symbol.setPosition(-100, -100);
-                // TODO: do stuff
-                if (!questSolver.next(symbol)) {
-                    main.setScreen(main.screens.get(main.LOST_SCREEN));
-                } else if (questSolver.solved) {
-                    main.setScreen(main.screens.get(main.WIN_SCREEN));
-                }
-            }
-        }
-        return true;
-    }
-
-    public void startQuest() {
         // TODO: load quest
-        quest = new Quest();
-        quest.id = "Kill Xardas";
-        quest.maxTime = 5000;
-        quest.symbols = new Array<>();
-        quest.symbols.add(symbols.get(2));
-        quest.symbols.add(symbols.get(0));
-        quest.symbols.add(symbols.get(1));
-        quest.resetScale();
-        questSolver = new QuestSolver();
-        questSolver.quest = quest;
+        quest = QuestFactory.getQuest(0, symbols);
+
+        Gdx.app.error("s", "a1");
+
+
+
+        Gdx.app.error("s", "a2");
+
+        questName.setText(quest.id);
+
+        Gdx.app.error("s", "a3");
 
         for (Symbol symbol : quest.symbols)
             symbol.spawn(symbols);
-    }
 
+        Gdx.app.error("s", "a4");
 
-
-
-
-
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public boolean touchDown(float x, float y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean longPress(float x, float y) {
-        return false;
-    }
-
-    @Override
-    public boolean fling(float velocityX, float velocityY, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean pan(float x, float y, float deltaX, float deltaY) {
-        return false;
-    }
-
-    @Override
-    public boolean panStop(float x, float y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean zoom(float initialDistance, float distance) {
-        return false;
-    }
-
-    @Override
-    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-        return false;
+        questSolver = new QuestSolver();
+        questSolver.quest = quest;
+        questSolver.setLearMode(learnMode);
     }
 }

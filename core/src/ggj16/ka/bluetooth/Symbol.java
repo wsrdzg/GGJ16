@@ -5,42 +5,62 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 
-/**
- * Created by sebastian on 29.01.16.
- */
-public class Symbol extends Sprite {
+public class Symbol extends Image {
 
     public int id;
-    public float scale,scaleFactor=1, timeUntilSpawn;
-    public boolean scaleDirection;
+    public float scale;
+    public boolean scaleDirection, highlight;
+
+    private final Vector2 position = new Vector2();
 
     public Symbol(TextureRegion region, Color color, int id) {
         super(region);
         setColor(color);
         this.id = id;
-    }
-
-    public boolean isTouched(float x, float y) {
-        return Math.hypot(getX() + getOriginX() - x, getY() + getOriginY() - y) < getWidth() / 2f;
+        setVisible(false);
     }
 
     public void spawn(Array<Symbol> symbols) {
         boolean toNear;
         do {
-            setPosition(MathUtils.random(getWidth(), Gdx.graphics.getWidth() - getWidth()),
-                        MathUtils.random(getHeight(), Gdx.graphics.getHeight() - getHeight()));
+            position.set(MathUtils.random(getWidth(), Gdx.graphics.getWidth() - getWidth()),
+                         MathUtils.random(getHeight(), Gdx.graphics.getHeight() - getHeight()));
             toNear = false;
-            for (int i = 0; i < symbols.size; i++) {
-                if (!symbols.get(i).equals(this) && Math.hypot(getX() - symbols.get(i).getX(), getY() - symbols.get(i).getY()) < getWidth() * 2) {
+            /*for (int i = 0; i < symbols.size; i++) {
+                if (!symbols.get(i).equals(this) && position.dst(symbols.get(i).position) < getWidth() * 2) {
                     toNear = true;
                     break;
                 }
-            }
+            }*/
         } while (toNear);
+        setPosition(position.x, position.y);
         setRotation(MathUtils.random(-10, 10));
         scale = MathUtils.random();
+        setVisible(true);
+    }
+
+    public void setHighlight(boolean highlight) {
+        this.highlight = highlight;
+        if (highlight) {
+            setSize(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getWidth() / 3f);
+            setOrigin(Gdx.graphics.getWidth() / 6f, Gdx.graphics.getWidth() / 6f);
+        } else {
+            setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getWidth() / 5f);
+            setOrigin(Gdx.graphics.getWidth() / 10f, Gdx.graphics.getWidth() / 10f);
+        }
+    }
+
+    public void reset() {
+        setVisible(false);
+        setPosition(-1000, -1000);
+        setHighlight(false);
+        position.set(-1000, -1000);
     }
 
     public boolean equals(Symbol symbol) {

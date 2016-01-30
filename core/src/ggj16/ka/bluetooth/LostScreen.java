@@ -1,64 +1,35 @@
 package ggj16.ka.bluetooth;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
-/**
- * Created by floatec on 29/01/16.
- */
-public class LostScreen implements Screen {
-    TextureAtlas atlas;
-    SpriteBatch batch;
-    Main game;
-    private float delay = 2; //In seconds this time
+public class LostScreen extends MyScreen {
 
-    public LostScreen(Main game){
-        super();
-        this.game=game;
+    private final static float DELAY = 2; // In seconds this time
+
+    public LostScreen(Main main, AssetManager assetManager) {
+        super(main, assetManager, Color.RED);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
+
+        Label label = new Label("YOU DIED", labelStyle);
+        label.setAlignment(Align.center);
+        label.setFillParent(true);
+        mStage.addActor(label);
     }
+
     @Override
     public void show() {
-
-        Timer.schedule(new Timer.Task(){
+        Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                game.setScreen(game.screens.get(game.GAME_SCREEN));
+                mMain.setScreen(Main.GAME_SCREEN);
             }
-        }, delay);
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(255f, 0f, 0f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
+        }, DELAY);
     }
 }

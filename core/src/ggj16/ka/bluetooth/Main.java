@@ -2,10 +2,19 @@ package ggj16.ka.bluetooth;
 
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.utils.Array;
-
 import ggj16.ka.bluetooth.net.NetworkConnection;
 
 public class Main extends Game {
@@ -18,8 +27,9 @@ public class Main extends Game {
     public  static final int WIN_SCREEN = 3;
     public static final int BLUETOOTH_TEST_SCREEN = 4;
 
-    public Array<Screen> screens = new Array<>();
+    private final Array<Screen> screens = new Array<>();
 
+    private final AssetManager assetManager = new AssetManager();
 
     public NetworkConnection network;
 
@@ -29,12 +39,25 @@ public class Main extends Game {
 
     @Override
     public void create() {
-        screens.add(new GameScreen(this));
-        screens.add(new MenuScreen());
-        screens.add(new LostScreen(this));
-        screens.add(new WinScreen(this));
+        assetManager.load("textures/t.atlas", TextureAtlas.class);
+
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter size1Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        size1Params.fontFileName = "font.ttf";
+        size1Params.fontParameters.size = Gdx.graphics.getWidth() / 10;
+        assetManager.load("font.ttf", BitmapFont.class, size1Params);
+
+        assetManager.finishLoading();
+
+        screens.add(new GameScreen(this, assetManager));
+        screens.add(new MenuScreen(this, assetManager));
+        screens.add(new LostScreen(this, assetManager));
+        screens.add(new WinScreen(this, assetManager));
         screens.add(new BluetoothTestScreen(this));
-        setScreen(BLUETOOTH_TEST_SCREEN);
+        setScreen(GAME_SCREEN);
     }
 
     public void setScreen(int screen) {
