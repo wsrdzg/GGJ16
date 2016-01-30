@@ -22,12 +22,10 @@ public class GameScreen extends MyScreen {
 
     //ParticleEffect particleEffect;
 
-    Array<Symbol> symbols = new Array<>();
-    Label questName;
+    private final Array<Symbol> symbols = new Array<>();
+    private Label questName;
 
-
-    Quest quest;
-    QuestSolver questSolver;
+    private QuestSolver questSolver;
 
     public GameScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, new Color(0.3f, 0.3f, 0.6f, 1), assetManager.get("textures/background.png", Texture.class));
@@ -58,7 +56,7 @@ public class GameScreen extends MyScreen {
                             symbol.addAction(Actions.delay(0.5f, new Action() {
                                 @Override
                                 public boolean act(float delta) {
-                                    ((Symbol) getActor()).spawn(quest.symbols);
+                                    ((Symbol) getActor()).spawn(QuestFactory.quest.symbols);
                                     return true;
                                 }
                             }));
@@ -83,15 +81,15 @@ public class GameScreen extends MyScreen {
         for (Symbol symbol : symbols)
             symbol.reset();
 
-        quest = QuestFactory.getQuest(0, symbols);
+        QuestFactory.setSymbols(symbols);
 
-        questName.setText(quest.id);
+        questName.setText(QuestFactory.quest.id);
 
-        for (Symbol symbol : quest.symbols)
+        for (Symbol symbol : QuestFactory.quest.symbols)
             symbol.spawn(symbols);
 
         questSolver = new QuestSolver();
-        questSolver.quest = quest;
+        questSolver.quest = QuestFactory.quest;
         questSolver.setLearMode(learnMode);
     }
 }

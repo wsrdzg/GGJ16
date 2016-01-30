@@ -1,16 +1,23 @@
 package ggj16.ka.bluetooth;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
 
 /**
  * Created by floatec on 30/01/16.
  */
 public class QuestFactory {
 
+    public final static IntArray myRituals = new IntArray();
+
+    public final static Quest quest = new Quest();
+
     public static Array<God> gods;
 
+    private static int questNumber;
+
     static {
-        gods = new Array<God>();
+        gods = new Array<>();
         gods.add(new God("Apu","God or spirit of mountains.","God"));
         gods.add(new God("Cavillace","Virgin Goddess","Goddess"));
         gods.add(new God("Chasca","Goddess of dawn and twilight and Venus.","Goddess"));
@@ -30,19 +37,21 @@ public class QuestFactory {
         gods.add(new God("Viracocha","God of everything.","God"));
     }
 
-    public static Quest getQuest(int questNumer, Array<Symbol> symbols){
-        Quest quest = new Quest();
-        quest.id = "Fight against "+gods.get(questNumer).name;
+    public static void createQuest(int questNumber) {
+        quest.id = "Fight against "+gods.get(questNumber).name;
         quest.maxTime = 5000;
-        quest.symbols = new Array<>();
-        quest.symbols.add(symbols.get((187*(questNumer+9))%symbols.size));
-        quest.symbols.add(symbols.get((1127*(questNumer+19))%symbols.size));
-        quest.symbols.add(symbols.get((1843*(questNumer+999))%symbols.size));
-        quest.symbols.add(symbols.get((1874*(questNumer+90))%symbols.size));
-        quest.symbols.add(symbols.get((1311*(questNumer+29))%symbols.size));
-        quest.symbols.add(symbols.get((122*(questNumer+29))%symbols.size));
-        quest.symbols.add(symbols.get((181 *(questNumer+39)) % symbols.size));
+        quest.symbols.clear();
+        quest.god = gods.get(questNumber);
+        QuestFactory.questNumber = questNumber;
+    }
 
-        return quest;
+    public static void setSymbols(Array<Symbol> symbols){
+        quest.symbols.add(symbols.get((187*(questNumber+9))%symbols.size));
+        quest.symbols.add(symbols.get((1127*(questNumber+19))%symbols.size));
+        quest.symbols.add(symbols.get((1843*(questNumber+999))%symbols.size));
+        quest.symbols.add(symbols.get((1874*(questNumber+90))%symbols.size));
+        quest.symbols.add(symbols.get((1311*(questNumber+29))%symbols.size));
+        quest.symbols.add(symbols.get((122*(questNumber+29))%symbols.size));
+        quest.symbols.add(symbols.get((181 *(questNumber+39)) % symbols.size));
     }
 }
