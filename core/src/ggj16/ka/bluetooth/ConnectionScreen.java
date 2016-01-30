@@ -5,10 +5,12 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -44,13 +46,12 @@ public class ConnectionScreen extends MyScreen {
         scrollPane.setBounds(0, Gdx.graphics.getWidth() / 7f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 7f * 2f);
         mStage.addActor(scrollPane);
 
-        button = new Label("Start", labelStyle);
+        button = new Label("", labelStyle);
         button.setAlignment(Align.center);
         button.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: start game (only server)
                 if (mMain.isHost) {
                     mMain.startClientGames();
                 } else {
@@ -83,9 +84,14 @@ public class ConnectionScreen extends MyScreen {
                         users.clearChildren();
                         Array<String> players = new Array<>();
                         mMain.getPlayers(players);
+                        Image image = new Image(mAssetManager.get("textures/t.atlas", TextureAtlas.class).findRegion("pixel"));
+                        int i = 0;
                         for (String player : players) {
                             Label label = new Label(player, style);
                             users.add(label).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f).row();
+                            i++;
+                            if (i != players.size - 1)
+                                users.add(image).size(Gdx.graphics.getWidth(), 1).row();
                         }
                     }
                     return false;

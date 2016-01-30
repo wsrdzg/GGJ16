@@ -59,6 +59,7 @@ public class RitualBookScreen extends MyScreen {
             Label.LabelStyle style = new Label.LabelStyle();
             style.font = mAssetManager.get("font.ttf", BitmapFont.class);
             Label label = new Label(QuestFactory.god.spell, style);
+            label.setAlignment(Align.center);
             label.setFontScale(0.7f);
             table.add(label).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f).row();
 
@@ -66,6 +67,7 @@ public class RitualBookScreen extends MyScreen {
             style.font = mAssetManager.get("font.ttf", BitmapFont.class);
             label = new Label("Helps against " + QuestFactory.god.name, style);
             label.setFontScale(0.5f);
+            label.setAlignment(Align.center);
             table.add(label).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 14f).row();
 
             Table symboleTable = new Table();

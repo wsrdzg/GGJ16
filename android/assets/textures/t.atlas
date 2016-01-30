@@ -4,20 +4,41 @@ size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-particle
+god
+  rotate: false
+  xy: 459, 464
+  size: 420, 463
+  orig: 420, 463
+  offset: 0, 0
+  index: 0
+god
   rotate: false
   xy: 0, 0
+  size: 420, 463
+  orig: 420, 463
+  offset: 0, 0
+  index: 1
+goddess1
+  rotate: false
+  xy: 37, 465
+  size: 420, 462
+  orig: 420, 462
+  offset: 0, 0
+  index: -1
+particle
+  rotate: false
+  xy: 3, 895
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-shape
+pixel
   rotate: false
-  xy: 0, 34
-  size: 700, 700
-  orig: 700, 700
+  xy: 0, 926
+  size: 1, 1
+  orig: 1, 1
   offset: 0, 0
-  index: 0
+  index: -1
 
 t2.png
 size: 1024,1024
@@ -30,7 +51,7 @@ shape
   size: 700, 700
   orig: 700, 700
   offset: 0, 0
-  index: 1
+  index: 0
 
 t3.png
 size: 1024,1024
@@ -43,7 +64,7 @@ shape
   size: 700, 700
   orig: 700, 700
   offset: 0, 0
-  index: 2
+  index: 1
 
 t4.png
 size: 1024,1024
@@ -56,7 +77,7 @@ shape
   size: 700, 700
   orig: 700, 700
   offset: 0, 0
-  index: 3
+  index: 2
 
 t5.png
 size: 1024,1024
@@ -69,7 +90,7 @@ shape
   size: 700, 700
   orig: 700, 700
   offset: 0, 0
-  index: 4
+  index: 3
 
 t6.png
 size: 1024,1024
@@ -82,9 +103,22 @@ shape
   size: 700, 700
   orig: 700, 700
   offset: 0, 0
-  index: 5
+  index: 4
 
 t7.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shape
+  rotate: false
+  xy: 0, 0
+  size: 700, 700
+  orig: 700, 700
+  offset: 0, 0
+  index: 5
+
+t8.png
 size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
