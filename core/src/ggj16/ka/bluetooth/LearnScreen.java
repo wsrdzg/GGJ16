@@ -24,7 +24,7 @@ public class LearnScreen extends MyScreen {
 
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
+        labelStyle.font = assetManager.get("normal.ttf", BitmapFont.class);
 
         label = new Label("", labelStyle);
         label.setAlignment(Align.center);
@@ -37,7 +37,6 @@ public class LearnScreen extends MyScreen {
             public void clicked(InputEvent event, float x, float y) {
                 step++;
                 if (step == text.length) {
-                    label.setFontScale(0.7f);
                     label.setText("Your first spell is\n" + QuestFactory.god.spell + "\n" + QuestFactory.god.spellDescription + "\n\n\n\n\n\n");
                 } else if (step == text.length + 1) {
                     mMain.setScreen(Main.GAME_SCREEN);

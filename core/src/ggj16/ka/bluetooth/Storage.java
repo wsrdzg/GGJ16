@@ -30,7 +30,7 @@ public class Storage {
 
     public static void loadRituals(IntArray rituals) {
         Preferences prefs = Gdx.app.getPreferences(NAME);
-        for (int i = 0; i < rituals.size; i++) {
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
             int result = prefs.getInteger("ritual_" + i, -1);
             if (result == -1)
                 return;

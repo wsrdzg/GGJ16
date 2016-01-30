@@ -22,9 +22,9 @@ public class MainScreen extends MyScreen {
         table.setFillParent(true);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
+        labelStyle.font = assetManager.get("title.ttf", BitmapFont.class);
 
-        Label label = new Label("Main Screen!", labelStyle); // TODO: change name
+        Label label = new Label("ANGRY ACTEC", labelStyle); // TODO: change name
         label.setAlignment(Align.center);
         table.add(label).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7).row();
 

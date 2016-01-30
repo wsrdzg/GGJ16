@@ -16,7 +16,7 @@ public class LostScreen extends MyScreen {
         super(main, assetManager, Color.RED, assetManager.get("textures/fail.png", Texture.class));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
+        labelStyle.font = assetManager.get("title.ttf", BitmapFont.class);
 
         Label label = new Label("YOU DIED", labelStyle);
         label.setAlignment(Align.center);
