@@ -22,7 +22,7 @@ public class GameScreen extends MyScreen {
 
     //ParticleEffect particleEffect;
 
-    private final Array<Symbol> symbols = new Array<>();
+    public static final Array<Symbol> symbols = new Array<>();
     private Label questName;
 
     public GameScreen(Main main, AssetManager assetManager) {

@@ -30,6 +30,12 @@ public class MainScreen extends MyScreen {
 
         label = new Label("Ritual Book", labelStyle);
         label.setAlignment(Align.center);
+        label.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mMain.setScreen(Main.RITUAL_BOOK_SCREEN);
+            }
+        });
         table.add(label).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7).row();
 
         label = new Label("Host Game", labelStyle);
