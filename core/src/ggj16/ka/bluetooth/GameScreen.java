@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -80,17 +81,18 @@ public class GameScreen extends MyScreen {
                         } else {
                             mMain.ritualClient.sendMessage(new Message(Message.Type.STEP, QuestFactory.position, QuestFactory.next(symbol)));
                         }
-                        symbol.addAction(Actions.delay(0.5f, new Action() {
-                            @Override
-                            public boolean act(float delta) {
-                                ((Symbol) getActor()).spawn(QuestFactory.symbols);
-                                return true;
-                            }
-                        }));
-                        float scale = 1 - (QuestFactory.position / (float) QuestFactory.symbols.size);
-                        god.addAction(Actions.scaleTo(scale, scale, 0.2f));
-                        god.setColor(Color.RED);
-                        god.addAction(Actions.delay(0.1f, Actions.color(Color.WHITE)));
+                        if (!QuestFactory.solved) {
+                            symbol.addAction(Actions.delay(0.3f, new Action() {
+                                @Override
+                                public boolean act(float delta) {
+                                    ((Symbol) getActor()).spawn(QuestFactory.symbols);
+                                    return true;
+                                }
+                            }));
+                        }
+
+                        float scale = Math.max(0.01f, 1 - (QuestFactory.position / (float) QuestFactory.symbols.size));
+                        out(scale, 0.2f);
                     }
                 });
                 symbols.add(symbol);
@@ -114,11 +116,14 @@ public class GameScreen extends MyScreen {
         QuestFactory.startQuest(symbols);
 
         questName.setText(QuestFactory.learMode ? QuestFactory.god.spell : QuestFactory.god.name);
+        questName.setFontScale(0.01f);
+        questName.setScaleX(0.01f);
+
         god.setDrawable(new TextureRegionDrawable(mAssetManager.get("textures/t.atlas", TextureAtlas.class).findRegion("god", QuestFactory.god.male ? 0 : 1)));
         god.setScale(1);
         god.setColor(Color.WHITE);
         god.clearActions();
-        //god.setVisible(!QuestFactory.learMode);
+        //god.setVisible(!QuestFactory.learMode); // TODO
     }
 
     private void in() {
@@ -140,18 +145,18 @@ public class GameScreen extends MyScreen {
         setTriangleScale(0.99f / 2f, true);
     }
 
-    private void out() {
+    private void out(final float to, final float duration) {
         animationRuns = true;
         questName.addAction(new Action() {
             @Override
             public boolean act(float delta) {
-                float scale = Math.max(0.01f, questName.getFontScaleX() - delta * 2f);
+                float scale = Math.max(to, questName.getFontScaleX() - delta);
                 questName.setFontScale(scale);
                 questName.setScaleX(scale);
                 god.setScale(scale);
-                return scale == 0.01f;
+                return scale == to;
             }
         });
-        setTriangleScale(0.99f / 2f, false);
+        mTriangle.addAction(Actions.scaleTo(to, 1, duration));
     }
 }

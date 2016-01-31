@@ -71,7 +71,7 @@ public class RitualBookScreen extends MyScreen {
                 table.add(image).size(Gdx.graphics.getWidth(), 1);
             }
 
-            rituals.add(table);
+            rituals.add(table).row();
         }
     }
 
