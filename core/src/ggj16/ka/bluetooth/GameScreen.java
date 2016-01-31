@@ -129,7 +129,7 @@ public class GameScreen extends MyScreen {
         god.setScale(1);
         god.setColor(Color.WHITE);
         god.clearActions();
-        //god.setVisible(!QuestFactory.learMode); // TODO
+        god.setVisible(!QuestFactory.learMode); // TODO
     }
 
     private void in() {
