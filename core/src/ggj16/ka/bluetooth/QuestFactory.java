@@ -32,7 +32,6 @@ public class QuestFactory {
     public static God god;
 
     public static boolean solved, learMode;
-    public static long maxTime;
 
     public static Array<Symbol> symbols = new Array<>();
     public static int position;
@@ -40,7 +39,6 @@ public class QuestFactory {
 
     public static void createQuest(int questNumber, boolean learMode) {
         god = GODS.get(questNumber);
-        maxTime = 5000;
         solved = false;
         QuestFactory.learMode = learMode;
     }
@@ -68,17 +66,13 @@ public class QuestFactory {
     }
 
     public static boolean next(Symbol clickedSymbol) {
-        //if (position == symbols.size)
-        //    return false;
         if (symbols.get(position).equals(clickedSymbol)) {
             if (learMode)
                 symbols.get(position).setHighlight(false);
-            solved = symbols.size == position + 1;
             position++;
+            solved = symbols.size == position;
             if (learMode && position < symbols.size)
                 symbols.get(position).setHighlight(true);
-
-            // TODO bluetooth here result should be returned
             return true;
         }
         return false;

@@ -104,7 +104,6 @@ public class ConnectionScreen extends MyScreen {
                         users.clear();
                         final Label l = new Label("Connecting...", style);
                         users.add(l).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f).row();
-
                         // register callback
                         mMain.ritualClient.connectedCallback = new Runnable() {
                             @Override
