@@ -30,6 +30,7 @@ public class QuestFactory {
     public final static IntArray myRituals = new IntArray();
 
     public static God god;
+    public static int newRitual;
 
     public static boolean solved, learMode;
 
@@ -74,5 +75,20 @@ public class QuestFactory {
             return true;
         }
         return false;
+    }
+
+
+    public static Array<Symbol> getSymbolsForGod() {
+        if (newRitual == -1) {
+            return null;
+        } else {
+            Array<Symbol> symbols = new Array<>();
+
+            for(int i=0;i<4+newRitual/4;i++){
+                symbols.add(GameScreen.symbols.get((23*i*(newRitual+9+i))%GameScreen.symbols.size));
+            }
+
+            return symbols;
+        }
     }
 }

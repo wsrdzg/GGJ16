@@ -54,6 +54,9 @@ public class RitualClient extends ClientInterface {
                 ((Main)Gdx.app.getApplicationListener()).setScreen(Main.WIN_SCREEN);
                 if(!QuestFactory.myRituals.contains(message.i)) {
                     QuestFactory.myRituals.add(message.i);
+                    QuestFactory.newRitual = message.i;
+                } else {
+                    QuestFactory.newRitual = -1;
                 }
                 break;
             case PONG:
