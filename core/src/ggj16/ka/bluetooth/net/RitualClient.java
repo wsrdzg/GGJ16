@@ -11,7 +11,7 @@ public class RitualClient extends ClientInterface {
     public Runnable connectedCallback;
     @Override
     public void connected() {
-        Gdx.app.log("RitualClient", "rituals: " + QuestFactory.myRituals + " ("+QuestFactory.myRituals.size);
+        Gdx.app.log("RitualClient", "rituals: " + QuestFactory.myRituals + " (" + QuestFactory.myRituals.size);
         sendMessage(new Message(Message.Type.I_KNOW_RITUALS, QuestFactory.myRituals));
 
 
@@ -52,7 +52,9 @@ public class RitualClient extends ClientInterface {
             case WIN:
                 // we won the game
                 ((Main)Gdx.app.getApplicationListener()).setScreen(Main.WIN_SCREEN);
-                QuestFactory.myRituals.add(message.i);
+                if(!QuestFactory.myRituals.contains(message.i)) {
+                    QuestFactory.myRituals.add(message.i);
+                }
                 break;
             case PONG:
                 Gdx.app.log("RitualClient", "PONG from server");

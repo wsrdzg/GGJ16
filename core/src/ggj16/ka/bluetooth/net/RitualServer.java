@@ -96,7 +96,9 @@ public class RitualServer extends ServerInterface {
 
                 if (won) {
                     int max=(lowestCategorieOfPlayers/4+2)*4;
+
                     int newRitual= MathUtils.random((lowestCategorieOfPlayers/4)*4,max<16?max:16);
+                    knownRituals.put(newRitual,4);
                     sendToAllClients(new Message(Message.Type.WIN,newRitual));
                 }
 

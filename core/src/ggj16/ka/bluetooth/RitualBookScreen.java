@@ -31,7 +31,9 @@ public class RitualBookScreen extends MyScreen {
         rituals.setFillParent(true);
 
         ScrollPane scrollPane = new ScrollPane(rituals);
-        scrollPane.setBounds(0, Gdx.graphics.getWidth() / 7f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 7f);
+//        scrollPane.setBounds(0, Gdx.graphics.getWidth() / 7f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 7f);
+        scrollPane.setBounds(0, 0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight() - Gdx.graphics.getWidth()/7);
+
         mStage.addActor(scrollPane);
     }
 
