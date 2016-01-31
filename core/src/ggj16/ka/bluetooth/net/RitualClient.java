@@ -52,6 +52,7 @@ public class RitualClient extends ClientInterface {
             case WIN:
                 // we won the game
                 ((Main)Gdx.app.getApplicationListener()).setScreen(Main.WIN_SCREEN);
+                QuestFactory.myRituals.add(message.i);
                 break;
             case PONG:
                 Gdx.app.log("RitualClient", "PONG from server");
