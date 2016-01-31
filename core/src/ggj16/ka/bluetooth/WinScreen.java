@@ -173,4 +173,15 @@ public class WinScreen extends MyScreen {
         });
         setTriangleScale(0.99f / 2f, false);
     }
+
+    public void clientGoToGameScreen(final int god) {
+        out();
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                QuestFactory.createQuest(god, false);
+                mMain.setScreen(Main.GAME_SCREEN);
+            }
+        }, 0.99f / 2f);
+    }
 }

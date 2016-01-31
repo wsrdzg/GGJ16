@@ -40,7 +40,7 @@ public class Main extends Game implements InputProcessor {
     public static final int RITUAL_BOOK_SCREEN = 5;
     public static final int CONNECTION_SCREEN = 6;
 
-    private final Array<MyScreen> screens = new Array<>();
+    public final Array<MyScreen> screens = new Array<>();
 
     private final AssetManager assetManager = new AssetManager();
 

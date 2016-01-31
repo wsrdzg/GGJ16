@@ -2,8 +2,12 @@ package ggj16.ka.bluetooth.net;
 
 import com.badlogic.gdx.Gdx;
 
+import ggj16.ka.bluetooth.GameScreen;
+import ggj16.ka.bluetooth.LostScreen;
 import ggj16.ka.bluetooth.Main;
+import ggj16.ka.bluetooth.MainScreen;
 import ggj16.ka.bluetooth.QuestFactory;
+import ggj16.ka.bluetooth.WinScreen;
 
 public class RitualClient extends ClientInterface {
     public Thread ping;
@@ -43,21 +47,29 @@ public class RitualClient extends ClientInterface {
             case START_GAME:
                 // server started the game
                 int quest = message.i;
-                ((Main)Gdx.app.getApplicationListener()).startGame(quest);
+
+
+                if (((Main) Gdx.app.getApplicationListener()).getScreen() instanceof MainScreen) {
+                    ((Main)Gdx.app.getApplicationListener()).startGame(quest);
+                } else {
+                    ((WinScreen) ((Main) Gdx.app.getApplicationListener()).screens.get(Main.WIN_SCREEN)).clientGoToGameScreen(quest);
+                }
                 break;
             case LOST:
                 // we lost the game
-                ((Main)Gdx.app.getApplicationListener()).setScreen(Main.LOST_SCREEN);
+                //((Main)Gdx.app.getApplicationListener()).setScreen(Main.LOST_SCREEN);
+                ((GameScreen) ((Main) Gdx.app.getApplicationListener()).screens.get(Main.GAME_SCREEN)).clientGoToLostScreen();
                 break;
             case WIN:
                 // we won the game
-                ((Main)Gdx.app.getApplicationListener()).setScreen(Main.WIN_SCREEN);
+                //((Main)Gdx.app.getApplicationListener()).setScreen(Main.WIN_SCREEN);
                 if(!QuestFactory.myRituals.contains(message.i)) {
                     QuestFactory.myRituals.add(message.i);
                     QuestFactory.newRitual = message.i;
                 } else {
                     QuestFactory.newRitual = -1;
                 }
+                ((GameScreen) ((Main) Gdx.app.getApplicationListener()).screens.get(Main.GAME_SCREEN)).clientGoToWinScreen();
                 break;
             case PONG:
                 Gdx.app.log("RitualClient", "PONG from server");
@@ -67,7 +79,8 @@ public class RitualClient extends ClientInterface {
                 sendMessage(new Message(Message.Type.PING));
                 break;
             case CONTINUE:
-                ((Main)Gdx.app.getApplicationListener()).setScreen(Main.GAME_SCREEN);
+                ((LostScreen) ((Main) Gdx.app.getApplicationListener()).screens.get(Main.LOST_SCREEN)).clientGoToGameScreen();
+                //((Main)Gdx.app.getApplicationListener()).setScreen(Main.GAME_SCREEN);
                 break;
         }
     }

@@ -187,4 +187,25 @@ public class GameScreen extends MyScreen {
         });
         setTriangleScale(0.99f / 2f, false);
     }
+
+    public void clientGoToWinScreen() {
+        for (Symbol s : QuestFactory.symbols)
+            s.reset();
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                mMain.setScreen(Main.WIN_SCREEN);
+            }
+        }, 1);
+    }
+
+    public void clientGoToLostScreen() {
+        out();
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                mMain.setScreen(Main.LOST_SCREEN);
+            }
+        }, (0.99f / 2f));
+    }
 }

@@ -36,17 +36,9 @@ public class LostScreen extends MyScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!animationRuns) {
-                    out();
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            if (!QuestFactory.learMode) {
-                                mMain.ritualClient.sendMessage(new Message(Message.Type.CONTINUE));
-                            } else {
-                                mMain.setScreen(Main.GAME_SCREEN);
-                            }
-                        }
-                    }, 0.99f / 2f);
+                    if (!QuestFactory.learMode)
+                        mMain.ritualClient.sendMessage(new Message(Message.Type.CONTINUE));
+                    clientGoToGameScreen();
                 }
             }
         });
@@ -88,5 +80,16 @@ public class LostScreen extends MyScreen {
             }
         });
         setTriangleScale(0.99f / 2f, false);
+    }
+
+
+    public void clientGoToGameScreen() {
+        out();
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                mMain.setScreen(Main.GAME_SCREEN);
+            }
+        }, 0.99f / 2f);
     }
 }
