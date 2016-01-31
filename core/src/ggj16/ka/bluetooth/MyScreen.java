@@ -30,7 +30,7 @@ public class MyScreen implements Screen {
         mStage.addActor(image);
 
         mTriangle = new Image(triangle);
-        mTriangle.setBounds(-Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.2444444444f, Gdx.graphics.getWidth() * 2f, Gdx.graphics.getHeight() * 0.7555555555f);
+        mTriangle.setBounds(-Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.23555f, Gdx.graphics.getWidth() * 2f, Gdx.graphics.getHeight() * (1 - 0.23555f));
         mTriangle.setOrigin(mTriangle.getWidth() / 2f, mTriangle.getHeight() / 2f);
         mStage.addActor(mTriangle);
 

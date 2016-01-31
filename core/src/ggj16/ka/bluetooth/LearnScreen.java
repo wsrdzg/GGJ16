@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -37,9 +38,19 @@ public class LearnScreen extends MyScreen {
         label.setFontScale(0.8f);
         label.setBounds(Gdx.graphics.getWidth() / 20f, Gdx.graphics.getHeight() / 2f, Gdx.graphics.getWidth() / 20f * 18f, Gdx.graphics.getHeight() / 2f);
 
-        label.setScale(0);
-        label.addAction(Actions.scaleTo(1, 1, 2));
-        mTriangle.setScale(0, 1);
+        label.setFontScale(0.01f);
+        label.addAction(new Action() {
+            float time = 0.01f;
+
+            @Override
+            public boolean act(float delta) {
+                time = Math.min(2, delta + time);
+                label.setFontScale(time / 2f);
+                return time == 2;
+            }
+        });
+        //label.addAction(Actions.scaleTo(1, 1, 2));
+        mTriangle.setScale(0.01f, 1);
         mTriangle.addAction(Actions.scaleTo(1, 1, 2));
 
 
