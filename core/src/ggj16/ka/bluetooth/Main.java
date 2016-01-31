@@ -120,6 +120,7 @@ public class Main extends Game implements InputProcessor {
 
 
     public void openServer() {
+        ritualServer.getClients().clear();
         network.startServer(ritualServer, ritualClient);
     }
 

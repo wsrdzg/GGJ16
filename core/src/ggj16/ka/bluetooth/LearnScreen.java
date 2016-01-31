@@ -25,7 +25,7 @@ public class LearnScreen extends MyScreen {
     public LearnScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, Color.BLUE, assetManager.get("textures/triangle_main.png", Texture.class));
 
-        QuestFactory.createQuest(MathUtils.random(QuestFactory.GODS.size - 1), true);
+        QuestFactory.createQuest(MathUtils.random(4), true);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);

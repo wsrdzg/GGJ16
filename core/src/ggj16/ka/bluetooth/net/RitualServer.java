@@ -1,6 +1,7 @@
 package ggj16.ka.bluetooth.net;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ public class RitualServer extends ServerInterface {
     HashMap<Integer, Integer> knownRituals;
     HashMap<Client,Integer> clientSteps;
     public Thread ping;
+    public int lowestCategorieOfPlayers=16;
 
     public RitualServer() {
         knownRituals = new HashMap<>();
@@ -51,15 +53,21 @@ public class RitualServer extends ServerInterface {
         switch (message.t) {
             case I_KNOW_RITUALS:
                 // the client knows these rituals
-
+                int heighest=0;
                 for (int r = 0; r < message.ia.size; r++) {
                     int ritual = message.ia.get(r);
+                    if(ritual>heighest){
+                        heighest=ritual;
+                    }
                     Gdx.app.log("RitualServer", "contains: " + ritual);
                     if (knownRituals.containsKey(ritual)) {
                         knownRituals.put(ritual, knownRituals.get(ritual) + 1);
                     } else {
                         knownRituals.put(ritual, 1); // first time of this ritual
                     }
+                }
+                if(heighest<lowestCategorieOfPlayers){
+                    lowestCategorieOfPlayers=heighest;
                 }
 
                 break;
@@ -87,7 +95,9 @@ public class RitualServer extends ServerInterface {
                 }
 
                 if (won) {
-                    sendToAllClients(new Message(Message.Type.WIN));
+                    int max=(lowestCategorieOfPlayers/4+2)*4;
+                    int newRitual= MathUtils.random((lowestCategorieOfPlayers/4)*4,max<16?max:16);
+                    sendToAllClients(new Message(Message.Type.WIN,newRitual));
                 }
 
 
