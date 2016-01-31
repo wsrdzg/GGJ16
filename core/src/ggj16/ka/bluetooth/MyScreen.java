@@ -35,7 +35,7 @@ public class MyScreen implements Screen {
         mTriangle.setOrigin(mTriangle.getWidth() / 2f, mTriangle.getHeight() / 2f);
         mStage.addActor(mTriangle);
 
-        mStage.setDebugAll(true); // TODO: remove
+        //mStage.setDebugAll(true); // TODO: remove
     }
 
     public void setTriangleScale(float duration, boolean in) {

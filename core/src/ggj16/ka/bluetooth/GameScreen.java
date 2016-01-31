@@ -67,7 +67,13 @@ public class GameScreen extends MyScreen {
                         symbol.reset();
                         if (QuestFactory.learMode) {
                             if (!QuestFactory.next(symbol)) {
-                                mMain.setScreen(Main.LOST_SCREEN);
+                                out();
+                                Timer.schedule(new Timer.Task() {
+                                    @Override
+                                    public void run() {
+                                        mMain.setScreen(Main.LOST_SCREEN);
+                                    }
+                                }, (0.99f / 2f));
                             } else if (QuestFactory.solved) { // TODO: symbols nicht mehr klickbar machen
                                 for (Symbol s : QuestFactory.symbols)
                                     s.reset();
@@ -127,6 +133,15 @@ public class GameScreen extends MyScreen {
     }
 
     private void in() {
+        questName.clearActions();
+        god.clearActions();
+        mTriangle.clearActions();
+
+        questName.setFontScale(0.01f);
+        questName.setScaleX(0.01f);
+        god.setScale(0.01f);
+        mTriangle.setScaleX(0.01f);
+
         animationRuns = true;
         questName.addAction(new Action() {
             @Override
@@ -150,13 +165,26 @@ public class GameScreen extends MyScreen {
         questName.addAction(new Action() {
             @Override
             public boolean act(float delta) {
-                float scale = Math.max(to, questName.getFontScaleX() - delta);
-                questName.setFontScale(scale);
-                questName.setScaleX(scale);
+                float scale = Math.max(to, god.getScaleX() - delta);
                 god.setScale(scale);
                 return scale == to;
             }
         });
         mTriangle.addAction(Actions.scaleTo(to, 1, duration));
+    }
+
+    private void out() {
+        animationRuns = true;
+        questName.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                float scale = Math.max(0.01f, god.getScaleX() - delta * 2f);
+                questName.setFontScale(scale);
+                questName.setScaleX(scale);
+                god.setScale(scale);
+                return scale == 0.01f;
+            }
+        });
+        setTriangleScale(0.99f / 2f, false);
     }
 }
