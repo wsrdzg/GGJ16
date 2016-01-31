@@ -62,6 +62,8 @@ public class QuestFactory {
     }
 
     public static boolean next(Symbol clickedSymbol) {
+        if (position >= symbols.size)
+            solved = false;
         if (symbols.get(position).equals(clickedSymbol)) {
             if (learMode)
                 symbols.get(position).setHighlight(false);

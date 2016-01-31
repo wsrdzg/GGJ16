@@ -54,8 +54,8 @@ public class WinScreen extends MyScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if (QuestFactory.learMode) {
                     Storage.saveFirst();
-                    QuestFactory.myRituals.add(QuestFactory.god.id);
                     mMain.setScreen(Main.MAIN_SCREEN);
+                    QuestFactory.myRituals.add(QuestFactory.god.id);
                 } else {
                     if (mMain.isHost) {
                         mMain.ritualServer.startGame();

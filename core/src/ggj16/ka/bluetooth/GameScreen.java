@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -32,6 +33,8 @@ public class GameScreen extends MyScreen {
     private Label questName;
     private Image god;
 
+    private boolean animationRuns;
+
     public GameScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, new Color(0.3f, 0.3f, 0.6f, 1), assetManager.get("textures/triangle_main.png", Texture.class));
 
@@ -41,12 +44,15 @@ public class GameScreen extends MyScreen {
         questName = new Label("", style);
         questName.setAlignment(Align.top, Align.center);
         questName.setBounds(0, Gdx.graphics.getHeight() - style.font.getCapHeight() * 1.5f, Gdx.graphics.getWidth(), style.font.getCapHeight());
-        questName.setWrap(true);
+        questName.setOrigin(questName.getWidth() / 2f, questName.getHeight() / 2f);
+        questName.setFontScale(0.01f);
+        questName.setScaleX(0.01f);
         mStage.addActor(questName);
 
         god = new Image();
         god.setBounds(Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() / 2f - Gdx.graphics.getWidth() * 0.35f, Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getWidth() * 0.7f);
         god.setOrigin(god.getWidth() / 2f, god.getHeight() / 2f);
+        god.setScale(0.01f);
         mStage.addActor(god);
 
         for (Color COLOR : Main.COLORS) {
@@ -62,7 +68,9 @@ public class GameScreen extends MyScreen {
                         if (QuestFactory.learMode) {
                             if (!QuestFactory.next(symbol)) {
                                 mMain.setScreen(Main.LOST_SCREEN);
-                            } else if (QuestFactory.solved) {
+                            } else if (QuestFactory.solved) { // TODO: symbols nicht mehr klickbar machen
+                                for (Symbol s : QuestFactory.symbols)
+                                    s.reset();
                                 Timer.schedule(new Timer.Task() {
                                     @Override
                                     public void run() {
@@ -73,17 +81,18 @@ public class GameScreen extends MyScreen {
                         } else {
                             mMain.ritualClient.sendMessage(new Message(Message.Type.STEP, QuestFactory.position, QuestFactory.next(symbol)));
                         }
-                        symbol.addAction(Actions.delay(0.5f, new Action() {
-                            @Override
-                            public boolean act(float delta) {
-                                ((Symbol) getActor()).spawn(QuestFactory.symbols);
-                                return true;
-                            }
-                        }));
-                        float scale = 1 - (QuestFactory.position / (float) QuestFactory.symbols.size);
-                        god.addAction(Actions.scaleTo(scale, scale, 0.2f));
-                        god.setColor(Color.RED);
-                        god.addAction(Actions.delay(0.1f, Actions.color(Color.WHITE)));
+                        if (!QuestFactory.solved) {
+                            symbol.addAction(Actions.delay(0.3f, new Action() {
+                                @Override
+                                public boolean act(float delta) {
+                                    ((Symbol) getActor()).spawn(QuestFactory.symbols);
+                                    return true;
+                                }
+                            }));
+                        }
+
+                        float scale = Math.max(0.01f, 1 - (QuestFactory.position / (float) QuestFactory.symbols.size));
+                        out(scale, 0.2f);
                     }
                 });
                 symbols.add(symbol);
@@ -94,6 +103,9 @@ public class GameScreen extends MyScreen {
 
     @Override
     public void show() {
+        super.show();
+        in();
+
         //particleEffect = new ParticleEffect();
         //particleEffect.load(Gdx.files.internal("particle"), Gdx.files.internal(""));
 
@@ -104,10 +116,47 @@ public class GameScreen extends MyScreen {
         QuestFactory.startQuest(symbols);
 
         questName.setText(QuestFactory.learMode ? QuestFactory.god.spell : QuestFactory.god.name);
+        questName.setFontScale(0.01f);
+        questName.setScaleX(0.01f);
+
         god.setDrawable(new TextureRegionDrawable(mAssetManager.get("textures/t.atlas", TextureAtlas.class).findRegion("god", QuestFactory.god.male ? 0 : 1)));
         god.setScale(1);
         god.setColor(Color.WHITE);
         god.clearActions();
-        god.setVisible(!QuestFactory.learMode);
+        //god.setVisible(!QuestFactory.learMode); // TODO
+    }
+
+    private void in() {
+        animationRuns = true;
+        questName.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                float scale = Math.min(1, questName.getFontScaleX() + delta * 2f);
+                questName.setFontScale(scale);
+                questName.setScaleX(scale);
+                god.setScale(scale);
+                if (scale == 1) {
+                    animationRuns = false;
+                    return true;
+                }
+                return false;
+            }
+        });
+        setTriangleScale(0.99f / 2f, true);
+    }
+
+    private void out(final float to, final float duration) {
+        animationRuns = true;
+        questName.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                float scale = Math.max(to, questName.getFontScaleX() - delta);
+                questName.setFontScale(scale);
+                questName.setScaleX(scale);
+                god.setScale(scale);
+                return scale == to;
+            }
+        });
+        mTriangle.addAction(Actions.scaleTo(to, 1, duration));
     }
 }

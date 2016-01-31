@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class MyScreen implements Screen {
@@ -37,12 +38,19 @@ public class MyScreen implements Screen {
         // mStage.setDebugAll(true); // TODO: remove
     }
 
-    public void setTriangleScale(float scale) {
-        mTriangle.setScaleX(scale);
+    public void setTriangleScale(float duration, boolean in) {
+        if (in) {
+            mTriangle.addAction(Actions.scaleTo(1, 1, duration));
+        } else {
+            mTriangle.addAction(Actions.scaleTo(0.01f, 1, duration));
+        }
     }
 
     @Override
-    public void show() {}
+    public void show() {
+        mTriangle.clearActions();
+        mTriangle.setScale(0.01f, 1);
+    }
 
     @Override
     public void render(float delta) {
