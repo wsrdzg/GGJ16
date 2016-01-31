@@ -9,7 +9,7 @@ import ggj16.ka.bluetooth.Main;
 
 public class DesktopLauncher {
 
-	private static final boolean RUN_APP = true, PACK_TEXTURES = false;
+	private static final boolean RUN_APP = true, PACK_TEXTURES = true;
 
 	public static void main(String[] args) {
 		if (PACK_TEXTURES) {

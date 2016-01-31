@@ -32,14 +32,13 @@ public class Main extends Game implements InputProcessor {
 
     public static final Color[] COLORS = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW};
 
-    public static final int INTRO_SCREEN = 0;
-    public static final int LEARN_SCREEN = 1;
-    public static final int GAME_SCREEN = 2;
-    public static final int LOST_SCREEN = 3;
-    public static final int WIN_SCREEN = 4;
-    public static final int MAIN_SCREEN = 5;
-    public static final int RITUAL_BOOK_SCREEN = 6;
-    public static final int CONNECTION_SCREEN = 7;
+    public static final int LEARN_SCREEN = 0;
+    public static final int GAME_SCREEN = 1;
+    public static final int LOST_SCREEN = 2;
+    public static final int WIN_SCREEN = 3;
+    public static final int MAIN_SCREEN = 4;
+    public static final int RITUAL_BOOK_SCREEN = 5;
+    public static final int CONNECTION_SCREEN = 6;
 
     private final Array<MyScreen> screens = new Array<>();
 
@@ -60,10 +59,10 @@ public class Main extends Game implements InputProcessor {
         Gdx.input.setCatchMenuKey(true);
 
         assetManager.load("textures/t.atlas", TextureAtlas.class);
+        assetManager.load("textures/triangle_fail.png", Texture.class);
+        assetManager.load("textures/triangle_main.png", Texture.class);
+        assetManager.load("textures/triangle_success.png", Texture.class);
         assetManager.load("textures/background.png", Texture.class);
-        assetManager.load("textures/fail.png", Texture.class);
-        assetManager.load("textures/success.png", Texture.class);
-        assetManager.load("textures/background_empty.png", Texture.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
         assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -78,7 +77,6 @@ public class Main extends Game implements InputProcessor {
 
         Storage.loadRituals(QuestFactory.myRituals);
 
-        screens.add(new IntroScreen(this, assetManager));
         screens.add(new LearnScreen(this, assetManager));
         screens.add(new GameScreen(this, assetManager));
         screens.add(new LostScreen(this, assetManager));
@@ -86,7 +84,7 @@ public class Main extends Game implements InputProcessor {
         screens.add(new MainScreen(this, assetManager));
         screens.add(new RitualBookScreen(this, assetManager));
         screens.add(new ConnectionScreen(this, assetManager));
-        setScreen(INTRO_SCREEN);
+        setScreen(Storage.loadFirst() ? Main.LEARN_SCREEN : Main.MAIN_SCREEN);
     }
 
     public void setScreen(int screen) {

@@ -27,17 +27,18 @@ public class ConnectionScreen extends MyScreen {
 
     Table users = new Table();
     Label button;
+    Label title;
 
     public ConnectionScreen(Main main, AssetManager assetManager) {
-        super(main, assetManager, Color.GREEN, assetManager.get("textures/success.png", Texture.class));
+        super(main, assetManager, Color.GREEN, assetManager.get("textures/triangle_main.png", Texture.class));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
 
-        Label label = new Label(mMain.isHost?"Users":"Select host", labelStyle);
-        label.setAlignment(Align.center);
-        label.setBounds(0, Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 7f, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
-        mStage.addActor(label);
+        title = new Label("Users", labelStyle);
+        title.setAlignment(Align.center);
+        title.setBounds(0, Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 7f, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
+        mStage.addActor(title);
 
 
         users.setFillParent(true);
@@ -94,6 +95,9 @@ public class ConnectionScreen extends MyScreen {
                 }
             });
         } else {
+
+            title.setText("Select host");
+
             users.clearChildren();
             for (Device d : mMain.getPossibleServers()) {
                 final Device device = d;
@@ -129,8 +133,9 @@ public class ConnectionScreen extends MyScreen {
         users.clearActions();
         mMain.ritualClient.connectedCallback = null;
     }
-
+b
     public void backPressed() {
+        mMain.disconnected(null);
         mMain.setScreen(Main.MAIN_SCREEN);
     }
 }
