@@ -34,7 +34,7 @@ public class ConnectionScreen extends MyScreen {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
 
-        Label label = new Label("Users", labelStyle);
+        Label label = new Label(mMain.isHost?"Users":"Select host", labelStyle);
         label.setAlignment(Align.center);
         label.setBounds(0, Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 7f, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
         mStage.addActor(label);

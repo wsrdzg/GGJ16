@@ -46,6 +46,13 @@ public class WinScreen extends MyScreen {
         symboleTable.setBounds(0, Gdx.graphics.getHeight() / 4 * 2f, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
         mStage.addActor(symboleTable);
 
+        if (mMain.isHost) {
+            Label startNew = new Label("Start Game", labelStyle);
+            startNew.setAlignment(Align.center);
+            startNew.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
+            mStage.addActor(startNew);
+        }
+
         mStage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
