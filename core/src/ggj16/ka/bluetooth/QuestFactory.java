@@ -47,14 +47,10 @@ public class QuestFactory {
         position = 0;
 
         QuestFactory.symbols.clear();
-        QuestFactory.symbols.add(symbols.get((187*(god.id+9))%symbols.size));
-        QuestFactory.symbols.add(symbols.get((1127*(god.id+19))%symbols.size));
-        QuestFactory.symbols.add(symbols.get((1843*(god.id+999))%symbols.size));
-        /*QuestFactory.symbols.add(symbols.get((1874*(god.id+90))%symbols.size));
-        QuestFactory.symbols.add(symbols.get((1311*(god.id+29))%symbols.size));
-        QuestFactory.symbols.add(symbols.get((122*(god.id+29))%symbols.size));
-        QuestFactory.symbols.add(symbols.get((181 * (god.id + 39)) % symbols.size));*/
 
+        for(int i=0;i<4+god.id/4;i++){
+            QuestFactory.symbols.add(symbols.get((23*i*(god.id+9+i))%symbols.size));
+        }
         for (Symbol symbol : symbols)
             symbol.reset();
 
