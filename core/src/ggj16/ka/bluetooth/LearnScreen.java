@@ -7,21 +7,25 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 public class LearnScreen extends MyScreen {
 
-    private final static String[] text = {"Knowledge is power!", "Learn new rituals\nto defeat\nyour enemies.", "Tap the big runes\nand remember\nthere order."};
+    private final static String[] text = {"You are the hero!\nKill everything!", "Knowledge is power!", "Learn new rituals\nto defeat\nyour enemies.", "Tap the big runes\nand remember\nthere order."};
     private int step;
 
     private final Label label;
 
     public LearnScreen(Main main, AssetManager assetManager) {
-        super(main, assetManager, Color.BLUE, assetManager.get("textures/background_empty.png", Texture.class));
+        super(main, assetManager, Color.BLUE, assetManager.get("textures/triangle_main.png", Texture.class));
 
         QuestFactory.createQuest(MathUtils.random(QuestFactory.GODS.size - 1), true);
+
+
+
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
@@ -32,6 +36,13 @@ public class LearnScreen extends MyScreen {
         label.setWrap(true);
         label.setFontScale(0.8f);
         label.setBounds(Gdx.graphics.getWidth() / 20f, Gdx.graphics.getHeight() / 2f, Gdx.graphics.getWidth() / 20f * 18f, Gdx.graphics.getHeight() / 2f);
+
+        label.setScale(0);
+        label.addAction(Actions.scaleTo(1, 1, 2));
+        mTriangle.setScale(0, 1);
+        mTriangle.addAction(Actions.scaleTo(1, 1, 2));
+
+
         mStage.addActor(label);
 
         mStage.addListener(new ClickListener() {

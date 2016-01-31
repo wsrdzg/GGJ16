@@ -15,7 +15,7 @@ import ggj16.ka.bluetooth.net.Message;
 public class LostScreen extends MyScreen {
 
     public LostScreen(Main main, AssetManager assetManager) {
-        super(main, assetManager, Color.RED, assetManager.get("textures/fail.png", Texture.class));
+        super(main, assetManager, Color.RED, assetManager.get("textures/triangle_fail.png", Texture.class));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
@@ -29,7 +29,8 @@ public class LostScreen extends MyScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mMain.setScreen(Main.GAME_SCREEN);
-                mMain.ritualClient.sendMessage(new Message(Message.Type.CONTINUE));
+                if (!QuestFactory.learMode)
+                    mMain.ritualClient.sendMessage(new Message(Message.Type.CONTINUE));
             }
         });
     }

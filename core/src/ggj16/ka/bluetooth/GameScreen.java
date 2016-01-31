@@ -33,7 +33,7 @@ public class GameScreen extends MyScreen {
     private Image god;
 
     public GameScreen(Main main, AssetManager assetManager) {
-        super(main, assetManager, new Color(0.3f, 0.3f, 0.6f, 1), assetManager.get("textures/background.png", Texture.class));
+        super(main, assetManager, new Color(0.3f, 0.3f, 0.6f, 1), assetManager.get("textures/triangle_main.png", Texture.class));
 
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = mAssetManager.get("font.ttf", BitmapFont.class);

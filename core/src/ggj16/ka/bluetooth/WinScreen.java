@@ -23,7 +23,7 @@ public class WinScreen extends MyScreen {
     private final Table symboleTable;
 
     public WinScreen(Main main, AssetManager assetManager) {
-        super(main, assetManager, Color.GREEN, assetManager.get("textures/success.png", Texture.class));
+        super(main, assetManager, Color.GREEN, assetManager.get("textures/triangle_success.png", Texture.class));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
