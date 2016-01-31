@@ -21,17 +21,15 @@ public class WinScreen extends MyScreen {
 
     private final Label god, ritual;
     private final Table symboleTable;
+    Label startNew;
 
     public WinScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, Color.GREEN, assetManager.get("textures/triangle_success.png", Texture.class));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
-        if (mMain.isHost) {
-            god = new Label("start a new game", labelStyle);
-        }else{
-            god = new Label("wait for host restart the game", labelStyle);
-        }
+
+        god = new Label("god defeated!", labelStyle);
         god.setAlignment(Align.center);
         god.setBounds(0, Gdx.graphics.getHeight() / 4 * 3f, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
         mStage.addActor(god);
@@ -45,6 +43,11 @@ public class WinScreen extends MyScreen {
         symboleTable = new Table();
         symboleTable.setBounds(0, Gdx.graphics.getHeight() / 4 * 2f, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
         mStage.addActor(symboleTable);
+
+            startNew = new Label("Start new game", labelStyle);
+            startNew.setAlignment(Align.center);
+            startNew.setBounds(0, 0, Gdx.graphics.getWidth() / 8 *7f, Gdx.graphics.getWidth() / 7f);
+            mStage.addActor(startNew);
 
         mStage.addListener(new ClickListener() {
             @Override
@@ -65,6 +68,8 @@ public class WinScreen extends MyScreen {
     public void show() {
         god.setText(QuestFactory.god.name + " defeated!");
         ritual.setText(QuestFactory.god.spell);
+
+        startNew.setText(mMain.isHost?"start a new game":"wait for host");
 
         symboleTable.clearChildren();
         int i = 1;

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.SerializationException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -39,10 +40,15 @@ class ServerConnection implements Runnable {
         client = new Client() {
             @Override
             public void sendMessage(Message message) {
+                if (message == null) return;
                 try {
                     Gdx.app.log("Bluetooth", "send Message to Client: " + message);
                     writer.write(json.toJson(message) + "\n");
                     writer.flush();
+                } catch (SerializationException e) {
+
+                }catch (NullPointerException e){
+
                 } catch (IOException e) {
                     e.printStackTrace();
 
