@@ -32,6 +32,8 @@ public class GameScreen extends MyScreen {
     private Label questName;
     private Image god;
 
+    private boolean animationRuns;
+
     public GameScreen(Main main, AssetManager assetManager) {
         super(main, assetManager, new Color(0.3f, 0.3f, 0.6f, 1), assetManager.get("textures/triangle_main.png", Texture.class));
 
@@ -41,12 +43,15 @@ public class GameScreen extends MyScreen {
         questName = new Label("", style);
         questName.setAlignment(Align.top, Align.center);
         questName.setBounds(0, Gdx.graphics.getHeight() - style.font.getCapHeight() * 1.5f, Gdx.graphics.getWidth(), style.font.getCapHeight());
-        questName.setWrap(true);
+        questName.setOrigin(questName.getWidth() / 2f, questName.getHeight() / 2f);
+        questName.setFontScale(0.01f);
+        questName.setScaleX(0.01f);
         mStage.addActor(questName);
 
         god = new Image();
         god.setBounds(Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() / 2f - Gdx.graphics.getWidth() * 0.35f, Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getWidth() * 0.7f);
         god.setOrigin(god.getWidth() / 2f, god.getHeight() / 2f);
+        god.setScale(0.01f);
         mStage.addActor(god);
 
         for (Color COLOR : Main.COLORS) {
@@ -62,7 +67,9 @@ public class GameScreen extends MyScreen {
                         if (QuestFactory.learMode) {
                             if (!QuestFactory.next(symbol)) {
                                 mMain.setScreen(Main.LOST_SCREEN);
-                            } else if (QuestFactory.solved) {
+                            } else if (QuestFactory.solved) { // TODO: symbols nicht mehr klickbar machen
+                                for (Symbol s : QuestFactory.symbols)
+                                    s.reset();
                                 Timer.schedule(new Timer.Task() {
                                     @Override
                                     public void run() {
@@ -94,6 +101,9 @@ public class GameScreen extends MyScreen {
 
     @Override
     public void show() {
+        super.show();
+        in();
+
         //particleEffect = new ParticleEffect();
         //particleEffect.load(Gdx.files.internal("particle"), Gdx.files.internal(""));
 
@@ -108,6 +118,40 @@ public class GameScreen extends MyScreen {
         god.setScale(1);
         god.setColor(Color.WHITE);
         god.clearActions();
-        god.setVisible(!QuestFactory.learMode);
+        //god.setVisible(!QuestFactory.learMode);
+    }
+
+    private void in() {
+        animationRuns = true;
+        questName.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                float scale = Math.min(1, questName.getFontScaleX() + delta * 2f);
+                questName.setFontScale(scale);
+                questName.setScaleX(scale);
+                god.setScale(scale);
+                if (scale == 1) {
+                    animationRuns = false;
+                    return true;
+                }
+                return false;
+            }
+        });
+        setTriangleScale(0.99f / 2f, true);
+    }
+
+    private void out() {
+        animationRuns = true;
+        questName.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                float scale = Math.max(0.01f, questName.getFontScaleX() - delta * 2f);
+                questName.setFontScale(scale);
+                questName.setScaleX(scale);
+                god.setScale(scale);
+                return scale == 0.01f;
+            }
+        });
+        setTriangleScale(0.99f / 2f, false);
     }
 }
