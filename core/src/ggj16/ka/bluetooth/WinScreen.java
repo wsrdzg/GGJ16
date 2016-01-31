@@ -69,6 +69,7 @@ public class WinScreen extends MyScreen {
         god.setText(QuestFactory.god.name + " defeated!");
         ritual.setText(QuestFactory.god.spell);
 
+        startNew.setVisible (!QuestFactory.learMode);
         startNew.setText(mMain.isHost?"start a new game":"wait for host");
 
         symboleTable.clearChildren();

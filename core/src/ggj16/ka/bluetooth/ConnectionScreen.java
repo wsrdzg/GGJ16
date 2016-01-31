@@ -67,7 +67,12 @@ public class ConnectionScreen extends MyScreen {
 
         button.setVisible(mMain.isHost);
         if (mMain.isHost) {
-            mMain.openServer();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mMain.openServer();
+                }
+            }).start();
 
             users.addAction(new Action() {
 
