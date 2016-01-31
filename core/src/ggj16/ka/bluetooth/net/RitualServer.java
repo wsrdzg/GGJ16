@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
 
+import ggj16.ka.bluetooth.Main;
 import ggj16.ka.bluetooth.QuestFactory;
 
 public class RitualServer extends ServerInterface {
@@ -12,6 +13,7 @@ public class RitualServer extends ServerInterface {
     // ritual -> frequency
     HashMap<Integer, Integer> knownRituals;
     HashMap<Client,Integer> clientSteps;
+    public Thread ping;
 
     public RitualServer() {
         knownRituals = new HashMap<>();
@@ -24,6 +26,23 @@ public class RitualServer extends ServerInterface {
         Gdx.app.log("RitualServer", "client connected");
 
         clientSteps.put(client, 0);
+
+        // keep the connection alive
+        ping = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                    sendToAllClients(new Message(Message.Type.PING));
+                }
+            }
+        });
+        ping.start();
     }
 
     @Override
@@ -81,6 +100,9 @@ public class RitualServer extends ServerInterface {
                 Gdx.app.log("RitualServer", "PING from " + client.getName());
                 client.sendMessage(new Message(Message.Type.PONG));
                 break;
+            case PONG:
+                Gdx.app.log("RitualServer", "PONG from " + client.getName());
+                break;
         }
     }
 
@@ -115,5 +137,11 @@ public class RitualServer extends ServerInterface {
             }
         }
         return true;
+    }
+
+    // if one client disconnects
+    public void disconnected(String name) {
+        clients.clear();
+        ((Main)Gdx.app.getApplicationListener()).disconnected(name);
     }
 }

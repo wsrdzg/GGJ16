@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import ggj16.ka.bluetooth.Main;
+
 class ServerConnection implements Runnable {
     BufferedReader reader;
     BufferedWriter writer;
@@ -19,7 +21,7 @@ class ServerConnection implements Runnable {
     Json json;
     Client client;
 
-    public ServerConnection (final BluetoothSocket socket, ServerInterface server) {
+    public ServerConnection (final BluetoothSocket socket, final ServerInterface server) {
         Log.i("BT", "Create ServerConnection");
         final String address = socket.getRemoteDevice().getAddress();
         final String name    = socket.getRemoteDevice().getName();
@@ -43,6 +45,8 @@ class ServerConnection implements Runnable {
                     writer.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
+
+                    server.disconnected(client.getName());
                 }
             }
 

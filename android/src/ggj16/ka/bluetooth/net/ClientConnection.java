@@ -20,7 +20,7 @@ class ClientConnection implements Runnable {
     Json json;
     ClientInterface client;
 
-    public ClientConnection (BluetoothSocket socket, ClientInterface client) {
+    public ClientConnection (BluetoothSocket socket, final ClientInterface client) {
         this.client = client;
 
         json = new Json();
@@ -40,6 +40,7 @@ class ClientConnection implements Runnable {
                     writer.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    client.disconnected();
                 }
             }
         });

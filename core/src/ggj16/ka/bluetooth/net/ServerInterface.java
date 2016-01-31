@@ -16,12 +16,14 @@ public abstract class ServerInterface {
     }
     public abstract void messageReceived(Client client, Message message);
     public void sendToAllClients(Message message) {
-        for (Client client: clients) {
-            client.sendMessage(message);
+        for (int i = 0; i < clients.size; i++) {
+            clients.get(i).sendMessage(message);
         }
     }
 
     public Array<Client> getClients() {
         return clients;
     }
+
+    public abstract void disconnected(String name);
 }
