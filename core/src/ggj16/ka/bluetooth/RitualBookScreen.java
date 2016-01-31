@@ -18,7 +18,7 @@ public class RitualBookScreen extends MyScreen {
     private final Table rituals = new Table();
 
     public RitualBookScreen(Main main, AssetManager assetManager) {
-        super(main, assetManager, Color.BLUE, assetManager.get("textures/background_empty.png", Texture.class));
+        super(main, assetManager, Color.BLUE, assetManager.get("textures/triangle_main.png", Texture.class));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = assetManager.get("font.ttf", BitmapFont.class);
