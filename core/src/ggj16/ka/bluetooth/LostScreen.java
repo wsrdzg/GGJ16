@@ -40,9 +40,11 @@ public class LostScreen extends MyScreen {
                     Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
-                            mMain.setScreen(Main.GAME_SCREEN);
-                            if (!QuestFactory.learMode)
+                            if (!QuestFactory.learMode) {
                                 mMain.ritualClient.sendMessage(new Message(Message.Type.CONTINUE));
+                            } else {
+                                mMain.setScreen(Main.GAME_SCREEN);
+                            }
                         }
                     }, 0.99f / 2f);
                 }

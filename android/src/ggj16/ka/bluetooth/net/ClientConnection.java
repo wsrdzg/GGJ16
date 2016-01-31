@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.SerializationException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -59,8 +60,15 @@ class ClientConnection implements Runnable {
         String line;
         try {
             while((line = reader.readLine()) != null) {
-                Message message = json.fromJson(Message.class, line);
-                client.messageReceived(message);
+                try {
+                    Message message = json.fromJson(Message.class, line);
+                    client.messageReceived(message);
+                } catch (IllegalStateException e) {
+                } catch (NullPointerException e)  {
+
+                } catch (SerializationException e) {
+
+                }
             }
         } catch (IOException e) {
             Log.e("ClientConnection", "disconnected from server");
