@@ -3,6 +3,9 @@ package ggj16.ka.bluetooth;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -25,7 +28,7 @@ import ggj16.ka.bluetooth.net.NetworkConnection;
 import ggj16.ka.bluetooth.net.RitualClient;
 import ggj16.ka.bluetooth.net.RitualServer;
 
-public class Main extends Game {
+public class Main extends Game implements InputProcessor {
 
     public static final Color[] COLORS = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW};
 
@@ -53,6 +56,9 @@ public class Main extends Game {
 
     @Override
     public void create() {
+        Gdx.input.setCatchBackKey(true);
+        Gdx.input.setCatchMenuKey(true);
+
         assetManager.load("textures/t.atlas", TextureAtlas.class);
         assetManager.load("textures/background.png", Texture.class);
         assetManager.load("textures/fail.png", Texture.class);
@@ -85,7 +91,7 @@ public class Main extends Game {
 
     public void setScreen(int screen) {
         super.setScreen(screens.get(screen));
-        Gdx.input.setInputProcessor(screens.get(screen).getStage());
+        Gdx.input.setInputProcessor(new InputMultiplexer(this, screens.get(screen).getStage()));
     }
 
     @Override
@@ -104,6 +110,15 @@ public class Main extends Game {
         assetManager.dispose();
     }
 
+    @Override
+    public boolean keyUp(int keycode) {
+        switch (keycode) {
+            case Input.Keys.BACK:
+                ((MyScreen) screen).backPressed();
+                break;
+        }
+        return false;
+    }
 
 
     public void openServer() {
@@ -138,6 +153,44 @@ public class Main extends Game {
     public void joinServer(Device device) {
         network.startClient(ritualClient, device.address);
 
+    }
+
+
+
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 
     public void disconnected() {

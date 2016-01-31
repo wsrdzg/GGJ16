@@ -76,4 +76,12 @@ public class WinScreen extends MyScreen {
             symboleTable.add(image).size(Gdx.graphics.getWidth() / 7f);
         }
     }
+
+    public void backPressed() {
+        if (QuestFactory.learMode) {
+            Storage.saveFirst();
+            QuestFactory.myRituals.add(QuestFactory.god.id);
+        }
+        mMain.setScreen(Main.MAIN_SCREEN);
+    }
 }

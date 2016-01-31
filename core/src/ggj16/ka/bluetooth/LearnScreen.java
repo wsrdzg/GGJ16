@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Align;
 
 public class LearnScreen extends MyScreen {
 
-    private final static String[] text = {"Wisdom is power!", "Learn new rituals\nto defeat\nyour enemies.", "Tap the big runes\nand remember\nthere order."};
+    private final static String[] text = {"Knowledge is power!", "Learn new rituals\nto defeat\nyour enemies.", "Tap the big runes\nand remember\nthere order."};
     private int step;
 
     private final Label label;

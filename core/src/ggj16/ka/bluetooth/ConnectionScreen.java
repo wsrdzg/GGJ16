@@ -46,17 +46,14 @@ public class ConnectionScreen extends MyScreen {
         scrollPane.setBounds(0, Gdx.graphics.getWidth() / 7f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 7f * 2f);
         mStage.addActor(scrollPane);
 
-        button = new Label("", labelStyle);
+        button = new Label("Start Game", labelStyle);
         button.setAlignment(Align.center);
         button.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f);
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (mMain.isHost) {
+                if (mMain.isHost)
                     mMain.startClientGames();
-                } else {
-                    mMain.setScreen(Main.MAIN_SCREEN);
-                }
             }
         });
         mStage.addActor(button);
@@ -67,9 +64,8 @@ public class ConnectionScreen extends MyScreen {
         final Label.LabelStyle style = new Label.LabelStyle();
         style.font = mAssetManager.get("font.ttf", BitmapFont.class);
 
+        button.setVisible(mMain.isHost);
         if (mMain.isHost) {
-            button.setText("Start Game");
-
             mMain.openServer();
 
             users.addAction(new Action() {
@@ -98,8 +94,6 @@ public class ConnectionScreen extends MyScreen {
                 }
             });
         } else {
-            button.setText("Back");
-
             users.clearChildren();
             for (Device d : mMain.getPossibleServers()) {
                 final Device device = d;
@@ -124,5 +118,9 @@ public class ConnectionScreen extends MyScreen {
 
     public void hide() {
         users.clearActions();
+    }
+
+    public void backPressed() {
+        mMain.setScreen(Main.MAIN_SCREEN);
     }
 }
