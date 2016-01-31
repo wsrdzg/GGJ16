@@ -101,10 +101,23 @@ public class ConnectionScreen extends MyScreen {
                 label.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        mMain.joinServer(device);
                         users.clear();
-                        Label l = new Label("Connecting...", style);
+                        final Label l = new Label("Connecting...", style);
                         users.add(l).size(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 7f).row();
+
+                        // register callback
+                        mMain.ritualClient.connectedCallback = new Runnable() {
+                            @Override
+                            public void run() {
+                                l.setText("Connected.");
+                            }
+                        };
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mMain.joinServer(device);
+                            }
+                        }).start();
                     }
                 });
 
@@ -115,6 +128,7 @@ public class ConnectionScreen extends MyScreen {
 
     public void hide() {
         users.clearActions();
+        mMain.ritualClient.connectedCallback = null;
     }
 
     public void backPressed() {

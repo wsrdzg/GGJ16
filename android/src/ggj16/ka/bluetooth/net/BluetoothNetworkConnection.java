@@ -198,16 +198,20 @@ public class BluetoothNetworkConnection implements NetworkConnection {
 
     @Override
     public void teardown() {
-        for (Thread t: threads) {
-            t.interrupt();
+        for (int i = 0; i < sockets.size; i++) {
+            Thread t = threads.get(i);
+            if (t != null && !t.isInterrupted()) {
+                t.interrupt();
+            }
         }
         threads.clear();
-        for (BluetoothSocket socket: sockets) {
+        for (int i = 0; i < sockets.size; i++) {
                 try {
-                    socket.close();
+                    sockets.get(i).close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
         }
+        sockets.clear();
     }
 }
