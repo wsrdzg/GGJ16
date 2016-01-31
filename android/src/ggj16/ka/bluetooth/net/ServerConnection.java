@@ -45,6 +45,8 @@ class ServerConnection implements Runnable {
                     Gdx.app.log("Bluetooth", "send Message to Client: " + message);
                     writer.write(json.toJson(message) + "\n");
                     writer.flush();
+
+                } catch (IllegalStateException e) {
                 } catch (SerializationException e) {
 
                 }catch (NullPointerException e){
