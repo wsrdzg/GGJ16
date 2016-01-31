@@ -133,7 +133,7 @@ public class ConnectionScreen extends MyScreen {
         users.clearActions();
         mMain.ritualClient.connectedCallback = null;
     }
-b
+
     public void backPressed() {
         mMain.disconnected(null);
         mMain.setScreen(Main.MAIN_SCREEN);
